@@ -13,7 +13,7 @@ export async function initMap() {
 
     // Load places data
     try {
-        const response = await fetch('/data/places.json');
+        const response = await fetch('./data/places.json');
         const places = await response.json();
         addMarkersToMap(places);
         updateDestinationsList(places);
