@@ -1,0 +1,81 @@
+[
+  {
+    "id": 1,
+    "title": "Educational Innovation Workshop",
+    "date": "2024-03-15",
+    "location": "Kochi International Convention Center",
+    "description": "A full-day workshop on innovative teaching methodologies and educational technology integration.",
+    "status": "upcoming",
+    "type": "workshop",
+    "registerLink": "#"
+  },
+  {
+    "id": 2,
+    "title": "Kerala State Quiz Championship 2024",
+    "date": "2024-04-20",
+    "location": "Trivandrum University Auditorium",
+    "description": "Annual state-level quiz competition for college students with exciting prizes.",
+    "status": "upcoming",
+    "type": "quiz",
+    "registerLink": "#"
+  },
+  {
+    "id": 3,
+    "title": "Travel Writing Masterclass",
+    "date": "2026-05-10",
+    "location": "Calicut Literature Festival",
+    "description": "Learn the art of travel writing and storytelling from experienced authors.",
+    "status": "upcoming",
+    "type": "masterclass",
+    "registerLink": "#"
+  },
+  {
+    "id": 4,
+    "title": "National Education Summit 2023",
+    "date": "2023-11-25",
+    "location": "New Delhi Convention Center",
+    "description": "Participated as keynote speaker on 'Blending Travel and Education'.",
+    "status": "past",
+    "type": "conference"
+  },
+  {
+    "id": 5,
+    "title": "Guinness World Record Quiz Event",
+    "date": "2023-09-15",
+    "location": "Kochi Marine Drive",
+    "description": "Successfully organized and conducted the largest quiz competition setting a new world record.",
+    "status": "past",
+    "type": "quiz"
+  },
+  {
+    "id": 6,
+    "title": "Book Launch: Padasargam",
+    "date": "2023-07-08",
+    "location": "DC Books, Ernakulam",
+    "description": "Successful launch of the Malayalam travel book 'Padasargam' with reader interactions.",
+    "status": "past",
+    "type": "book-launch"
+  },
+  {
+    "id": 7,
+    "title": "Teachers Training Program",
+    "date": "2024-06-05",
+    "location": "Kottayam Educational District",
+    "description": "One-week intensive training program for high school teachers on modern pedagogy.",
+    "status": "upcoming",
+    "type": "training",
+    "registerLink": "#"
+  },
+  {
+    "id": 8,
+    "title": "Cultural Exchange Program",
+    "date": "2024-08-12",
+    "location": "International School, Bangalore",
+    "description": "Interactive session on Kerala culture and educational practices for international students.",
+    "status": "upcoming",
+    "type": "cultural",
+    "registerLink": "#"
+  }
+]
+
+

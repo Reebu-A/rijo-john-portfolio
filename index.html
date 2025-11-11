@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Journeys of Jo - ജോയുടെ യാത്രകൾ - Traveller • Educator • Quiz Master • Author</title>
+    <meta name="description" content="Explore the world through the eyes of Rijo John - Educator, Travel Vlogger, Author, and Quiz Master with Guinness World Records">
+    <meta name="keywords" content="travel, education, quiz master, author, malayalam books, workshops, kerala">
+    <meta name="robots" content="index,follow" />
+    <meta name="theme-color" content="#0ea5e9" />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Journeys of Jo - ജോയുടെ യാത്രകൾ  - Traveller • Educator • Quiz Master • Author">
+    <meta property="og:description" content="Explore the world through education and adventure">
+   <!-- <meta property="og:image" content="./assets/img/icon.jpg">  -->
+    <meta property="og:image" content="https://yourusername.github.io/yourproject/assets/img/icon.jpg" />
+    <meta property="og:url" content="https://yourusername.github.io">
+    <meta property="og:type" content="website">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Journeys of Jo - ജോയുടെ യാത്രകൾ  - Traveller • Educator • Quiz Master • Author">
+    <meta name="twitter:description" content="Explore the world through education and adventure">
+   <!-- <meta name="twitter:image" content="/assets/img/hero-bg.jpg">  -->
+    <meta property="twitter:image" content="https://yourusername.github.io/yourproject/assets/img/icon.jpg" />
+
+    
+    <link rel="canonical" href="https://yourusername.github.io">
+    
+    <!-- Preload & Preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://unpkg.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
+
+    <!-- Tailwind CSS -->
+     <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+    <script>
+       tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#0ea5e9',
+                        secondary: '#f59e0b',
+                        dark: '#1e293b'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="./css/style1.css">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="./assets/img/airplane-flight-in-circle-around-earth.png">
+</head>
+<body class="font-sans bg-white text-gray-800 antialiased">
+    <!-- Navigation -->
+<nav class="navbar" id="mainNavbar">
+    <div class="container navbar-container">
+        <a href="./index.html" class="navbar-brand professional-blue">Rijo John</a>
+        
+        <!-- Desktop Navigation -->
+        <div class="navbar-nav desktop">
+            <a href="./index.html" class="nav-link active">Home</a>
+            <a href="./about.html" class="nav-link">About</a>
+            <a href="./books.html" class="nav-link">Books</a>
+            <a href="./youtube.html" class="nav-link">YouTube</a>
+            <a href="./events.html" class="nav-link">Events</a>
+            <a href="./map.html" class="nav-link">Travel Map</a>
+            <a href="./contact.html" class="nav-link">Contact</a>
+        </div>
+        
+        <!-- Mobile Menu Button -->
+        <button class="mobile-menu-btn" id="mobileMenuButton" aria-label="Toggle menu">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+            </svg>
+        </button>
+    </div>
+    
+    <!-- Mobile Navigation -->
+    <div class="container">
+        <div class="navbar-nav mobile" id="mobileMenu">
+            <a href="./index.html" class="nav-link-mobile active">Home</a>
+            <a href="./about.html" class="nav-link-mobile">About</a>
+            <a href="./books.html" class="nav-link-mobile">Books</a>
+            <a href="./youtube.html" class="nav-link-mobile">YouTube</a>
+            <a href="./events.html" class="nav-link-mobile">Events</a>
+            <a href="./map.html" class="nav-link-mobile">Travel Map</a>
+            <a href="./contact.html" class="nav-link-mobile">Contact</a>
+        </div>
+    </div>
+</nav>
+
+    <!-- Hero Section -->
+    <section class="relative h-screen flex items-center justify-center bg-cover bg-center" style="background-image: url('./assets/img/pic1.jpg')">
+        <div class="absolute inset-0 bg-black/30"></div>
+        <div class="relative z-10 text-center text-white px-4 max-w-4xl mx-auto">
+            <h1 class="text-5xl md:text-7xl font-bold mb-6 animate-fade-in">
+                Rijo John
+            </h1>
+          <!--  <p class="text-xl md:text-2xl mb-8 text-primary font-semibold">
+                Traveller • Author • Vlogger • Quiz Master • Orator
+            </p>  -->
+         <p class="text-xl md:text-2xl mb-8 text-amber-199 font-semibold bg-black/40 py-3 px-6 rounded-full backdrop-blur-md">
+    Traveller • Author • Vlogger • Quiz Master • Orator
+</p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                <a href="./youtube.html" class="btn-primary text-lg px-8 py-4">
+                    Watch Vlogs
+                </a>
+                <a href="./map.html" class="btn-secondary text-lg px-8 py-4">
+                    View Travel Map
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Highlights Strip -->
+    <section class="py-16 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Educator Card -->
+                <div class="card-hover text-center">
+                    <div class="w-16 h-16 bg-primary rounded-full flex items-center justify-center mx-auto mb-4">
+                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5z"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Educator</h3>
+                    <p class="text-gray-600">Inspiring students through innovative teaching methods</p>
+                </div>
+
+                <!-- Travel Vlogger Card -->
+                <div class="card-hover text-center">
+                    <div class="w-16 h-16 bg-secondary rounded-full flex items-center justify-center mx-auto mb-4">
+                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Travel Vlogger</h3>
+                    <p class="text-gray-600">Exploring cultures and sharing experiences worldwide</p>
+                </div>
+
+                <!-- Author Card -->
+                <div class="card-hover text-center">
+                    <div class="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Author</h3>
+                    <p class="text-gray-600">Bestselling Malayalam travel literature</p>
+                </div>
+
+                <!-- Quiz Master Card -->
+                <div class="card-hover text-center">
+                    <div class="w-16 h-16 bg-purple-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Guinness Medalist</h3>
+                    <p class="text-gray-600">Guinness Medalist</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Preview Sections -->
+    <section class="py-20">
+        <div class="container mx-auto px-4">
+            <h2 class="text-4xl font-bold text-center mb-12">Explore My Journey</h2>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                <!-- About Preview -->
+                <!-- About Preview -->
+<div class="preview-card">
+    <div class="preview-image bg-blue-50 flex items-center justify-center">
+        <div class="text-blue-600 text-6xl">🧭</div>
+    </div>
+    <div class="preview-content">
+        <h3 class="text-2xl font-bold mb-4">My Journey</h3>
+        <p class="text-gray-600 mb-6">From classroom teaching to Guinness World Records and global adventures</p>
+        <a href="./about.html" class="btn-primary">Learn More</a>
+    </div>
+</div>
+
+<!-- Books Preview -->
+<div class="preview-card">
+    <div class="preview-image bg-amber-50 flex items-center justify-center">
+        <div class="text-amber-600 text-6xl">📖</div>
+    </div>
+    <div class="preview-content">
+        <h3 class="text-2xl font-bold mb-4">My Books</h3>
+        <p class="text-gray-600 mb-6">Discover my Malayalam travel books and literary works</p>
+        <a href="./books.html" class="btn-primary">View Books</a>
+    </div>
+</div>
+
+<!-- Events Preview -->
+<div class="preview-card">
+    <div class="preview-image bg-green-50 flex items-center justify-center">
+        <div class="text-green-600 text-6xl">🎯</div>
+    </div>
+    <div class="preview-content">
+        <h3 class="text-2xl font-bold mb-4">Workshops & Events</h3>
+        <p class="text-gray-600 mb-6">Join me for educational workshops and quiz competitions</p>
+        <a href="./events.html" class="btn-primary">View Events</a>
+    </div>
+</div>
+
+<!-- Contact Preview -->
+<div class="preview-card">
+    <div class="preview-image bg-purple-50 flex items-center justify-center">
+        <div class="text-purple-600 text-6xl">🌐</div>
+    </div>
+    <div class="preview-content">
+        <h3 class="text-2xl font-bold mb-4">Get In Touch</h3>
+        <p class="text-gray-600 mb-6">Collaborate, invite for events, or just say hello</p>
+        <a href="./contact.html" class="btn-primary">Contact Me</a>
+    </div>
+</div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div class="md:col-span-2">
+                    <h3 class="text-2xl font-bold mb-4">Rijo John</h3>
+                    <p class="text-gray-300 mb-4">Traveller • Author • Vlogger • Quiz Master • Orator</p>
+                    <div class="flex space-x-4">
+                        <a href="https://www.youtube.com/@JOURNEYSOFJO" class="social-link" aria-label="YouTube">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/>
+                            </svg>
+                        </a>
+                        <a href="https://www.instagram.com/_journeys_of_jo_/" class="social-link" aria-label="Instagram">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="./about.html" class="footer-link">About</a></li>
+                        <li><a href="./books.html" class="footer-link">Books</a></li>
+                        <li><a href="./youtube.html" class="footer-link">YouTube</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Explore</h4>
+                    <ul class="space-y-2">
+                        <li><a href="./events.html" class="footer-link">Events</a></li>
+                        <li><a href="./map.html" class="footer-link">Travel Map</a></li>
+                        <li><a href="./contact.html" class="footer-link">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-600 mt-8 pt-8 text-center text-gray-300">
+                <p>&copy; 2024 Reebu. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Rijo John",
+        "jobTitle": "Educator, Author, Quiz Master",
+        "description": "Traveller, Educator, Quiz Master, and Author with Guinness World Records",
+        "url": "https://yourusername.github.io",
+         "image":"https://yourusername.github.io/yourproject/assets/img/profile.jpg",
+        "sameAs": [
+            "https://www.youtube.com/@JOURNEYSOFJO",
+            "https://www.instagram.com/_journeys_of_jo_/"
+        ],
+        "knowsAbout": ["Education", "Travel", "Quiz Competitions", "Malayalam Literature"],
+        "award": "Guinness World Records Medalist"
+    }
+    </script>
+
+    <script src="./js/ui.js"></script>
+    <script>
+    // Mobile menu functionality with both toggle and outside click
+    document.addEventListener('DOMContentLoaded', function() {
+        const menuButton = document.getElementById('mobileMenuButton');
+        const mobileMenu = document.getElementById('mobileMenu');
+        
+        if (!menuButton || !mobileMenu) {
+            console.warn('Mobile menu elements not found');
+            return;
+        }
+
+        function closeMobileMenu() {
+            mobileMenu.classList.remove('active');
+            menuButton.innerHTML = `
+                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            `;
+        }
+
+        function toggleMobileMenu() {
+            const isActive = mobileMenu.classList.contains('active');
+            
+            if (isActive) {
+                closeMobileMenu();
+            } else {
+                mobileMenu.classList.add('active');
+                menuButton.innerHTML = `
+                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                `;
+            }
+        }
+
+        // Toggle menu on button click
+        menuButton.addEventListener('click', function(event) {
+            event.stopPropagation(); // Prevent the click from bubbling to document
+            toggleMobileMenu();
+        });
+
+        // Close menu when clicking outside - with proper timing
+        document.addEventListener('click', function(event) {
+            // Only close if menu is active AND click is outside both button and menu
+            if (mobileMenu.classList.contains('active') && 
+                !menuButton.contains(event.target) && 
+                !mobileMenu.contains(event.target)) {
+                closeMobileMenu();
+            }
+        });
+
+        // Close menu when clicking on mobile menu links
+        mobileMenu.addEventListener('click', function(event) {
+            if (event.target.tagName === 'A') {
+                closeMobileMenu();
+            }
+        });
+    });
+</script>
+<script>
+    // Navbar scroll effect
+    window.addEventListener('scroll', function() {
+        const navbar = document.getElementById('mainNavbar');
+        if (window.scrollY > 50) {
+            navbar.classList.add('scrolled');
+        } else {
+            navbar.classList.remove('scrolled');
+        }
+    });
+</script>
+</body>
+</html>

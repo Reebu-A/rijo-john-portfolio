@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube - Journeys of Jo - ജോയുടെ യാത്രകൾ | Travel Vlogs & Educational Content</title>
+    <meta name="description" content="Watch Journeys of Jo's latest travel vlogs, educational content, and quiz competitions on YouTube">
+    <meta name="keywords" content="youtube, travel vlogs, educational videos, quiz competitions, malayalam content">
+    <meta name="robots" content="index,follow" />
+    <meta name="theme-color" content="#0ea5e9" />
+    <!-- Open Graph -->
+    <meta property="og:title" content="YouTube -Journeys of Jo - ജോയുടെ യാത്രകൾ">
+    <meta property="og:description" content="Latest travel vlogs and educational content">
+    <!-- <meta property="og:image" content="./assets/img/icon.jpg">  -->
+    <meta property="og:image" content="https://yourusername.github.io/yourproject/assets/img/icon.jpg" />
+    <meta property="og:url" content="https://yourusername.github.io/youtube.html">
+    <meta property="og:type" content="website">
+    
+    <link rel="canonical" href="https://yourusername.github.io/youtube.html">
+    
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#0ea5e9',
+                        secondary: '#f59e0b',
+                        dark: '#1e293b'
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="./css/style1.css">
+    <link rel="icon" type="image/x-icon" href="./assets/favicon.ico">
+</head>
+<body class="font-sans bg-white text-gray-800 antialiased">
+    <!-- Navigation -->
+<nav class="navbar" id="mainNavbar">
+    <div class="container navbar-container">
+        <a href="./index.html" class="navbar-brand professional-blue">Rijo John</a>
+        
+        <!-- Desktop Navigation -->
+        <div class="navbar-nav desktop">
+            <a href="./index.html" class="nav-link">Home</a>
+            <a href="./about.html" class="nav-link">About</a>
+            <a href="./books.html" class="nav-link">Books</a>
+            <a href="./youtube.html" class="nav-link active">YouTube</a>
+            <a href="./events.html" class="nav-link">Events</a>
+            <a href="./map.html" class="nav-link">Travel Map</a>
+            <a href="./contact.html" class="nav-link">Contact</a>
+        </div>
+        
+        <!-- Mobile Menu Button -->
+        <button class="mobile-menu-btn" id="mobileMenuButton" aria-label="Toggle menu">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+            </svg>
+        </button>
+    </div>
+    
+    <!-- Mobile Navigation -->
+    <div class="container">
+        <div class="navbar-nav mobile" id="mobileMenu">
+            <a href="./index.html" class="nav-link-mobile">Home</a>
+            <a href="./about.html" class="nav-link-mobile">About</a>
+            <a href="./books.html" class="nav-link-mobile">Books</a>
+            <a href="./youtube.html" class="nav-link-mobile active">YouTube</a>
+            <a href="./events.html" class="nav-link-mobile">Events</a>
+            <a href="./map.html" class="nav-link-mobile">Travel Map</a>
+            <a href="./contact.html" class="nav-link-mobile">Contact</a>
+        </div>
+    </div>
+</nav>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="bg-gradient-red py-20 text-white">
+            <div class="container mx-auto px-4 text-center">
+                <h1 class="text-5xl font-bold mb-4">YouTube Channel</h1>
+                <p class="text-xl max-w-2xl mx-auto">Travel vlogs, educational content, and quiz competitions</p>
+            </div>
+        </section>
+
+        <!-- Search & Filter -->
+        <section class="py-8 bg-gray-50">
+            <div class="container mx-auto px-4">
+                <div class="max-w-2xl mx-auto">
+                    <div class="relative">
+                        <input type="text" 
+                               id="videoSearch" 
+                               placeholder="Search videos..."
+                               class="w-full px-6 py-4 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all">
+                        <svg class="absolute right-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" 
+                             fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Videos Grid -->
+        <section class="py-16">
+            <div class="container mx-auto px-4">
+                <div id="videosContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Videos will be loaded here by JavaScript -->
+                    <div class="text-center py-12">
+                        <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+                        <p class="text-gray-600">Loading videos...</p>
+                    </div>
+                </div>
+
+                <!-- Error State -->
+                <div id="errorState" class="hidden text-center py-12">
+                    <div class="text-red-500 text-6xl mb-4">⚠️</div>
+                    <h3 class="text-xl font-bold mb-2">Unable to load videos</h3>
+                    <p class="text-gray-600 mb-4">Please check your internet connection or try again later.</p>
+                    <button onclick="loadVideos()" class="btn-primary">Retry</button>
+                </div>
+
+                <!-- Load More Button -->
+                <div id="loadMoreContainer" class="hidden text-center mt-12">
+                    <button id="loadMoreBtn" class="btn-secondary">
+                        Load More Videos
+                    </button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer (same as index.html) -->
+    <footer class="bg-dark text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div class="md:col-span-2">
+                    <h3 class="text-2xl font-bold mb-4">Rijo John</h3>
+                    <p class="text-gray-300 mb-4">Traveller • Author • Vlogger • Quiz Master • Orator</p>
+                    <div class="flex space-x-4">
+                        <a href="https://www.youtube.com/@JOURNEYSOFJO" class="social-link" aria-label="YouTube">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/>
+                            </svg>
+                        </a>
+                        <a href="https://www.instagram.com/_journeys_of_jo_/" class="social-link" aria-label="Instagram">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="./about.html" class="footer-link">About</a></li>
+                        <li><a href="./books.html" class="footer-link">Books</a></li>
+                        <li><a href="./youtube.html" class="footer-link">YouTube</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Explore</h4>
+                    <ul class="space-y-2">
+                        <li><a href="./events.html" class="footer-link">Events</a></li>
+                        <li><a href="./map.html" class="footer-link">Travel Map</a></li>
+                        <li><a href="./contact.html" class="footer-link">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-600 mt-8 pt-8 text-center text-gray-300">
+                <p>&copy; 2024 Reebu. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    
+    <script type="module">
+    import { loadVideos, loadMoreVideos } from './js/youtube.js';
+    
+    // Make loadVideos available globally for onclick handlers
+    window.loadVideos = loadVideos;
+    window.loadMoreVideos = loadMoreVideos;
+    
+    // Load videos when page loads
+    document.addEventListener('DOMContentLoaded', function() {
+        loadVideos();
+        
+        // Search functionality
+        const searchInput = document.getElementById('videoSearch');
+        let searchTimeout;
+        
+        searchInput.addEventListener('input', (e) => {
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(() => {
+                loadVideos(e.target.value);
+            }, 500);
+        });
+
+        // Load more button
+        const loadMoreBtn = document.getElementById('loadMoreBtn');
+        if (loadMoreBtn) {
+            loadMoreBtn.addEventListener('click', loadMoreVideos);
+        }
+    });
+</script>
+    <script src="./js/ui.js"></script>
+    <script>
+    // Mobile menu functionality with both toggle and outside click
+    document.addEventListener('DOMContentLoaded', function() {
+        const menuButton = document.getElementById('mobileMenuButton');
+        const mobileMenu = document.getElementById('mobileMenu');
+        
+        if (!menuButton || !mobileMenu) {
+            console.warn('Mobile menu elements not found');
+            return;
+        }
+
+        function closeMobileMenu() {
+            mobileMenu.classList.remove('active');
+            menuButton.innerHTML = `
+                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            `;
+        }
+
+        function toggleMobileMenu() {
+            const isActive = mobileMenu.classList.contains('active');
+            
+            if (isActive) {
+                closeMobileMenu();
+            } else {
+                mobileMenu.classList.add('active');
+                menuButton.innerHTML = `
+                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                `;
+            }
+        }
+
+        // Toggle menu on button click
+        menuButton.addEventListener('click', function(event) {
+            event.stopPropagation(); // Prevent the click from bubbling to document
+            toggleMobileMenu();
+        });
+
+        // Close menu when clicking outside - with proper timing
+        document.addEventListener('click', function(event) {
+            // Only close if menu is active AND click is outside both button and menu
+            if (mobileMenu.classList.contains('active') && 
+                !menuButton.contains(event.target) && 
+                !mobileMenu.contains(event.target)) {
+                closeMobileMenu();
+            }
+        });
+
+        // Close menu when clicking on mobile menu links
+        mobileMenu.addEventListener('click', function(event) {
+            if (event.target.tagName === 'A') {
+                closeMobileMenu();
+            }
+        });
+    });
+</script>
+<script>
+    // Navbar scroll effect
+    window.addEventListener('scroll', function() {
+        const navbar = document.getElementById('mainNavbar');
+        if (window.scrollY > 50) {
+            navbar.classList.add('scrolled');
+        } else {
+            navbar.classList.remove('scrolled');
+        }
+    });
+</script>
+</body>
+</html>
