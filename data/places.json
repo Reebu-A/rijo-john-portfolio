@@ -12,7 +12,7 @@
     "lat": 15.5008,
     "lng": 73.9114,
     "youtubeUrl": "https://www.youtube.com/watch?v=T9dUYzVW1XY&list=PL9sTg3O1x7dFfpBtJlQqRbVkgNIJjD5uK",
-    "image": "./rijo-john-portfolio/assets/youtube thump/goa.jpg",
+    "image": "/rijo-john-portfolio/assets/youtube thump/goa.jpg",
     "description": "Goa Malayalam travel vlog |Bom Jesus Basilica Goa |Kerala to Goa road trip Ep 1| Francis Xavier tomb"
   },
   {
@@ -20,7 +20,7 @@
     "lat": 27.3866,
     "lng": 88.8309,
     "youtubeUrl": "https://www.youtube.com/watch?v=UiWG-4yXwds",
-    "image": "./rijo-john-portfolio/assets/youtube thump/china.jpg",
+    "image": "/rijo-john-portfolio/assets/youtube thump/china.jpg",
     "description": "Nathula Pass is the border area between India and China."
   },
   {
@@ -28,7 +28,7 @@
     "lat": 41.3275,
     "lng": 69.3119,
     "youtubeUrl": "https://www.youtube.com/watch?v=dm6FsV1_DTQ",
-    "image": "./rijo-john-portfolio/assets/youtube thump/uzbekistan.jpg",
+    "image": "/rijo-john-portfolio/assets/youtube thump/uzbekistan.jpg",
     "description": "Lal Bahadur Shastri Street Tashkent| Uzbekistan"
   },
   {
@@ -36,7 +36,7 @@
     "lat": 10.0739,
     "lng": 77.0657,
     "youtubeUrl": "https://www.youtube.com/watch?v=pYCLUfU21pM",
-    "image": "./rijo-john-portfolio/assets/youtube thump/munnar.jpg",
+    "image": "/rijo-john-portfolio/assets/youtube thump/munnar.jpg",
     "description": "Lodge Heather is a haunted place near Old Munnar."
   },
   {
@@ -44,7 +44,7 @@
     "lat": 6.9271,
     "lng": 79.8612,
     "youtubeUrl": "https://www.youtube.com/watch?v=jNanOYSvWzU",
-    "image": "./rijo-john-portfolio/assets/youtube thump/sreelanka.jpg",
+    "image": "/rijo-john-portfolio/assets/youtube thump/sreelanka.jpg",
     "description": "Colombo Malayalam vlog covers visuals, history, local food, and culture of Colombo, the former capital and presently, the  commercial capital of Srilanka"
   },
   {
@@ -52,7 +52,7 @@
     "lat": 9.1784,
     "lng": 79.4166,
     "youtubeUrl": "https://www.youtube.com/watch?v=5Or-igs8SV8",
-    "image": "./rijo-john-portfolio/assets/youtube thump/DHANUSHKODI.jpg",
+    "image": "/rijo-john-portfolio/assets/youtube thump/DHANUSHKODI.jpg",
     "description": "Dhanushkodi is a popular tourist destination and must visit place in Tamil Nadu"
   },
   {
@@ -60,7 +60,7 @@
     "lat": 26.9125,
     "lng": 70.9126,
     "youtubeUrl": "https://www.youtube.com/watch?v=WW0ytMP2WHU",
-    "image": "./rijo-john-portfolio/assets/youtube thump/rajasthan.jpg",
+    "image": "/rijo-john-portfolio/assets/youtube thump/rajasthan.jpg",
     "description": "This video explains major tourist attractions in Jaisalmer including Jaisalmer fort, Patwa Haweli, Jaisalmer town..etc.."
   },
    {
@@ -68,7 +68,7 @@
     "lat": 4.3095,
     "lng": 73.5705,
     "youtubeUrl": "https://www.youtube.com/watch?v=tUlSo-vSAqI",
-    "image": "./rijo-john-portfolio/assets/youtube thump/maldives.jpg",
+    "image": "/rijo-john-portfolio/assets/youtube thump/maldives.jpg",
     "description": "Himmafushi island is a major tourist attraction and travel destination in Maldives."
   },
   {
@@ -76,7 +76,7 @@
     "lat": 27.59137,
     "lng": 89.87743,
     "youtubeUrl": "https://www.youtube.com/watch?v=vjRSKaD31tE",
-    "image": "./rijo-john-portfolio/assets/youtube thump/bhutan.jpg",
+    "image": "/rijo-john-portfolio/assets/youtube thump/bhutan.jpg",
     "description": "This places the valley in west-central Bhutan, at an elevation of about 5,000 feet."
   },
   {
@@ -84,7 +84,7 @@
     "lat": 28.2439298,
     "lng": 83.9486254,
     "youtubeUrl": "https://www.youtube.com/watch?v=aBRYvIhtlHs",
-    "image": "./rijo-john-portfolio/assets/youtube thump/nepal.jpg",
+    "image": "/rijo-john-portfolio/assets/youtube thump/nepal.jpg",
     "description": "Sarangkot is known for its panoramic Himalayan views of Dhaulagiri, Annapurna and Manaslu."
   },
   {
@@ -92,7 +92,7 @@
     "lat": 15.334022,
     "lng": 76.468536,
     "youtubeUrl": "https://www.youtube.com/watch?v=YVCwugyDEpM",
-    "image": "./rijo-john-portfolio/assets/youtube thump/hampi.jpg",
+    "image": "/rijo-john-portfolio/assets/youtube thump/hampi.jpg",
     "description": "Hampi is a small ancient village located on the banks of River Tungabhadra in the state of Karnataka."
   }
 ]
