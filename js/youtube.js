@@ -32,6 +32,16 @@ export async function loadVideos(searchTerm = '') {
       videos = await fetchFromYouTubeAPI(searchTerm);
     } else {
       videos = await fetchFromRSS();
+          // after fetching videos
+    if (searchTerm && (!YOUTUBE_API_KEY || YOUTUBE_API_KEY.trim() === '')) {
+      // client-side filter for RSS fallback (case-insensitive)
+      const q = searchTerm.trim().toLowerCase();
+      videos = videos.filter(v =>
+        (v.title && v.title.toLowerCase().includes(q)) ||
+        (v.description && v.description.toLowerCase().includes(q))
+      );
+    }
+
     }
 
     if (!videos || videos.length === 0) {
@@ -175,11 +185,15 @@ function videoCardHTML(video) {
     <div class="video-card">
       <div class="relative group">
         <img src="${video.thumbnail}" alt="${titleEsc}" class="video-thumbnail w-full h-48 object-cover" loading="lazy">
-        <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-10 transition-all duration-200 flex items-center justify-center">
-          <div class="bg-red-600 rounded-full p-3 transform scale-75 opacity-0 group-hover:scale-100 group-hover:opacity-100 transition-all duration-200">
-            <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-          </div>
+        <div class="absolute inset-0 flex items-center justify-center transition-all duration-200 group-hover:bg-black/10"
+          style="background-color: transparent; pointer-events: none;">
+        <div class="bg-red-600 rounded-full p-3 transform scale-75 opacity-0 group-hover:scale-100 group-hover:opacity-100 transition-all duration-200">
+          <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M8 5v14l11-7z"/>
+          </svg>
         </div>
+      </div>
+
       </div>
       <div class="p-4">
         <h3 class="font-semibold text-lg mb-2 line-clamp-2" title="${titleEsc}">${titleEsc}</h3>

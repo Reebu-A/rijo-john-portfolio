@@ -858,6 +858,13 @@ body {
     flex-direction: column;
     justify-content: space-between;
 }
+.video-card .absolute.inset-0 {
+  background-color: transparent !important;
+}
+.video-card:hover .absolute.inset-0 {
+  background-color: rgba(0,0,0,0.1) !important;
+}
+
 
 /* Animations */
 @keyframes fade-in {
