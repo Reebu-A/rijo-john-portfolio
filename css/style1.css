@@ -865,6 +865,58 @@ body {
   background-color: rgba(0,0,0,0.1) !important;
 }
 
+/* Designer signature – subtle animated gradient text */
+.designer-signature-label {
+  opacity: 0.8;
+}
+
+.designer-signature-name {
+  position: relative;
+  font-weight: 600;
+  background: linear-gradient(90deg, #38bdf8, #f97316, #a855f7, #38bdf8);
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: signature-gradient 6s linear infinite;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* Animated underline */
+.designer-signature-name::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  height: 2px;
+  width: 0%;
+  background: linear-gradient(90deg, #38bdf8, #f97316, #a855f7);
+  transition: width 0.4s ease;
+}
+
+/* Hover effects */
+.designer-signature-name:hover::after {
+  width: 100%;
+}
+
+.designer-signature-name:hover {
+  filter: drop-shadow(0 0 6px rgba(56, 189, 248, 0.7));
+}
+
+/* Gradient slide animation */
+@keyframes signature-gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
 
 /* Animations */
 @keyframes fade-in {

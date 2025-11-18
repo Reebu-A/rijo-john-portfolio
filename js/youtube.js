@@ -174,7 +174,7 @@ function displayVideos(container, videos) {
 }
 
 /**
- * Create HTML for a single video card (matches your prior markup)
+ * Create HTML for a single video card  
  */
 function videoCardHTML(video) {
   const titleEsc = escapeHtml(video.title || '');

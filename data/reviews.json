@@ -1,0 +1,50 @@
+[
+  {
+    "name": "Anjali R",
+    "location": "Kochi, Kerala",
+    "platform": "Instagram",
+    "quote": "This Malayalam travel book felt like a calm conversation with my own thoughts. The silence, journeys and people in it stayed with me long after I finished reading.",
+    "profileImage": "/rijo-john-portfolio/assets/img/reviews/review1.jpg",
+    "postUrl": "https://www.instagram.com/p/POST_ID_1"
+  },
+  {
+    "name": "Rahul Dev",
+    "location": "Trivandrum",
+    "platform": "Facebook",
+    "quote": "Not just a travelogue — it’s a journey inward. Simple but powerful writing. Every place described felt real and meaningful.",
+    "profileImage": "/rijo-john-portfolio/assets/img/reviews/review1.jpg",
+    "postUrl": "https://www.facebook.com/permalink.php?story_fbid=POST_ID_2"
+  },
+  {
+    "name": "Meera S",
+    "location": "Bengaluru",
+    "platform": "Instagram",
+    "quote": "Loved how the author connects travel, silence and spirituality. It made me want to revisit many places in Kerala with a new mindset.",
+    "profileImage": "/rijo-john-portfolio/assets/img/reviews/reviewL.jpg",
+    "postUrl": "https://www.instagram.com/p/POST_ID_3"
+  },
+  {
+    "name": "hari Dev",
+    "location": "Trivandrum",
+    "platform": "Facebook",
+    "quote": "Not just a travelogue — it’s a journey inward. Simple but powerful writing. Every place described felt real and meaningful.",
+    "profileImage": "/rijo-john-portfolio/assets/img/reviews/review1.jpg",
+    "postUrl": "https://www.facebook.com/permalink.php?story_fbid=POST_ID_2"
+  },
+  {
+    "name": "Anuja R",
+    "location": "Kochi, Kerala",
+    "platform": "Instagram",
+    "quote": "This Malayalam travel book felt like a calm conversation with my own thoughts. The silence, journeys and people in it stayed with me long after I finished reading.",
+    "profileImage": "/rijo-john-portfolio/assets/img/reviews/reviewl1.jpg",
+    "postUrl": "https://www.instagram.com/p/POST_ID_1"
+  },
+  {
+    "name": "Rohit Dev",
+    "location": "Trivandrum",
+    "platform": "Facebook",
+    "quote": "Not just a travelogue — it’s a journey inward. Simple but powerful writing. Every place described felt real and meaningful.",
+    "profileImage": "/rijo-john-portfolio/assets/img/reviews/review1.jpg",
+    "postUrl": "https://www.facebook.com/permalink.php?story_fbid=POST_ID_2"
+  }
+]
