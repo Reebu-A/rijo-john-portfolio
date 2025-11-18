@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://reebu-a.github.io/rijo-john-portfolio/sitemap.xml
+Sitemap: https://reebu-a.github.io/rijo-john-portfolio/site-map.xml
