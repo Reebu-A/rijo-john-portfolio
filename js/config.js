@@ -28,4 +28,4 @@ SECURITY NOTE:
 // Maximum number of videos to load
 export const MAX_VIDEOS = 20;
 
-export const RSS_PROXY = 'https://script.google.com/macros/s/AKfycbzSfCkiMPSMst0E10I0HodHOPSNHqJnxW4Q5tIn_-otoJhK787mWd_q2Vw4PVT7qKIuFw/exec';
+export const RSS_PROXY = 'https://script.google.com/macros/s/AKfycbxsgJvI-sP1EKJ4hXJGBiXFp-x7PZ-HlwdjAsvRIPo9W6JPo21AvDpysY3WZji-FDkHEA/exec';
