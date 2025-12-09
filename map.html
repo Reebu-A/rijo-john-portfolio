@@ -1,313 +1,529 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en" data-theme="light" class="no-js">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Travel Map — Rijo John’s Visited Destinations & Vlogs</title>
-    <meta name="description" content="Interactive travel map showing places visited by Rijo John — click markers to view vlog episodes, photos and travel notes for each destination.">
-    <meta name="keywords" content="interactive travel map, travel destinations, Rijo John map, travel vlogs map, Kerala travel map, visit places">
- `  <meta name="robots" content="index,follow" />
-    <meta name="google-site-verification" content="a6PlDsRAdHgeCQfGMplxia-yuZ04Ojn2wTdNMcaljmI" />
-    <meta name="msvalidate.01" content="B45DB9E0F5A6C3427B7C3E10CA32EB35" />
-    <meta name="theme-color" content="#0ea5e9" />
-     <link rel="canonical" href="https://reebu-a.github.io/rijo-john-portfolio/map.html">
-    <!-- Open Graph -->
-    <meta property="og:title" content="Travel Map - Rijo John">
-    <meta property="og:description" content="Interactive travel map with destinations and vlogs">
-    <!-- <meta property="og:image" content="./assets/img/icon.jpg">  -->
-    <meta property="og:image" content="https://reebu-a.github.io/rijo-john-portfolio/assets/img/icon.jpg" />
-    <meta property="og:url" content="https://reebu-a.github.io/rijo-john-portfolio/map.html">
-    <meta property="og:type" content="website">
-    
-    
-    <!-- Leaflet CSS -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-          integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
-          crossorigin=""/>
-    
-    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: '#0ea5e9',
-                        secondary: '#f59e0b',
-                        dark: '#1e293b'
-                    }
-                }
-            }
-        }
-    </script>
-    <link rel="stylesheet" href="./css/style1.css">
-    <!---- <link rel="icon" type="image/x-icon" href="./assets/favicon.ico"> -->
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="icon" href="./favicon.png" type="image/png" sizes="512x512">
-    <link rel="shortcut icon" href="./favicon.png">
-    <link rel="apple-touch-icon" href="./favicon.png">
-    
-    <style>
-        #map { 
-            height: 600px;
-            border-radius: 12px;
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
-        }
-        .leaflet-popup-content {
-            margin: 8px 12px;
-            line-height: 1.4;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Travel Map – Kerala & International Journeys of Rijo John</title>
+  <meta
+    name="description"
+    content="Interactive travel map of places visited by traveller and educator Rijo John – connected to his Malayalam travelogue ‘Nishabdhathayude Kavalkkar’, which chronicles journeys across 12 countries, and to Malayalam travel vlogs."
+  />
+  <meta
+    name="keywords"
+    content="Rijo John travel map, Nishabdhathayude Kavalkkar, Malayalam travelogue, Kerala travel map, travel vlogs locations, international journeys, travel literature"
+  />
+  <meta name="robots" content="index,follow" />
+  <meta name="theme-color" content="#0ea5e9" />
+  <link
+    rel="canonical"
+    href="https://rijojohn.netlify.app/map.html"
+  />
+
+  <!-- Netlify metatag-->
+   <meta name="google-site-verification" content="fBxQcDTnB5Qdr6exM9eWxh8cOqlA4CUwRQpp7swCU28" />
+   <meta name="msvalidate.01" content="B45DB9E0F5A6C3427B7C3E10CA32EB35" />
+
+   <!-- Gthub metatag-->
+  <meta name="google-site-verification" content="a6PlDsRAdHgeCQfGMplxia-yuZ04Ojn2wTdNMcaljmI" />
+  <meta name="msvalidate.01" content="B45DB9E0F5A6C3427B7C3E10CA32EB35" />
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="Travel Map – Journeys of Rijo John" />
+  <meta
+    property="og:description"
+    content="Explore an interactive map of destinations visited by educator, traveller and Malayalam travelogue author Rijo John – with locations linked to vlogs and stories from his journeys across Kerala, India and abroad."
+  />
+  <meta
+    property="og:image"
+    content="https://rijojohn.netlify.app/assets/img/icon.jpg"
+  />
+  <meta
+    property="og:url"
+    content="https://rijojohn.netlify.app/map.html"
+  />
+  <meta property="og:type" content="website" />
+
+  <!-- Icons -->
+  <link
+    rel="icon"
+    type="image/png"
+    sizes="32x32"
+    href="./favicon.png"
+  />
+  <link rel="icon" href="./favicon.png" type="image/png" sizes="512x512" />
+  <link rel="shortcut icon" href="./favicon.png" />
+  <link rel="apple-touch-icon" href="./favicon.png" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap"
+    rel="stylesheet"
+  />
+
+  <!-- Shared site styles -->
+  <link rel="stylesheet" href="./css/style.css" />
+
+  <!-- Leaflet CSS -->
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+    crossorigin=""
+  />
+
+  <script>
+    // Remove no-js class early
+    document.documentElement.classList.remove('no-js');
+  </script>
 </head>
-<body class="font-sans bg-white text-gray-800 antialiased">
-    
-    <!-- Navigation -->
-<nav class="navbar" id="mainNavbar">
-    <div class="container navbar-container">
-        <a href="./index.html" class="navbar-brand professional-blue">Rijo John</a>
-        
-        <!-- Desktop Navigation -->
-        <div class="navbar-nav desktop">
-            <a href="./index.html" class="nav-link">Home</a>
-            <a href="./about.html" class="nav-link">About</a>
-            <a href="./books.html" class="nav-link">Books</a>
-            <a href="./youtube.html" class="nav-link">YouTube</a>
-            <a href="./events.html" class="nav-link">Events</a>
-            <a href="./map.html" class="nav-link active">Travel Map</a>
-            <a href="./contact.html" class="nav-link">Contact</a>
-        </div>
-        
-        <!-- Mobile Menu Button -->
-        <button class="mobile-menu-btn" id="mobileMenuButton" aria-label="Toggle menu">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-            </svg>
-        </button>
-    </div>
-    
-    <!-- Mobile Navigation -->
-    <div class="container">
-        <div class="navbar-nav mobile" id="mobileMenu">
-            <a href="./index.html" class="nav-link-mobile">Home</a>
-            <a href="./about.html" class="nav-link-mobile">About</a>
-            <a href="./books.html" class="nav-link-mobile">Books</a>
-            <a href="./youtube.html" class="nav-link-mobile">YouTube</a>
-            <a href="./events.html" class="nav-link-mobile">Events</a>
-            <a href="./map.html" class="nav-link-mobile active">Travel Map</a>
-            <a href="./contact.html" class="nav-link-mobile">Contact</a>
-        </div>
-    </div>
-</nav>
 
-    <main>
-        <!-- Hero Section -->
-        <section class="bg-gradient-pink py-20 text-white">
-            <div class="container mx-auto px-4 text-center">
-                <h1 class="text-5xl font-bold mb-4">Interactive Travel Experience Map</h1>
-                <p class="text-xl max-w-2xl mx-auto">Discover the places I have travelled across Kerala, India and abroad — 
-            marked with stories, culture, landscapes, people and real travel moments 
-            shared through videos, photographs and experience notes.</p>
-            </div>
-        </section>
+<body class="site-body">
+  <!-- Skip link -->
+  <a href="#main" class="skip-link">Skip to main content</a>
 
-        <section class="py-10 bg-white">
-            <div class="container mx-auto px-4">
-                <p class="text-gray-700 text-lg max-w-4xl mx-auto text-center leading-relaxed">
-                    This interactive travel map highlights <strong>road trips, trekking trails, 
-                    cultural heritage locations, pilgrimage sites, hill stations, beaches, historical sites, forests,
-                    international destinations</strong> and unique lesser-known travel spots explored over the years.
-                    Click the destination markers to view related <strong>YouTube travel vlogs, short documentaries, 
-                    photographs, and experience-based reflections.</strong>
+  <!-- HEADER / NAV  -->
+  <header class="site-header" id="top">
+    <nav class="nav" aria-label="Primary navigation">
+      <div class="container nav__inner">
+        <!-- Brand -->
+        <a href="./index.html" class="nav__brand">
+          <span class="nav__brand-main">Rijo John</span>
+          <span class="nav__brand-tagline">Traveller • Educator • Author</span>
+        </a>
+
+        <!-- Nav links -->
+        <div class="nav__links" id="primaryNav">
+          <a href="./index.html" class="nav__link">Home</a>
+          <a href="./about.html" class="nav__link">About</a>
+          <a href="./books.html" class="nav__link">Books</a>
+          <a href="./youtube.html" class="nav__link">YouTube</a>
+          <a href="./events.html" class="nav__link">Events</a>
+          <a
+            href="./map.html"
+            class="nav__link nav__link--active"
+            aria-current="page"
+          >
+            Travel Map
+          </a>
+          <a href="./contact.html" class="nav__link">Contact</a>
+        </div>
+
+        <!-- Right controls -->
+        <div class="nav__controls">
+          <!-- Theme toggle -->
+          <button
+            type="button"
+            class="theme-toggle"
+            id="themeToggle"
+            aria-label="Toggle dark mode"
+            aria-pressed="false"
+          >
+            <span
+              class="theme-toggle__icon theme-toggle__icon--sun"
+              aria-hidden="true"
+            >
+              <!-- Sun icon -->
+              <svg viewBox="0 0 24 24" class="theme-toggle__svg">
+                <path
+                  d="M12 4V2m0 20v-2m8-8h2M2 12h2m13.657-7.071L18.364 6.22M5.636 17.778L4.222 19.192m0-14.97L5.636 6.22m12.728 11.557 1.414 1.414M16 12a4 4 0 1 1-8 0 4 4 0 0 1 8 0Z"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.7"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </span>
+            <span
+              class="theme-toggle__icon theme-toggle__icon--moon"
+              aria-hidden="true"
+            >
+              <!-- Moon icon -->
+              <svg viewBox="0 0 24 24" class="theme-toggle__svg">
+                <path
+                  d="M21 12.79A9 9 0 0 1 11.21 3 7 7 0 1 0 21 12.79Z"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.7"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </span>
+          </button>
+
+          <!-- Mobile nav toggle -->
+          <button
+            type="button"
+            class="nav__toggle"
+            id="navToggle"
+            aria-label="Toggle navigation"
+            aria-expanded="false"
+            aria-controls="primaryNav"
+          >
+            <span class="nav__toggle-line"></span>
+            <span class="nav__toggle-line"></span>
+            <span class="nav__toggle-line"></span>
+          </button>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <!-- MAIN -->
+  <main id="main" class="site-main">
+    <!-- Page intro / hero for map -->
+    <section
+      class="section section--page-intro section--map-intro"
+      aria-labelledby="map-title"
+    >
+      <div class="container grid grid--split">
+        <!-- LEFT: Text intro -->
+        <div class="section__col">
+          <p class="section__eyebrow">Travel Map</p>
+          <h1 id="map-title" class="page-title">
+            Destinations that turned into stories
+          </h1>
+          <p class="section__lead">
+            An interactive map of places explored by
+            <strong>Rijo John</strong> across Kerala, India and abroad —
+            each marker linked to <strong>vlogs, photos and travel notes</strong>
+            that capture the people, culture and landscapes behind the journey.
+          </p>
+
+          <p class="section__body">
+            Zoom in, move across the map and tap on any location marker to open
+            a short travel snapshot. Many markers are connected to
+            <strong>Malayalam YouTube vlogs</strong> that bring these journeys
+            alive for students, travellers and armchair explorers.
+          </p>
+
+          <!-- New context from profile: travelogue + travel-literature focus -->
+          <p class="section__body">
+            As the author of the Malayalam travelogue
+            <em>‘Nishabdhathayude Kavalkkar’ (The Guardians of Silence)</em>,
+            which chronicles a journey across twelve countries, Rijo approaches
+            every trip as both a traveller and a storyteller. His map-based
+            journeys are also shaped by talks and seminars on
+            <strong>travel literature, culture and life</strong>, making these
+            routes valuable for curious learners as well as casual viewers.
+          </p>
+        </div>
+
+        <!-- RIGHT: Map overview card -->
+        <aside
+          class="section__col map-summary"
+          aria-label="Quick map overview"
+        >
+          <article class="map-summary__card">
+            <header class="map-summary__header">
+              <div class="map-summary__icon-circle" aria-hidden="true">
+                <span class="map-summary__icon">🗺️</span>
+              </div>
+              <div>
+                <h2 class="map-summary__title">
+                  Travel footprints & visual stories
+                </h2>
+                <p class="map-summary__subtitle">
+                  Road trips, hills, coasts, campuses & city corners.
                 </p>
-            </div>
-        </section>
+              </div>
+            </header>
 
+            <ul class="map-summary__list">
+              <li>
+                <strong>Click markers</strong> to view a snapshot and watch the
+                associated vlog (where available).
+              </li>
+              <li>
+                Use <strong>scroll or pinch</strong> to zoom, and drag to move
+                across Kerala, India and abroad.
+              </li>
+              <li>
+                Scroll down to the <strong>Featured Destinations</strong>
+                section and click a card to focus the map on that location.
+              </li>
+            </ul>
 
-        <!-- Map Section -->
-        <section class="py-16">
-            <div class="container mx-auto px-4">
-                <div class="max-w-6xl mx-auto">
-                    <div id="map" class="mb-8"></div>
-                    
-                    <!-- Map Legend -->
-                    <div class="bg-gray-50 rounded-lg p-6">
-                        <h3 class="text-lg font-semibold mb-4">Map Legend</h3>
-                        <div class="flex flex-wrap gap-6">
-                            <div class="flex items-center">
-                                <div class="w-4 h-4 bg-red-500 rounded-full mr-2"></div>
-                                <span class="text-sm">Major Destinations</span>
-                            </div>
-                            <div class="flex items-center">
-                                <div class="w-4 h-4 bg-blue-500 rounded-full mr-2"></div>
-                                <span class="text-sm">Cultural Sites</span>
-                            </div>
-                            <div class="flex items-center">
-                                <div class="w-4 h-4 bg-green-500 rounded-full mr-2"></div>
-                                <span class="text-sm">Natural Wonders</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+            <p class="map-summary__note">
+              Marker colours currently represent featured destinations in
+              general. Category-based colouring (major destinations, cultural
+              sites, natural wonders) will be introduced in a later update.
+            </p>
+          </article>
+        </aside>
+      </div>
+    </section>
 
-        <!-- Destinations List -->
-        <section class="py-16 bg-gray-50">
-            <div class="container mx-auto px-4">
-                <h2 class="text-4xl font-bold text-center mb-12">Featured Travel Destinations</h2>
-                <p class="text-center text-gray-600 max-w-3xl mx-auto mb-12">
-                    A curated list of meaningful travel locations marked on the map — 
-                    each linked with personal experiences, local culture, lifestyle learning,
-                    travel tips and vlog references.
-                </p>
-                <div id="destinationsList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
-                    <!-- Destinations will be loaded here by JavaScript -->
-                    <div class="text-center py-12 col-span-3">
-                        <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
-                        <p class="text-gray-600">Loading destinations...</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
+    <!-- Map section -->
+    <section
+      class="section section--map-main"
+      aria-labelledby="map-section-heading"
+    >
+      <div class="container">
+        <header class="section__header section__header--center">
+          <p class="section__eyebrow">Interactive map</p>
+          <h2 id="map-section-heading" class="section__title">
+            Explore journeys on the map
+          </h2>
+          <p class="section__lead">
+            The map below is powered by <strong>OpenStreetMap</strong> and
+            <strong>Leaflet</strong>.
+          </p>
+        </header>
 
-    <!-- Footer (same as index.html) -->
-    <footer class="bg-dark text-white py-12 relative">
-        <div class="container mx-auto px-4">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-                <div class="md:col-span-2">
-                    <h3 class="text-2xl font-bold mb-4">Rijo John Sankarathil</h3>
-                    <p class="text-gray-300 mb-4">Traveller • Author • Vlogger • Quiz Master • Orator</p>
-                    <div class="flex space-x-4">
-                        <a href="https://www.youtube.com/@JOURNEYSOFJO" class="social-link" aria-label="YouTube">
-                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/>
-                            </svg>
-                        </a>
-                        <a href="https://www.instagram.com/_journeys_of_jo_/" class="social-link" aria-label="Instagram">
-                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-                            </svg>
-                        </a>
-                    </div>
-                </div>
-                
-                <div>
-                    <h4 class="text-lg font-semibold mb-4">Quick Links</h4>
-                    <ul class="space-y-2">
-                        <li><a href="./about.html" class="footer-link">About</a></li>
-                        <li><a href="./books.html" class="footer-link">Books</a></li>
-                        <li><a href="./youtube.html" class="footer-link">YouTube</a></li>
-                    </ul>
-                </div>
-                
-                <div>
-                    <h4 class="text-lg font-semibold mb-4">Explore</h4>
-                    <ul class="space-y-2">
-                        <li><a href="./events.html" class="footer-link">Events</a></li>
-                        <li><a href="./map.html" class="footer-link">Travel Map</a></li>
-                        <li><a href="./contact.html" class="footer-link">Contact</a></li>
-                    </ul>
-                </div>
-            </div>
-            
-            <div class="border-t border-gray-600 mt-8 pt-8 text-center text-gray-300">
-                <p>&copy; 2024 Rijo John — Traveller, Educator & Author from Kerala.</p>
-            </div>
-            <div class="absolute right-4 bottom-4 ">
-                 <p class="mt-3 text-sm flex items-center justify-center gap-2 text-gray-400">
-                    <span class="designer-signature-label">
-                        Crafted by
-                    </span>
-                    <a href="#" 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    class="designer-signature-name">
-                    Reebu.AB
-                    </a>
-                 </p>
-            </div>
+        <div class="map-shell">
+          <div
+            id="map"
+            class="map-embed"
+            role="region"
+            aria-label="Interactive travel map showing visited destinations"
+          ></div>
+
+          <!-- Usage tips -->
+          <div class="map-info">
+            <h3 class="map-info__title">How to use this map</h3>
+            <ul class="map-info__list">
+              <li>Zoom and pan to explore different regions.</li>
+              <li>Tap a marker to see a short description and watch the vlog.</li>
+              <li>
+                Use the destination cards below to instantly
+                <strong>focus the map</strong> on that location.
+              </li>
+            </ul>
+          </div>
         </div>
-    </footer>
+      </div>
+    </section>
 
-    <!-- Leaflet JS -->
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-            integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
-            crossorigin=""></script>
+    <!-- Destinations list -->
+    <section
+      class="section section--map-destinations"
+      aria-labelledby="destinations-heading"
+    >
+      <div class="container">
+        <header class="section__header section__header--center">
+          <p class="section__eyebrow">Featured destinations</p>
+          <h2 id="destinations-heading" class="section__title">
+            Places that shaped the journeys
+          </h2>
+          <p class="section__lead">
+            Each destination below is also marked on the map. Click a card to
+            focus the map or open the linked
+            <strong>Malayalam travel vlog</strong> for a deeper story.
+          </p>
+        </header>
 
-    <script type="module">
-        import { initMap } from './js/map.js';
-        document.addEventListener('DOMContentLoaded', initMap);
-    </script>
-    <script src="./js/ui.js"></script>
-    <script>
-    // Mobile menu functionality with both toggle and outside click
-    document.addEventListener('DOMContentLoaded', function() {
-        const menuButton = document.getElementById('mobileMenuButton');
-        const mobileMenu = document.getElementById('mobileMenu');
-        
-        if (!menuButton || !mobileMenu) {
-            console.warn('Mobile menu elements not found');
-            return;
-        }
+        <div
+          id="destinationsList"
+          class="map-destinations-grid"
+          aria-live="polite"
+        >
+          <!-- Initial loader while places.json is fetched  -->
+          <div class="map-loader text-center py-12">
+            <div
+              class="animate-spin map-loader__spinner"
+              aria-hidden="true"
+            ></div>
+            <p class="map-loader__text">
+              Loading destinations…
+            </p>
+          </div>
+        </div>
 
-        function closeMobileMenu() {
-            mobileMenu.classList.remove('active');
-            menuButton.innerHTML = `
-                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                </svg>
-            `;
-        }
+        <p class="map-destinations__note">
+          All locations are curated to highlight <strong>local culture</strong>,
+          <strong>landscapes</strong> and <strong>learning moments</strong> —
+          from quiet village roads to busy cities and international trips.
+        </p>
+      </div>
+    </section>
+  </main>
 
-        function toggleMobileMenu() {
-            const isActive = mobileMenu.classList.contains('active');
-            
-            if (isActive) {
-                closeMobileMenu();
-            } else {
-                mobileMenu.classList.add('active');
-                menuButton.innerHTML = `
-                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                    </svg>
-                `;
+  <!-- FOOTER  -->
+  <footer class="site-footer">
+    <div class="container site-footer__inner">
+      <div class="site-footer__main">
+        <div class="site-footer__brand">
+          <h3 class="site-footer__title">Rijo John Sankarathil</h3>
+          <p class="site-footer__subtitle">
+            Traveller • Author • Vlogger • Quiz Master • Orator
+          </p>
+
+          <div class="site-footer__social" aria-label="Social links">
+            <a
+              href="https://www.youtube.com/@JOURNEYSOFJO/"
+              class="social-link"
+              aria-label="YouTube channel"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <svg
+                class="social-link__icon"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
+                <path
+                  d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"
+                />
+              </svg>
+            </a>
+
+            <a
+              href="https://www.instagram.com/_journeys_of_jo_/"
+              class="social-link"
+              aria-label="Instagram profile"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <svg class="social-link__icon" viewBox="0 0 24 24" aria-hidden="true">
+                <path
+                  d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"
+                />
+              </svg>
+            </a>
+
+            <!-- Facebook -->
+            <a
+              href="https://www.facebook.com/jojfb"
+              class="social-link"
+              aria-label="Facebook page"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <svg
+                class="social-link__icon"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
+                <path
+                  d="M22 12.07C22 6.48 17.52 2 11.93 2 6.35 2 1.87 6.48 1.87 12.07 1.87 17.11 5.66 21.24 10.44 22v-6.99H7.9v-2.94h2.54v-2.24c0-2.5 1.49-3.88 3.77-3.88 1.09 0 2.23.2 2.23.2v2.45h-1.26c-1.24 0-1.63.77-1.63 1.56v1.91h2.78l-.44 2.94h-2.34V22c4.78-.76 8.57-4.89 8.57-9.93Z"
+                />
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <div class="site-footer__links">
+          <div class="site-footer__column">
+            <h4 class="site-footer__heading">Quick links</h4>
+            <ul>
+              <li><a href="./about.html" class="footer-link">About</a></li>
+              <li><a href="./books.html" class="footer-link">Books</a></li>
+              <li><a href="./youtube.html" class="footer-link">YouTube</a></li>
+            </ul>
+          </div>
+
+          <div class="site-footer__column">
+            <h4 class="site-footer__heading">Explore</h4>
+            <ul>
+              <li><a href="./events.html" class="footer-link">Events</a></li>
+              <li><a href="./map.html" class="footer-link">Travel map</a></li>
+              <li><a href="./contact.html" class="footer-link">Contact</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="site-footer__bottom">
+        <p class="site-footer__copy">
+          &copy; 2024 Rijo John — Traveller, Educator &amp; Author from
+          Kerala.
+        </p>
+
+        <p class="designer-signature">
+          <span class="designer-signature-label">Crafted by</span>
+          <a
+            href="#"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="designer-signature-name"
+          >
+            Reebu.AB
+          </a>
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Structured Data: Person + ItemList of destinations -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Person",
+          "name": "Rijo John",
+          "jobTitle": "Educator, Author, Quiz Master",
+          "description": "Traveller, educator, Malayalam travelogue author and quiz master with a Guinness World Records participation medal.",
+          "url": "https://rijojohn.netlify.app/",
+          "image": "https://rijojohn.netlify.app/assets/img/profile.jpg",
+          "sameAs": [
+            "https://www.youtube.com/@JOURNEYSOFJO/",
+            "https://www.instagram.com/_journeys_of_jo_/"
+          ],
+          "knowsAbout": [
+            "Education",
+            "Travel",
+            "Travel literature",
+            "Music tourism in India",
+            "Quiz Competitions",
+            "Malayalam Literature"
+          ],
+          "award": "Guinness World Records Medalist"
+        },
+        {
+          "@type": "ItemList",
+          "name": "Travel destinations featured on the Rijo John travel map",
+          "itemListOrder": "ItemListOrderAscending",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "item": {
+                "@type": "Place",
+                "name": "Kerala, India – road trips, hills, coasts and campuses highlighted in Malayalam travel vlogs"
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "item": {
+                "@type": "Place",
+                "name": "Pathanamthitta, Kerala – home region and starting point for many journeys"
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "item": {
+                "@type": "Place",
+                "name": "International journeys across 12 countries as chronicled in the Malayalam travelogue ‘Nishabdhathayude Kavalkkar’"
+              }
             }
+          ]
         }
+      ]
+    }
+  </script>
 
-        // Toggle menu on button click
-        menuButton.addEventListener('click', function(event) {
-            event.stopPropagation(); // Prevent the click from bubbling to document
-            toggleMobileMenu();
-        });
+  <!-- Leaflet JS (mapping library – unchanged) -->
+  <script
+    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+    crossorigin=""
+  ></script>
 
-        // Close menu when clicking outside - with proper timing
-        document.addEventListener('click', function(event) {
-            // Only close if menu is active AND click is outside both button and menu
-            if (mobileMenu.classList.contains('active') && 
-                !menuButton.contains(event.target) && 
-                !mobileMenu.contains(event.target)) {
-                closeMobileMenu();
-            }
-        });
+  <!-- Map logic (existing map.js, not modified) -->
+  <script type="module">
+    import { initMap } from './js/map.js';
+    document.addEventListener('DOMContentLoaded', initMap);
+  </script>
 
-        // Close menu when clicking on mobile menu links
-        mobileMenu.addEventListener('click', function(event) {
-            if (event.target.tagName === 'A') {
-                closeMobileMenu();
-            }
-        });
-    });
-</script>
-<script>
-    // Navbar scroll effect
-    window.addEventListener('scroll', function() {
-        const navbar = document.getElementById('mainNavbar');
-        if (window.scrollY > 50) {
-            navbar.classList.add('scrolled');
-        } else {
-            navbar.classList.remove('scrolled');
-        }
-    });
-</script>
+  <!-- Shared UI JS for theme + mobile nav -->
+  <script src="./js/ui.js"></script>
 </body>
 </html>

@@ -1,199 +1,235 @@
-// UI functionality for mobile menu and common interactions
-class UI {
-    constructor() {
-        this.init();
+// ui.js
+(function () {
+  const THEME_KEY = "jp-theme";
+
+  function getPreferredTheme() {
+    const stored = localStorage.getItem(THEME_KEY);
+    if (stored === "light" || stored === "dark") return stored;
+
+    if (window.matchMedia) {
+      return window.matchMedia("(prefers-color-scheme: dark)").matches
+        ? "dark"
+        : "light";
+    }
+    return "light";
+  }
+
+  function applyTheme(theme, withTransition) {
+    const root = document.documentElement;
+    const body = document.body;
+    root.setAttribute("data-theme", theme);
+
+    if (withTransition) {
+      // enable smooth transition after first manual toggle
+      body.classList.add("theme-transition");
     }
 
-    init() {
-        this.setupMobileMenu();
-        this.setupSmoothScrolling();
-        this.setupLazyLoading();
-        this.setupAccessibility();
+    updateThemeToggleIcon(theme);
+  }
+
+  function updateThemeToggleIcon(theme) {
+    const toggle = document.getElementById("themeToggle");
+    if (!toggle) return;
+
+    const sun = toggle.querySelector(".theme-toggle__icon--sun");
+    const moon = toggle.querySelector(".theme-toggle__icon--moon");
+
+    if (theme === "dark") {
+      sun.style.opacity = "0";
+      sun.style.transform = "scale(0.7) rotate(-10deg)";
+      moon.style.opacity = "1";
+      moon.style.transform = "scale(1) rotate(0deg)";
+      toggle.setAttribute("aria-pressed", "true");
+      toggle.setAttribute("aria-label", "Switch to light mode");
+    } else {
+      sun.style.opacity = "1";
+      sun.style.transform = "scale(1) rotate(0deg)";
+      moon.style.opacity = "0";
+      moon.style.transform = "scale(0.7) rotate(-10deg)";
+      toggle.setAttribute("aria-pressed", "false");
+      toggle.setAttribute("aria-label", "Switch to dark mode");
+    }
+  }
+
+  function initTheme() {
+    const initial = getPreferredTheme();
+    applyTheme(initial, false);
+  }
+
+  function initThemeToggle() {
+    const toggle = document.getElementById("themeToggle");
+    if (!toggle) return;
+
+    toggle.addEventListener("click", () => {
+      const current = document.documentElement.getAttribute("data-theme") || "light";
+      const next = current === "dark" ? "light" : "dark";
+      localStorage.setItem(THEME_KEY, next);
+      applyTheme(next, true);
+    });
+  }
+
+  function initMobileNav() {
+    const navToggle = document.getElementById("navToggle");
+    const navLinks = document.getElementById("primaryNav");
+
+    if (!navToggle || !navLinks) return;
+
+    function closeMenu() {
+      navToggle.classList.remove("nav__toggle--open");
+      navToggle.setAttribute("aria-expanded", "false");
+      navLinks.classList.remove("nav__links--open");
     }
 
-    setupMobileMenu() {
-        const menuButton = document.getElementById('mobileMenuButton');
-        const mobileMenu = document.getElementById('mobileMenu');
-
-        if (menuButton && mobileMenu) {
-            menuButton.addEventListener('click', () => {
-                const isHidden = mobileMenu.classList.contains('hidden');
-                
-                if (isHidden) {
-                    mobileMenu.classList.remove('hidden');
-                    menuButton.setAttribute('aria-expanded', 'true');
-                    menuButton.innerHTML = `
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                        </svg>
-                    `;
-                } else {
-                    mobileMenu.classList.add('hidden');
-                    menuButton.setAttribute('aria-expanded', 'false');
-                    menuButton.innerHTML = `
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                        </svg>
-                    `;
-                }
-            });
-
-            // Close menu when clicking outside
-            document.addEventListener('click', (e) => {
-                if (!menuButton.contains(e.target) && !mobileMenu.contains(e.target)) {
-                    mobileMenu.classList.add('hidden');
-                    menuButton.setAttribute('aria-expanded', 'false');
-                    menuButton.innerHTML = `
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                        </svg>
-                    `;
-                }
-            });
-        }
+    function openMenu() {
+      navToggle.classList.add("nav__toggle--open");
+      navToggle.setAttribute("aria-expanded", "true");
+      navLinks.classList.add("nav__links--open");
     }
 
-    setupSmoothScrolling() {
-        // Smooth scrolling for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
-        });
+    navToggle.addEventListener("click", () => {
+      const isOpen = navToggle.classList.contains("nav__toggle--open");
+      if (isOpen) {
+        closeMenu();
+      } else {
+        openMenu();
+      }
+    });
+
+    // Close when a link is clicked (on mobile)
+    navLinks.addEventListener("click", (e) => {
+      if (e.target.closest(".nav__link")) {
+        closeMenu();
+      }
+    });
+
+    // Close on Escape key
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") {
+        closeMenu();
+      }
+    });
+
+    // Close when clicking outside on small screens
+    document.addEventListener("click", (e) => {
+      if (
+        window.innerWidth <= 768 &&
+        !navLinks.contains(e.target) &&
+        !navToggle.contains(e.target)
+      ) {
+        closeMenu();
+      }
+    });
+  }
+
+// ---------------------------------------------
+// Academic profile: sticky pills + active state
+// ---------------------------------------------
+function initAcademicSubnav() {
+  const subnavSection = document.querySelector(".section--subnav");
+  if (!subnavSection) return; // only on academic-profile page
+
+  const subnav = subnavSection.querySelector(".subnav");
+  if (!subnav) return;
+
+  const links = Array.from(
+    subnav.querySelectorAll('.subnav__link[href^="#"]')
+  );
+  if (!links.length) return;
+
+  // Map each pill to its section
+  const pairs = links
+    .map((link) => {
+      const id = link.getAttribute("href").slice(1);
+      const section = document.getElementById(id);
+      return section ? { section, link } : null;
+    })
+    .filter(Boolean);
+
+  if (!pairs.length) return;
+
+  const header = document.querySelector(".site-header");
+
+  // Ensure only one pill is active
+  function setActive(activeLink) {
+    links.forEach((link) => {
+      link.classList.toggle("subnav__link--active", link === activeLink);
+    });
+  }
+
+  // How far down the page we want the section heading to land
+  function getOffset() {
+    const headerHeight = header ? header.offsetHeight : 80;
+    const subnavHeight = subnavSection.offsetHeight || 0;
+    // header + sticky pills + a little breathing space
+    return headerHeight + subnavHeight + 8;
+  }
+
+  // Smooth scroll when clicking a pill
+  function scrollToSection(section) {
+    const rect = section.getBoundingClientRect();
+    const y = window.pageYOffset + rect.top - getOffset();
+
+    window.scrollTo({
+      top: y,
+      behavior: "smooth",
+    });
+  }
+
+  // Click behaviour: smooth scroll + immediate visual feedback
+  links.forEach((link) => {
+    link.addEventListener("click", (e) => {
+      const href = link.getAttribute("href");
+      if (!href || !href.startsWith("#")) return;
+
+      const section = document.querySelector(href);
+      if (!section) return;
+
+      e.preventDefault();
+
+      // Instant feedback so mobile doesn’t feel “stuck”
+      setActive(link);
+      scrollToSection(section);
+    });
+  });
+
+  // Scroll behaviour: choose the section whose top is just above the reference line
+  function handleScroll() {
+    const offset = getOffset();
+    const scrollPos = window.pageYOffset + offset;
+
+    let currentPair = pairs[0];
+
+    pairs.forEach((pair) => {
+      if (pair.section.offsetTop <= scrollPos) {
+        currentPair = pair;
+      }
+    });
+
+    if (currentPair) {
+      setActive(currentPair.link);
     }
+  }
 
-    setupLazyLoading() {
-        // Intersection Observer for lazy loading images
-        if ('IntersectionObserver' in window) {
-            const imageObserver = new IntersectionObserver((entries, observer) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        const img = entry.target;
-                        img.src = img.dataset.src;
-                        img.classList.remove('lazy');
-                        imageObserver.unobserve(img);
-                    }
-                });
-            });
+  window.addEventListener("scroll", handleScroll, { passive: true });
+  window.addEventListener("resize", handleScroll);
 
-            document.querySelectorAll('img[data-src]').forEach(img => {
-                imageObserver.observe(img);
-            });
-        }
-    }
-
-    setupAccessibility() {
-        // Add focus styles for keyboard navigation
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Tab') {
-                document.body.classList.add('keyboard-navigation');
-            }
-        });
-
-        document.addEventListener('mousedown', () => {
-            document.body.classList.remove('keyboard-navigation');
-        });
-
-        // Skip to main content link
-        this.createSkipLink();
-    }
-
-    createSkipLink() {
-        const skipLink = document.createElement('a');
-        skipLink.href = '#main';
-        skipLink.className = 'skip-link';
-        skipLink.textContent = 'Skip to main content';
-        skipLink.style.cssText = `
-            position: absolute;
-            top: -40px;
-            left: 6px;
-            background: #000;
-            color: #fff;
-            padding: 8px;
-            z-index: 10000;
-            text-decoration: none;
-        `;
-        
-        skipLink.addEventListener('focus', () => {
-            skipLink.style.top = '6px';
-        });
-        
-        skipLink.addEventListener('blur', () => {
-            skipLink.style.top = '-40px';
-        });
-
-        document.body.insertBefore(skipLink, document.body.firstChild);
-    }
-
-    // Toast notification system
-    static showToast(message, type = 'success', duration = 3000) {
-        const toast = document.createElement('div');
-        toast.className = `toast ${type}`;
-        toast.textContent = message;
-        toast.style.cssText = `
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            padding: 12px 20px;
-            border-radius: 8px;
-            color: white;
-            z-index: 10000;
-            transform: translateX(400px);
-            transition: transform 0.3s ease;
-        `;
-
-        if (type === 'success') {
-            toast.style.background = '#10b981';
-        } else if (type === 'error') {
-            toast.style.background = '#ef4444';
-        } else if (type === 'warning') {
-            toast.style.background = '#f59e0b';
-        }
-
-        document.body.appendChild(toast);
-
-        // Animate in
-        setTimeout(() => {
-            toast.style.transform = 'translateX(0)';
-        }, 100);
-
-        // Auto remove
-        setTimeout(() => {
-            toast.style.transform = 'translateX(400px)';
-            setTimeout(() => {
-                if (toast.parentNode) {
-                    toast.parentNode.removeChild(toast);
-                }
-            }, 300);
-        }, duration);
-    }
-
-    // Loading state management
-    static setLoadingState(element, isLoading) {
-        if (isLoading) {
-            element.disabled = true;
-            element.dataset.originalText = element.textContent;
-            element.innerHTML = `
-                <div class="animate-spin rounded-full h-4 w-4 border-b-2 border-white mx-auto"></div>
-            `;
-        } else {
-            element.disabled = false;
-            element.textContent = element.dataset.originalText;
-        }
-    }
+  // Initial highlight on load
+  handleScroll();
 }
 
-// Initialize UI when DOM is loaded
-document.addEventListener('DOMContentLoaded', () => {
-    new UI();
+
+
+   document.addEventListener("DOMContentLoaded", () => {
+  initTheme();
+  initThemeToggle();
+  initMobileNav();
+  initAcademicSubnav();             
+  setTimeout(() => {
+    document.body.classList.add("theme-transition");
+  }, 50);
 });
 
-// Export for use in other modules
-window.UI = UI;
+
+})();
+
+

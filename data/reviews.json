@@ -4,7 +4,7 @@
     "location": "Kochi, Kerala",
     "platform": "Instagram",
     "quote": "This Malayalam travel book felt like a calm conversation with my own thoughts. The silence, journeys and people in it stayed with me long after I finished reading.",
-    "profileImage": "./assets/img/reviews/review1.jpg",
+    "profileImage": "./assets/img/reviews/reviewL.webp",
     "postUrl": "https://www.instagram.com/p/POST_ID_1"
   },
   {
@@ -12,39 +12,31 @@
     "location": "Trivandrum",
     "platform": "Facebook",
     "quote": "Not just a travelogue — it’s a journey inward. Simple but powerful writing. Every place described felt real and meaningful.",
-    "profileImage": "./assets/img/reviews/review1.jpg",
+    "profileImage": "./assets/img/reviews/man-3.webp",
     "postUrl": "https://www.facebook.com/permalink.php?story_fbid=POST_ID_2"
   },
   {
-    "name": "Meera S",
-    "location": "Bengaluru",
-    "platform": "Instagram",
-    "quote": "Loved how the author connects travel, silence and spirituality. It made me want to revisit many places in Kerala with a new mindset.",
-    "profileImage": "./assets/img/reviews/reviewL.jpg",
-    "postUrl": "https://www.instagram.com/p/POST_ID_3"
-  },
-  {
-    "name": "hari Dev",
-    "location": "Trivandrum",
-    "platform": "Facebook",
-    "quote": "Not just a travelogue — it’s a journey inward. Simple but powerful writing. Every place described felt real and meaningful.",
-    "profileImage": "./assets/img/reviews/review1.jpg",
-    "postUrl": "https://www.facebook.com/permalink.php?story_fbid=POST_ID_2"
-  },
-  {
-    "name": "Anuja R",
+    "name": "Sruthi A. Nair",
     "location": "Kochi, Kerala",
     "platform": "Instagram",
-    "quote": "This Malayalam travel book felt like a calm conversation with my own thoughts. The silence, journeys and people in it stayed with me long after I finished reading.",
-    "profileImage": "./assets/img/reviews/reviewl1.jpg",
-    "postUrl": "https://www.instagram.com/p/POST_ID_1"
+    "quote": "Finished this in two sittings. The way he connects border crossings, strangers and silence felt very personal. It reads like a quiet conversation during a long bus journey.",
+    "profileImage": "./assets/img/reviews/girl-2.png",
+    "postUrl": "https://www.instagram.com/p/REV1_SRUTHI"
   },
   {
-    "name": "Rohit Dev",
+    "name": "Vivek Menon",
     "location": "Trivandrum",
     "platform": "Facebook",
-    "quote": "Not just a travelogue — it’s a journey inward. Simple but powerful writing. Every place described felt real and meaningful.",
-    "profileImage": "./assets/img/reviews/review1.jpg",
-    "postUrl": "https://www.facebook.com/permalink.php?story_fbid=POST_ID_2"
+    "quote": "A different kind of travelogue – very honest and grounded. You can almost feel the backpack, cheap hostels and long walks through unknown streets.",
+    "profileImage": "./assets/img/reviews/man-4.webp",
+    "postUrl": "https://www.facebook.com/permalink.php?story_fbid=REV2_VIVEK"
+  },
+  {
+    "name": "Arjun S",
+    "location": "Thrissur",
+    "platform": "Facebook",
+    "quote": "No over-dramatic descriptions, just simple narration that slowly pulls you into each country. Good pick if you like reflective travel writing in Malayalam.",
+    "profileImage": "./assets/img/reviews/man-1.png",
+    "postUrl": "https://www.facebook.com/permalink.php?story_fbid=REV6_ARJUN"
   }
 ]
