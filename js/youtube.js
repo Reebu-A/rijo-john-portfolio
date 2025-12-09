@@ -182,33 +182,50 @@ function videoCardHTML(video) {
   const pub = formatDate(video.publishedAt || '');
 
   return `
-    <div class="video-card">
-      <div class="relative group">
-        <img src="${video.thumbnail}" alt="${titleEsc}" class="video-thumbnail w-full h-48 object-cover" loading="lazy">
-        <div class="absolute inset-0 flex items-center justify-center transition-all duration-200 group-hover:bg-black/10"
-          style="background-color: transparent; pointer-events: none;">
-        <div class="bg-red-600 rounded-full p-3 transform scale-75 opacity-0 group-hover:scale-100 group-hover:opacity-100 transition-all duration-200">
-          <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M8 5v14l11-7z"/>
-          </svg>
+    <article class="video-card" aria-label="${titleEsc}">
+      <div class="video-card__thumb">
+        <img 
+          src="${video.thumbnail}" 
+          alt="${titleEsc}" 
+          class="video-thumbnail" 
+          loading="lazy"
+        />
+        <div class="video-card__overlay">
+          <span class="video-card__play">
+            <svg class="video-card__play-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M8 5v14l11-7z" fill="currentColor" />
+            </svg>
+          </span>
         </div>
       </div>
 
-      </div>
-      <div class="p-4">
-        <h3 class="font-semibold text-lg mb-2 line-clamp-2" title="${titleEsc}">${titleEsc}</h3>
-        <p class="text-gray-600 text-sm mb-3 line-clamp-2">${descEsc}</p>
-        <div class="flex justify-between items-center text-sm text-gray-500">
-          <span>${pub}</span>
-          <a href="https://www.youtube.com/watch?v=${encodeURIComponent(video.id)}" target="_blank" rel="noopener noreferrer" class="btn-primary text-sm px-4 py-2 flex items-center">
-            <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 24 24"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/></svg>
-            Watch
+      <div class="video-card__body">
+        <h3 class="video-card__title" title="${titleEsc}">
+          ${titleEsc}
+        </h3>
+        <p class="video-card__desc">
+          ${descEsc}
+        </p>
+
+        <div class="video-card__meta">
+          <span class="video-card__date">${pub}</span>
+          <a 
+            href="https://www.youtube.com/watch?v=${encodeURIComponent(video.id)}" 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            class="btn-primary video-card__btn"
+          >
+            <svg class="video-card__btn-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/>
+            </svg>
+            <span>Watch</span>
           </a>
         </div>
       </div>
-    </div>
+    </article>
   `;
 }
+
 
 /**
  * Append more videos (for load more)
