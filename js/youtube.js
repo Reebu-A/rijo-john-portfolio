@@ -177,23 +177,22 @@ function displayVideos(container, videos) {
  * Create HTML for a single video card  
  */
 function videoCardHTML(video) {
-  const titleEsc = escapeHtml(video.title || "");
-  const descEsc = escapeHtml(video.description || "");
-  const pub = formatDate(video.publishedAt || "");
+  const titleEsc = escapeHtml(video.title || '');
+  const descEsc = escapeHtml(video.description || '');
+  const pub = formatDate(video.publishedAt || '');
 
   return `
-    <article class="video-card card-hover">
-      <div class="video-card__thumb-wrap">
-        <img
-          src="${video.thumbnail}"
-          alt="${titleEsc}"
-          class="video-card__thumb"
+    <article class="video-card">
+      <div class="video-card__media">
+        <img 
+          src="${video.thumbnail}" 
+          alt="${titleEsc}" 
+          class="video-card__thumb object-cover" 
           loading="lazy"
         />
-
-        <div class="video-card__play" aria-hidden="true">
-          <div class="video-card__play-icon">
-            <svg class="video-card__play-icon-svg" viewBox="0 0 24 24">
+        <div class="video-card__overlay">
+          <div class="video-card__play">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
               <path d="M8 5v14l11-7z" fill="currentColor" />
             </svg>
           </div>
@@ -201,23 +200,22 @@ function videoCardHTML(video) {
       </div>
 
       <div class="video-card__body">
-        <h3 class="video-card__title" title="${titleEsc}">${titleEsc}</h3>
-        <p class="video-card__desc">${descEsc}</p>
+        <h3 class="video-card__title" title="${titleEsc}">
+          ${titleEsc}
+        </h3>
+        <p class="video-card__desc">
+          ${descEsc}
+        </p>
 
         <div class="video-card__footer">
-          <span class="video-card__date">${pub}</span>
-
+          <span class="video-card__meta">${pub}</span>
           <a
             href="https://www.youtube.com/watch?v=${encodeURIComponent(video.id)}"
             target="_blank"
             rel="noopener noreferrer"
-            class="btn-primary video-card__btn"
+            class="btn-primary video-card__watch"
           >
-            <svg
-              class="video-card__btn-icon"
-              viewBox="0 0 24 24"
-              aria-hidden="true"
-            >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
               <path
                 d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"
                 fill="currentColor"
@@ -230,6 +228,7 @@ function videoCardHTML(video) {
     </article>
   `;
 }
+
 
 
 
