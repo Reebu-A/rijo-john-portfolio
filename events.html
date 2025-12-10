@@ -399,7 +399,7 @@
               Enquire now
             </a>
             <a href="./about.html" class="btn btn--ghost">
-              Learn more about James
+              Learn more about Rijo
             </a>
           </div>
         </div>
@@ -583,6 +583,34 @@
           .replace(/>/g, '&gt;');
       }
 
+       // A stable key for each event (used to mark the "next upcoming" one)
+  function makeEventKey(ev) {
+    if (ev.id) return String(ev.id);
+    const base = ev._iso || ev.date || "";
+    const title = ev.title || "";
+    return base + "::" + title;
+  }
+
+  // Find the nearest future event (by date) and return its key
+  function getNearestUpcomingKey(events) {
+    const now = new Date();
+    let best = null;
+
+    events.forEach((ev) => {
+      const dateStr = ev._iso || ev.date || "";
+      const d = new Date(dateStr);
+      if (isNaN(d) || d < now) return;
+
+      const key = makeEventKey(ev);
+      if (!key) return;
+
+      if (!best || d < best.date) {
+        best = { key, date: d };
+      }
+    });
+
+    return best ? best.key : null;
+  }
 
       async function loadEvents(){
         try {
@@ -599,6 +627,9 @@
             }
             return ev;
           });
+
+          // Compute which event is the nearest upcoming one
+          nearestUpcomingKey = getNearestUpcomingKey(allEvents);
 
           renderEvents(allEvents);
           injectJSONLD(); // SEO: add JSON-LD for upcoming events
@@ -666,6 +697,10 @@
       const dt = ev._iso || ev.date || "";
       const eventDate = new Date(dt);
       const isUpcoming = !isNaN(eventDate) && eventDate >= now;
+
+      const key = makeEventKey(ev);
+        const isHighlighted =
+          nearestUpcomingKey && key === nearestUpcomingKey;
 
       const shortDesc =
         ev.description && ev.description.length > 220
@@ -755,7 +790,9 @@
       }
 
       return `
-        <article class="card card--event">
+        <article class="card card--event ${
+            isHighlighted ? "card--event--upcoming" : ""
+          }">
           <div class="p-5">
             <div class="flex justify-between items-start mb-3">
               <div class="flex items-center gap-2">
@@ -770,6 +807,13 @@
                 ev._iso || ""
               }">${formatDateFriendly(dt)}</time>
             </div>
+            <div class="flex flex-col items-end gap-1">
+                  ${
+                    isHighlighted
+                      ? '<span class="event-badge-next" aria-label="Nearest upcoming event">Next event</span>'
+                      : ""
+                  }
+            </div>   
 
             <h3 class="text-xl font-bold mb-2">${ev.title}</h3>
 
@@ -965,7 +1009,7 @@ document.addEventListener("keydown", function (e) {
         const ics = [
           'BEGIN:VCALENDAR',
           'VERSION:2.0',
-          'PRODID:-//JamesPhilipEvents//EN',
+          'PRODID:-//RijoPhilipEvents//EN',
           'BEGIN:VEVENT',
           `SUMMARY:${title}`,
           `DTSTART:${formatICSDate(start)}`,

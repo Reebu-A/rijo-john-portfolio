@@ -3916,6 +3916,52 @@ body {
 .events-context {
   margin-top: 2.1rem;
 }
+
+
+/* ----------------------------------------------------------
+   Highlight: Nearest upcoming event card
+---------------------------------------------------------- */
+
+.card--event--upcoming {
+  position: relative;
+  border: 1px solid rgba(235, 35, 82, 0.55);
+  box-shadow: 0 20px 45px rgba(37, 99, 235, 0.32);
+  background:
+    radial-gradient(circle at 0 0, rgba(41, 220, 13, 0.12), transparent 85%),
+    var(--color-surface, #ffffff);
+  transform: translateY(-2px);
+}
+
+/* Dark mode variant */
+[data-theme="dark"] .card--event--upcoming {
+  border-color: rgba(96, 165, 250, 0.9);
+  box-shadow: 0 24px 60px rgba(15, 23, 42, 0.9);
+  background:
+    radial-gradient(circle at 0 0, rgba(84, 139, 241, 0.35), transparent 55%),
+    var(--color-surface-elevated, #020617);
+}
+
+/* Small pill badge that appears only on the highlighted card */
+.event-badge-next {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.18rem 0.8rem;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+  color: #ecfdf5;
+  box-shadow: 0 12px 28px rgba(22, 163, 74, 0.35);
+  white-space: nowrap;
+}
+
+[data-theme="dark"] .event-badge-next {
+  box-shadow: 0 14px 32px rgba(22, 163, 74, 0.55);
+}
+
 /* Event type badge inside each event card */
 .card__badge {
   display: inline-flex;
