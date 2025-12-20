@@ -28,6 +28,26 @@ This repository currently hosts **version 2.0**, a complete redesign with a new 
 
 # Changelog
 
+### [v2.1] – 2025-12-20
+
+#### Events System Enhancements
+- Introduced a fully time-aware event status system:
+  - UPCOMING
+  - TODAY
+  - STARTING SOON
+  - ONGOING
+  - PAST
+  
+⏱ Live countdown timers for events happening today
+
+🕒 Clear time display with AM/PM formatting on active events
+
+📌 Dynamic “Next Event” highlight that updates automatically
+
+🔔 Instant in-page notifications across all pages
+
+📱 Mobile-optimized alerts with smooth animations
+
 ### [v2.0] – 2025-12-09
 
 - Complete redesign of all pages

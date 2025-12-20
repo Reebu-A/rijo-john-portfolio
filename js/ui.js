@@ -121,6 +121,126 @@
     });
   }
 
+
+function showSiteToast({ title, message, onRemind }) {
+  const toast = document.createElement('div');
+  toast.className = 'site-toast';
+
+  toast.innerHTML = `
+    <div class="site-toast__title">${title}</div>
+    <div>${message}</div>
+    <div class="site-toast__actions">
+      <button class="site-toast__btn site-toast__btn--primary">Remind me</button>
+      <button class="site-toast__btn site-toast__btn--ghost">Dismiss</button>
+    </div>
+  `;
+
+  document.body.appendChild(toast);
+
+  // Animate in
+  requestAnimationFrame(() => {
+    toast.classList.add('site-toast--show');
+  });
+
+  const [remindBtn, dismissBtn] =
+    toast.querySelectorAll('.site-toast__btn');
+
+  dismissBtn.onclick = () => closeToast();
+  remindBtn.onclick = () => {
+    closeToast();
+    if (typeof onRemind === 'function') onRemind();
+  };
+
+  // Auto dismiss after 10s
+  const autoTimer = setTimeout(closeToast, 10000);
+
+  function closeToast() {
+    clearTimeout(autoTimer);
+    toast.classList.remove('site-toast--show');
+    setTimeout(() => toast.remove(), 300);
+  }
+}
+
+
+function scheduleLocalReminder(event) {
+  if (!event || !event.startTime) return;
+
+
+  const date = new Date(event._iso || event.date);
+  if (isNaN(date)) return;
+
+  const [h, m] = event.startTime.split(':').map(Number);
+  date.setHours(h, m, 0, 0);
+
+  const diff = date - new Date();
+  if (diff <= 0) return;
+
+  setTimeout(() => {
+    showSiteToast({
+      title: '⏰ Event reminder',
+      message: `${event.title} is starting now`,
+    });
+  }, diff);
+}
+
+// Helper: format 12-hour time
+  function formatTime12Hour(timeStr) {
+    if (!timeStr) return '';
+    const [hours, minutes] = timeStr.split(':').map(Number);
+    const period = hours >= 12 ? 'PM' : 'AM';
+    const displayHours = hours % 12 || 12;
+    return `${displayHours}:${minutes.toString().padStart(2, '0')} ${period}`;
+  }
+
+
+function checkGlobalEventToasts() {
+  const now = new Date();
+
+  Object.keys(localStorage).forEach((key) => {
+    if (!key.startsWith('event-meta-')) return;
+
+    try{
+    const data = JSON.parse(localStorage.getItem(key));
+    if (!data || !data.startTime) return;
+
+    const eventDate = new Date(data.date);
+    if (isNaN(eventDate)) return;
+
+    const [h, m] = data.startTime.split(':').map(Number);
+    eventDate.setHours(h, m, 0, 0);
+
+    const diff = eventDate - now;
+
+    // 🔔 STARTING SOON window (30 min)
+    if (diff > 0 && diff <= 30 * 60 * 1000) {
+      const firedKey = `event-fired-${data.id}`;
+      if (localStorage.getItem(firedKey)) return;
+
+       const time12hr = formatTime12Hour(data.startTime);
+
+      showSiteToast({
+        title: '⏰ Event starting soon',
+         message: `${data.title} starts at ${time12hr}`,
+          onRemind: () => scheduleLocalReminder(data),
+      });
+
+      localStorage.setItem(firedKey, '1');
+    }
+
+    if (diff < -2 * 60 * 60 * 1000) { // 2 hours after event
+        localStorage.removeItem(key);
+        localStorage.removeItem(`event-fired-${data.id}`);
+      }
+    }catch (err) {
+      console.warn('Error checking event toast:', err);
+    }
+
+  });
+}
+
+
+
+
 // ---------------------------------------------
 // Academic profile: sticky pills + active state
 // ---------------------------------------------
@@ -223,11 +343,20 @@ function initAcademicSubnav() {
   initTheme();
   initThemeToggle();
   initMobileNav();
-  initAcademicSubnav();             
+  initAcademicSubnav(); 
+  checkGlobalEventToasts();  
+  
+   // Check for event toasts every 30 seconds on all pages
+  setInterval(checkGlobalEventToasts, 30000);
+
   setTimeout(() => {
     document.body.classList.add("theme-transition");
   }, 50);
 });
+
+// 🔓 Expose toast helpers globally (required for Events page)
+window.showSiteToast = showSiteToast;
+window.scheduleLocalReminder = scheduleLocalReminder;
 
 
 })();

@@ -550,56 +550,274 @@
 
 
 
-    <!-- Inline script: events loader, filter, search, calendar & JSON-LD -->
     <script>
-    // Events UI script - integrated to work with ./data/events.json
-    (function(){
-      const eventsPath = './data/events.json';
-      let allEvents = [];
-      let activeFilter = 'all';
-      const container = document.getElementById('eventsContainer');
-      const searchInput = document.getElementById('eventsSearch');
+      // ============================================================================
+// ENHANCED EVENTS SYSTEM v2.0
+// Fully time-aware, auto-refreshing
+// ============================================================================
 
-      function isoDateSafe(d) {
-        if(!d) return null;
-        // ensure ISO format
-        const dt = new Date(d);
-        if(isNaN(dt)) return d;
-        return dt.toISOString().split('T')[0];
-      }
+(function () {
+  'use strict';
 
-      function formatDateFriendly(iso) {
-        try {
-          const d = new Date(iso);
-          if (isNaN(d)) return iso;
-          return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
-        } catch (e) { return iso; }
-      }
+  // ========== CONFIGURATION ==========
+  const CONFIG = {
+    eventsPath: './data/events.json',
+    refreshInterval: 30000, // 30 seconds
+    notificationLeadTime: 15 * 60 * 1000, // 15 minutes in ms
+    startingSoonWindow: 30 * 60 * 1000, // 30 minutes
+    ongoingDuration: 60 * 60 * 1000, // 1 hour default
+  };
 
-            function esc(str) {
-        return String(str || '')
-          .replace(/&/g, '&amp;')
-          .replace(/</g, '&lt;')
-          .replace(/>/g, '&gt;');
-      }
+  // ========== STATE ==========
+  let allEvents = [];
+  let activeFilter = 'all';
+  let nearestUpcomingKey = null;
+  let notifiedEvents = new Set(); // Track which events we've already notified
+  let refreshTimer = null;
 
-       // A stable key for each event (used to mark the "next upcoming" one)
-  function makeEventKey(ev) {
-    if (ev.id) return String(ev.id);
-    const base = ev._iso || ev.date || "";
-    const title = ev.title || "";
-    return base + "::" + title;
+  const STATUS_PRIORITY = {
+  ONGOING: 1,
+  STARTING_SOON: 2,
+  TODAY: 3,
+  UPCOMING: 4,
+  PAST: 5,
+};
+
+
+  // ========== DOM REFERENCES ==========
+  const container = document.getElementById('eventsContainer');
+  const searchInput = document.getElementById('eventsSearch');
+
+  // ========== UTILITY FUNCTIONS ==========
+
+  /**
+   * Safely parse ISO date string
+   */
+  function isoDateSafe(d) {
+    if (!d) return null;
+    const dt = new Date(d);
+    return isNaN(dt) ? d : dt.toISOString().split('T')[0];
   }
 
-  // Find the nearest future event (by date) and return its key
+  /**
+   * Format date in friendly format (e.g., "11 Dec, 2025")
+   */
+  function formatDateFriendly(iso) {
+    try {
+      const d = new Date(iso);
+      if (isNaN(d)) return iso;
+      return d.toLocaleDateString('en-GB', {
+        day: 'numeric',
+        month: 'short',
+        year: 'numeric',
+      });
+    } catch (e) {
+      return iso;
+    }
+  }
+
+  /**
+   * Format time in 12-hour format (e.g., "4:30 PM")
+   */
+  function formatTime12Hour(timeStr) {
+    if (!timeStr) return '';
+    const [hours, minutes] = timeStr.split(':').map(Number);
+    const period = hours >= 12 ? 'PM' : 'AM';
+    const displayHours = hours % 12 || 12;
+    return `${displayHours}:${minutes.toString().padStart(2, '0')} ${period}`;
+  }
+
+  /**
+   * HTML escape for safe rendering
+   */
+  function esc(str) {
+    return String(str || '')
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;');
+  }
+
+  /**
+   * Create stable key for each event
+   */
+  function makeEventKey(ev) {
+    if (ev.id) return String(ev.id);
+    const base = ev._iso || ev.date || '';
+    const title = ev.title || '';
+    return base + '::' + title;
+  }
+
+  // ========== EVENT STATUS CALCULATION ==========
+
+  /**
+   * Calculate comprehensive event status and metadata
+   * Returns: { status, showTime, countdown, statusLabel, statusClass }
+   */
+  function calculateEventStatus(event) {
+    const now = new Date();
+    const dateStr = event._iso || event.date || '';
+    const eventDate = new Date(dateStr);
+
+    // Invalid date → treat as past
+    if (isNaN(eventDate)) {
+      return {
+        status: 'PAST',
+        showTime: false,
+        countdown: null,
+        statusLabel: 'Past',
+        statusClass: 'bg-gray-100 text-gray-800',
+      };
+    }
+
+    // Parse times (default to approximate if missing)
+    const startTime = event.startTime || null;
+    const endTime = event.endTime || null;
+    const dateApprox = event.dateApprox === true;
+
+    // If approximate date, treat as all-day event
+    if (dateApprox) {
+      const isPast = eventDate < now;
+      return {
+        status: isPast ? 'PAST' : 'UPCOMING',
+        showTime: false,
+        countdown: null,
+        statusLabel: isPast ? 'Past' : 'Upcoming',
+        statusClass: isPast
+          ? 'bg-gray-100 text-gray-800'
+          : 'bg-green-100 text-green-800',
+      };
+    }
+
+    // Build full datetime for start and end
+    let startDateTime = null;
+    let endDateTime = null;
+
+    if (startTime) {
+      const [hours, minutes] = startTime.split(':').map(Number);
+      startDateTime = new Date(eventDate);
+      startDateTime.setHours(hours, minutes, 0, 0);
+    } else {
+      // No time specified → treat as all-day
+      startDateTime = new Date(eventDate);
+      startDateTime.setHours(0, 0, 0, 0);
+    }
+
+    if (endTime && startTime) {
+      const [endHours, endMinutes] = endTime.split(':').map(Number);
+      endDateTime = new Date(eventDate);
+      endDateTime.setHours(endHours, endMinutes, 0, 0);
+    } else if (startTime) {
+      // Default: 1 hour after start
+      endDateTime = new Date(startDateTime.getTime() + CONFIG.ongoingDuration);
+    } else {
+      // All-day event end
+      endDateTime = new Date(eventDate);
+      endDateTime.setHours(23, 59, 59, 999);
+    }
+
+    // Calculate time differences
+    const msUntilStart = startDateTime - now;
+    const msUntilEnd = endDateTime - now;
+
+    // Check if same calendar day
+    const isSameDay =
+      now.getFullYear() === eventDate.getFullYear() &&
+      now.getMonth() === eventDate.getMonth() &&
+      now.getDate() === eventDate.getDate();
+
+    // ========== STATUS LOGIC ==========
+
+    // PAST: after end time
+    if (msUntilEnd < 0) {
+      return {
+        status: 'PAST',
+        showTime: false,
+        countdown: null,
+        statusLabel: 'Past',
+        statusClass: 'bg-gray-100 text-gray-800',
+      };
+    }
+
+    // ONGOING: between start and end
+    if (msUntilStart <= 0 && msUntilEnd > 0) {
+      return {
+        status: 'ONGOING',
+        showTime: true,
+        countdown: null,
+        statusLabel: 'Ongoing',
+        statusClass: 'bg-blue-100 text-blue-800',
+      };
+    }
+
+    // STARTING SOON: within 45 minutes
+    if (isSameDay && msUntilStart > 0 && msUntilStart <= CONFIG.startingSoonWindow) {
+      const minutesUntil = Math.ceil(msUntilStart / (60 * 1000));
+      return {
+        status: 'STARTING_SOON',
+        showTime: true,
+        countdown: `Starts in ${minutesUntil} min`,
+        statusLabel: 'Starting Soon',
+        statusClass: 'bg-amber-100 text-amber-800',
+      };
+    }
+
+    // TODAY: same day but not starting soon yet
+    if (isSameDay && msUntilStart > CONFIG.startingSoonWindow) {
+      const hoursUntil = Math.floor(msUntilStart / (60 * 60 * 1000));
+      const minutesUntil = Math.ceil((msUntilStart % (60 * 60 * 1000)) / (60 * 1000));
+      let countdownText = '';
+      if (hoursUntil > 0) {
+        countdownText = `Starts in ${hoursUntil}h ${minutesUntil}m`;
+      } else {
+        countdownText = `Starts in ${minutesUntil} min`;
+      }
+      return {
+        status: 'TODAY',
+        showTime: true,
+        countdown: countdownText,
+        statusLabel: 'Today',
+        statusClass: 'bg-green-100 text-green-800',
+      };
+    }
+
+    // UPCOMING: future date
+    return {
+      status: 'UPCOMING',
+      showTime: false,
+      countdown: null,
+      statusLabel: 'Upcoming',
+      statusClass: 'bg-green-100 text-green-800',
+    };
+  }
+
+  // ========== NEAREST UPCOMING EVENT ==========
+
+  /**
+   * Find the nearest future event that hasn't passed
+   */
   function getNearestUpcomingKey(events) {
     const now = new Date();
     let best = null;
 
     events.forEach((ev) => {
-      const dateStr = ev._iso || ev.date || "";
+      const statusInfo = calculateEventStatus(ev);
+      if (
+      statusInfo.status === 'PAST' ||
+      statusInfo.status === 'ONGOING'
+    ) {
+      return;
+    }
+      const dateStr = ev._iso || ev.date || '';
       const d = new Date(dateStr);
-      if (isNaN(d) || d < now) return;
+      if (isNaN(d)) return;
+
+      // For events with times, use start time
+      if (ev.startTime) {
+        const [hours, minutes] = ev.startTime.split(':').map(Number);
+        d.setHours(hours, minutes, 0, 0);
+      }else {
+      d.setHours(0, 0, 0, 0);
+      }
 
       const key = makeEventKey(ev);
       if (!key) return;
@@ -612,465 +830,569 @@
     return best ? best.key : null;
   }
 
-      async function loadEvents(){
-        try {
-          const res = await fetch(eventsPath);
-          allEvents = await res.json();
-          // normalize: ensure date strings and tags exist
-          allEvents = allEvents.map(ev => {
-            if (!ev.tags) ev.tags = [];
-            if (!ev.keywords) ev.keywords = '';
-            if (ev.date && typeof ev.date === 'string') {
-              ev._iso = isoDateSafe(ev.date);
-            } else {
-              ev._iso = ev.date || '';
-            }
-            return ev;
-          });
+  // ========== BROWSER NOTIFICATIONS ==========
 
-          // Compute which event is the nearest upcoming one
-          nearestUpcomingKey = getNearestUpcomingKey(allEvents);
-
-          renderEvents(allEvents);
-          injectJSONLD(); // SEO: add JSON-LD for upcoming events
-        } catch(err){
-          console.error('Failed to load events', err);
-          if (container) container.innerHTML = '<div class="text-center py-12"><h3>Error loading events</h3><p>Please try again later.</p></div>';
-        }
-      }
-
-      function matchesSearch(event, query) {
-        if(!query) return true;
-        const q = query.trim().toLowerCase();
-        return (
-          (event.title && event.title.toLowerCase().includes(q)) ||
-          (event.type && event.type.toLowerCase().includes(q)) ||
-          (event.location && event.location.toLowerCase().includes(q)) ||
-          (event.organization && event.organization.toLowerCase().includes(q)) ||
-          (event.description && event.description.toLowerCase().includes(q)) ||
-          (event.tags && event.tags.join(' ').toLowerCase().includes(q)) ||
-          (event.keywords && event.keywords.toLowerCase().includes(q))
-        );
-      }
-
-   function renderEvents(list) {
-  if (!container) return;
-  const q = searchInput && searchInput.value ? searchInput.value : "";
-  const now = new Date();
-
-  // Filter by active tab + search
-  let filtered = list.filter((ev) => {
-    const eventDate = new Date(ev._iso || ev.date);
-    const isEventUpcoming = !isNaN(eventDate) && eventDate >= now;
-
-    let passStatus = true;
-    if (activeFilter === "upcoming") {
-      // purely date-based, ignores JSON status -> auto moves to past after date
-      passStatus = isEventUpcoming;
-    } else if (
-      ["workshop", "conference", "guest-lecture", "training", "book-event"].includes(
-        activeFilter
-      )
-    ) {
-      passStatus = (ev.type || "").toLowerCase() === activeFilter;
+  /*
+   * Request notification permission if not already granted
+   */
+  function requestNotificationPermission() {
+    if (!('Notification' in window)) return;
+    if (Notification.permission === 'default') {
+      Notification.requestPermission();
     }
-
-    return passStatus && matchesSearch(ev, q);
-  });
-
-  // Sort: upcoming ascending, past descending
-  filtered.sort((a, b) => {
-    const da = new Date(a._iso || a.date);
-    const db = new Date(b._iso || b.date);
-    if (activeFilter === "upcoming") return da - db;
-    return db - da;
-  });
-
-  if (filtered.length === 0) {
-    container.innerHTML =
-      '<div class="col-span-3 text-center py-12"><div class="text-gray-400 text-6xl mb-4">📅</div><h3 class="text-xl font-bold mb-2">No matching events</h3><p class="text-gray-600">Try changing filters or clearing the search field.</p></div>';
-    return;
   }
 
-  container.innerHTML = filtered
-    .map((ev) => {
-      const dt = ev._iso || ev.date || "";
-      const eventDate = new Date(dt);
-      const isUpcoming = !isNaN(eventDate) && eventDate >= now;
+  /**
+   * Try to send notification for upcoming event
+   */
+  function tryNotifyEvent(event) {
+    if (!('Notification' in window)) return;
+    if (Notification.permission !== 'granted') return;
 
-      const key = makeEventKey(ev);
-        const isHighlighted =
-          nearestUpcomingKey && key === nearestUpcomingKey;
+    const key = makeEventKey(event);
+    if (notifiedEvents.has(key)) return;
 
-      const shortDesc =
-        ev.description && ev.description.length > 220
-          ? ev.description.slice(0, 220) + "…"
-          : ev.description || "";
-      const tagsHtml = (ev.tags || [])
-        .map((t) => `<span class="event-tag">${t}</span>`)
-        .join(" ");
+    const statusInfo = calculateEventStatus(event);
+    const now = new Date();
+    const dateStr = event._iso || event.date || '';
+    const eventDate = new Date(dateStr);
 
-      // ----- REGISTER LOGIC -----
-      // raw link (trimmed), only counts as "present" if non-empty
-      const rawRegLink =
-        typeof ev.registerLink === "string" ? ev.registerLink.trim() : "";
-      const hasRegLink = rawRegLink.length > 0;
+    if (event.startTime && !isNaN(eventDate)) {
+      const [hours, minutes] = event.startTime.split(':').map(Number);
+      const startDateTime = new Date(eventDate);
+      startDateTime.setHours(hours, minutes, 0, 0);
 
-      // Optional separate registration deadline:
+      const msUntilStart = startDateTime - now;
 
-      const deadlineStr =
-        ev.registrationDeadline || ev.registrationEnd || ev.regDeadline || "";
+      // Notify 15 minutes before
+      if (msUntilStart > 0 && msUntilStart <= CONFIG.notificationLeadTime) {
+        try {
+          new Notification('Event Starting Soon!', {
+            body: `${event.title} starts at ${formatTime12Hour(event.startTime)}`,
+            icon: event.image || './favicon.png',
+          });
+          notifiedEvents.add(key);
+        } catch (err) {
+          console.warn('Notification failed:', err);
+        }
+      }
+    }
+  }
 
-      let canRegister = false;
-      if (hasRegLink) {
-        if (deadlineStr) {
-          const deadlineDate = new Date(deadlineStr);
-          if (!isNaN(deadlineDate)) {
-            // Registration open until deadline date (inclusive)
-            canRegister = deadlineDate >= now;
-          } else {
-            // If invalid deadline string, fall back to event date
-            canRegister = isUpcoming;
-          }
+
+
+
+
+  // ========== LOAD EVENTS ==========
+
+  async function loadEvents() {
+    try {
+      const res = await fetch(CONFIG.eventsPath);
+      allEvents = await res.json();
+
+      // Normalize data
+      allEvents = allEvents.map((ev) => {
+        if (!ev.tags) ev.tags = [];
+        if (!ev.keywords) ev.keywords = '';
+        if (ev.date && typeof ev.date === 'string') {
+          ev._iso = isoDateSafe(ev.date);
         } else {
-          // No explicit deadline -> registration open until event date
-          canRegister = isUpcoming;
+          ev._iso = ev.date || '';
         }
+        return ev;
+      });
+
+      // Compute nearest upcoming
+      nearestUpcomingKey = getNearestUpcomingKey(allEvents);
+
+      //  Initialize runtime flags
+      allEvents.forEach(ev => {
+        ev._toastShown = false;
+      });
+
+      allEvents.forEach(ev => {
+        if (!ev.startTime) return;
+
+       const statusInfo = calculateEventStatus(ev);
+        if (statusInfo.status === 'PAST') return; // Skip past events
+        
+        const eventKey = `event-meta-${ev.id || makeEventKey(ev)}`;
+        
+        localStorage.setItem(
+          eventKey,
+          JSON.stringify({
+            id: ev.id || makeEventKey(ev),
+            title: ev.title,
+            date: ev._iso || ev.date,
+            startTime: ev.startTime,
+          })
+        );
+      });
+
+
+      renderEvents(allEvents);
+      injectJSONLD();
+
+      // Request notification permission
+     // requestNotificationPermission();
+
+      // Start auto-refresh
+      startAutoRefresh();
+    } catch (err) {
+      console.error('Failed to load events', err);
+      if (container) {
+        container.innerHTML =
+          '<div class="text-center py-12"><h3>Error loading events</h3><p>Please try again later.</p></div>';
       }
+    }
+  }
 
-      // Escape for inline JS
-      const safeTitle = (ev.title || "").replace(/'/g, "\\'");
-      const safeDesc = (ev.description || "").replace(/'/g, "\\'");
-      const safeLoc = (ev.location || "").replace(/'/g, "\\'");
-      const safeImage = (ev.image || "").replace(/'/g, "\\'");
-      const typeLabel = esc((ev.type || "Event").replace(/-/g, " "));
+  // ========== AUTO REFRESH SYSTEM ==========
 
-      // ----- POSTER LINK (MODAL TRIGGER, no inline image) -----
-      const hasPoster = !!ev.image;
-      const posterLinkHtml = hasPoster
-        ? `<div class="event-card__poster mb-3">
-             <button
-               type="button"
-               class="event-card__poster-link"
-               onclick="openPosterModal('${safeTitle}', '${safeImage}', '${ev.id || ""}')"
-             >
-               <span class="event-card__poster-icon" aria-hidden="true">🖼</span>
-               <span>View event poster</span>
-             </button>
-           </div>`
-        : "";
+  function startAutoRefresh() {
+  if (refreshTimer) clearInterval(refreshTimer);
 
-      // ----- ACTION BUTTONS (REGISTER + CALENDAR / COMPLETED) -----
-      let actionButtonsHtml = "";
+  refreshTimer = setInterval(() => {
+    nearestUpcomingKey = getNearestUpcomingKey(allEvents);
 
-      if (isUpcoming) {
-        if (canRegister) {
-          // Show active register button only when link present & not past deadline
-          actionButtonsHtml += `<a class="btn-primary text-sm px-4 py-2" href="${rawRegLink}" target="_blank" rel="noopener">
-              Register Now
-            </a>`;
-        } else if (hasRegLink) {
-          // Link exists but deadline passed -> show disabled "Registration closed"
-          actionButtonsHtml += `<span class="btn-secondary text-sm px-4 py-2 opacity-60 cursor-not-allowed">
-              Registration closed
-            </span>`;
-        }
+    allEvents.forEach((event) => {
+      const statusInfo = calculateEventStatus(event);
 
-        // Calendar button always available for future events
-        actionButtonsHtml += `<button class="btn-secondary text-sm px-4 py-2" onclick="addToGoogleCalendar('${safeTitle}','${ev._iso || ev.date || ""}','${safeLoc}','${safeDesc}', ${
-          ev.dateApprox ? "true" : "false"
-        })">
-            Add to Google Calendar
-          </button>`;
-      } else {
-        // Past events
-        actionButtonsHtml = `<span class="btn-secondary text-sm px-4 py-2 opacity-50 cursor-not-allowed">
-            Event Completed
-          </span>`;
-      }
+      
 
-      return `
-        <article class="card card--event ${
-            isHighlighted ? "card--event--upcoming" : ""
-          }">
-          <div class="p-5">
-            <div class="flex justify-between items-start mb-3">
-              <div class="flex items-center gap-2">
-                <span class="inline-block px-3 py-1 rounded-full text-sm font-semibold ${
-                  isUpcoming
-                    ? "bg-green-100 text-green-800"
-                    : "bg-gray-100 text-gray-800"
-                }">${isUpcoming ? "Upcoming" : "Past"}</span>
-                <span class="card__badge">${typeLabel}</span>
-              </div>
-              <time class="text-sm text-gray-500" datetime="${
-                ev._iso || ""
-              }">${formatDateFriendly(dt)}</time>
-            </div>
-            <div class="flex flex-col items-end gap-1">
-                  ${
-                    isHighlighted
-                      ? '<span class="event-badge-next" aria-label="Nearest upcoming event">Next event</span>'
-                      : ""
-                  }
-            </div>   
+    });
 
-            <h3 class="text-xl font-bold mb-2">${ev.title}</h3>
-
-            <p class="text-gray-600 mb-3">${shortDesc}</p>
-
-            <div class="flex items-center text-gray-500 mb-4">
-            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M3 21h18M3 10h18M5 6h14M7 2h10M4 14h16M6 18h12"></path>
-            </svg>
-            <span class="text-sm">${ev.organization || "Organized by host institution"}</span>
-            </div>
-
-            <div class="flex items-center text-gray-500 mb-4">
-              <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
-              </svg>
-              <span class="text-sm">${ev.location || "Online"}</span>
-            </div>
-
-            <div class="flex gap-2 flex-wrap mb-3">${tagsHtml}</div>
-
-            ${posterLinkHtml}
-
-            <div class="flex flex-wrap gap-2">${actionButtonsHtml}</div>
-          </div>
-        </article>
-      `;
-    })
-    .join("");
+    renderEvents(allEvents);
+  }, CONFIG.refreshInterval);
 }
 
 
+  // ========== SEARCH & FILTER ==========
 
-      // controls: filter buttons
-      function initControls() {
-        // filter buttons
-        document.querySelectorAll('.filter-btn').forEach(btn => {
-          btn.addEventListener('click', (e) => {
-            document.querySelectorAll('.filter-btn').forEach(b => b.setAttribute('aria-pressed','false'));
-            btn.setAttribute('aria-pressed','true');
-            activeFilter = btn.getAttribute('data-filter') || 'all';
-            renderEvents(allEvents);
-          });
-        });
-
-        if (searchInput) {
-          searchInput.addEventListener('input', () => renderEvents(allEvents));
-        }
-      }
-
-      // Add to Google Calendar
-            
-      function openCalendarUrl(url) {
-        const win = window.open(url, '_blank', 'noopener');
-        if (!win) {
-          // popup blocked – fall back to same tab
-          window.location.href = url;
-        }
-      }
-
-      window.addToGoogleCalendar = function (title, dateISO, location, description, dateApprox) {
-        const rawTitle = title || '';
-        const rawLocation = location || '';
-        const rawDescription = description || '';
-
-        const text = encodeURIComponent(rawTitle);
-        const loc = encodeURIComponent(rawLocation);
-        const details = encodeURIComponent(rawDescription);
-
-        const today = new Date();
-
-        // Normalise date: keep only YYYY-MM-DD
-        const cleanDate = (dateISO || '').split('T')[0];
-        let baseDate = cleanDate ? new Date(cleanDate) : today;
-        if (isNaN(baseDate)) {
-          baseDate = today;
-        }
-
-        // helper for all-day events (dates only)
-        function buildAllDayUrl(d) {
-          const startStr = d.toISOString().split('T')[0].replace(/-/g, '');
-          const end = new Date(d.getTime());
-          end.setDate(end.getDate() + 1);
-          const endStr = end.toISOString().split('T')[0].replace(/-/g, '');
-          return `https://www.google.com/calendar/render?action=TEMPLATE&text=${text}&dates=${startStr}/${endStr}&location=${loc}&details=${details}`;
-        }
-
-        // If approximate date or no date – use all-day event
-        if (dateApprox || !cleanDate) {
-          openCalendarUrl(buildAllDayUrl(baseDate));
-          return;
-        }
-
-        // Timed event: 09:00–11:00 local, converted to UTC
-        const startLocal = new Date(cleanDate + 'T09:00:00');
-        if (isNaN(startLocal)) {
-          // fallback to all-day
-          openCalendarUrl(buildAllDayUrl(baseDate));
-          return;
-        }
-        const endLocal = new Date(startLocal.getTime() + 2 * 60 * 60 * 1000);
-
-        function toGCal(dt) {
-          return dt.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
-        }
-
-        const startStr = toGCal(startLocal);
-        const endStr = toGCal(endLocal);
-        const url = `https://www.google.com/calendar/render?action=TEMPLATE&text=${text}&dates=${startStr}/${endStr}&location=${loc}&details=${details}`;
-        openCalendarUrl(url);
-      };
-
-      // Poster modal + analytics
-window.openPosterModal = function (title, imageUrl, eventId) {
-  if (!imageUrl) return;
-
-  var modal = document.getElementById("posterModal");
-  if (!modal) {
-    // Fallback: open in new tab if modal markup not present
-    window.open(imageUrl, "_blank", "noopener");
-    trackPosterClick(eventId, title, imageUrl);
-    return;
+  function matchesSearch(event, query) {
+    if (!query) return true;
+    const q = query.trim().toLowerCase();
+    return (
+      (event.title && event.title.toLowerCase().includes(q)) ||
+      (event.type && event.type.toLowerCase().includes(q)) ||
+      (event.location && event.location.toLowerCase().includes(q)) ||
+      (event.organization && event.organization.toLowerCase().includes(q)) ||
+      (event.description && event.description.toLowerCase().includes(q)) ||
+      (event.tags && event.tags.join(' ').toLowerCase().includes(q)) ||
+      (event.keywords && event.keywords.toLowerCase().includes(q))
+    );
   }
 
-  var img = modal.querySelector(".poster-modal__img");
-  var caption = modal.querySelector(".poster-modal__caption");
+  // ========== RENDER EVENTS ==========
 
-  img.src = imageUrl;
-  img.alt = title + " – event poster";
-  caption.textContent = title;
+  function renderEvents(list) {
+    if (!container) return;
 
-  modal.classList.add("poster-modal--open");
-  modal.setAttribute("aria-hidden", "false");
+    const q = searchInput && searchInput.value ? searchInput.value : '';
 
-  trackPosterClick(eventId, title, imageUrl);
-};
+    // Filter by active tab + search
+    let filtered = list.filter((ev) => {
+      const statusInfo = calculateEventStatus(ev);
 
-window.closePosterModal = function () {
-  var modal = document.getElementById("posterModal");
-  if (!modal) return;
-  var img = modal.querySelector(".poster-modal__img");
-  img.src = ""; // reset
-  modal.classList.remove("poster-modal--open");
-  modal.setAttribute("aria-hidden", "true");
-};
+      let passStatus = true;
+      if (activeFilter === 'upcoming') {
+        passStatus = statusInfo.status !== 'PAST';
+      } else if (
+        ['workshop', 'conference', 'guest-lecture', 'training', 'book-event'].includes(
+          activeFilter
+        )
+      ) {
+        passStatus = (ev.type || '').toLowerCase() === activeFilter;
+      }
 
-// Simple analytics hook
-window.trackPosterClick = function (eventId, title, imageUrl) {
-  console.log("Poster click", { eventId, title, imageUrl });
-
-  // Google Analytics 4 (gtag) – optional
-  if (typeof gtag === "function") {
-    gtag("event", "poster_click", {
-      event_category: "engagement",
-      event_label: title,
-      event_id: eventId || null,
-      poster_url: imageUrl
+      return passStatus && matchesSearch(ev, q);
     });
-  }
 
-  // GTM / dataLayer – optional
-  if (window.dataLayer && Array.isArray(window.dataLayer)) {
-    window.dataLayer.push({
-      event: "poster_click",
-      event_id: eventId || null,
-      event_title: title,
-      poster_url: imageUrl
-    });
-  }
-};
+    // Sort: upcoming ascending, past descending
+      filtered.sort((a, b) => {
+        const sa = calculateEventStatus(a);
+        const sb = calculateEventStatus(b);
 
-// Close modal on ESC
-document.addEventListener("keydown", function (e) {
-  if (e.key === "Escape") {
-    window.closePosterModal();
-  }
-});
+        const pa = STATUS_PRIORITY[sa.status] || 99;
+        const pb = STATUS_PRIORITY[sb.status] || 99;
 
-
-      /*
-      // ICS download (kept for future use – currently disabled)
-      window.downloadICS = function(title, date, location, description) {
-        let start = new Date(date);
-        if (isNaN(start)) start = new Date();
-        const end = new Date(start.getTime() + (2 * 60 * 60 * 1000));
-
-        function formatICSDate(d) {
-          return d.toISOString().replace(/[-:]/g,'').split('.')[0] + 'Z';
+        // 1️⃣ Primary: status priority
+        if (pa !== pb) {
+          return pa - pb;
         }
 
-        const ics = [
-          'BEGIN:VCALENDAR',
-          'VERSION:2.0',
-          'PRODID:-//RijoPhilipEvents//EN',
-          'BEGIN:VEVENT',
-          `SUMMARY:${title}`,
-          `DTSTART:${formatICSDate(start)}`,
-          `DTEND:${formatICSDate(end)}`,
-          `LOCATION:${location || ''}`,
-          `DESCRIPTION:${description || ''}`,
-          'END:VEVENT',
-          'END:VCALENDAR'
-        ].join('\\r\\n');
+        // 2️⃣ Secondary: actual start datetime
+        const da = new Date(a._iso || a.date);
+        const db = new Date(b._iso || b.date);
 
-        const blob = new Blob([ics], { type: 'text/calendar' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = (title || 'event').replace(/\\s+/g,'_') + '.ics';
-        document.body.appendChild(a);
-        a.click();
-        a.remove();
-        URL.revokeObjectURL(url);
-      };
-      */
+        if (a.startTime) {
+          const [ha, ma] = a.startTime.split(':').map(Number);
+          da.setHours(ha, ma, 0, 0);
+        } else {
+          da.setHours(0, 0, 0, 0);
+        }
 
-      // JSON-LD injection for SEO: upcoming events only
-      function injectJSONLD(){
-        const upcoming = allEvents.filter(e => {
-          const d = new Date(e._iso || e.date || '');
-          return !isNaN(d) && d >= new Date();
-        }).slice(0,20); // limit
-        if (upcoming.length === 0) return;
-        const graph = upcoming.map(ev => ({
-          "@context": "https://schema.org",
-          "@type": "Event",
-          "name": ev.title,
-          "startDate": ev._iso || ev.date,
-          "location": {
-            "@type": "Place",
-            "name": ev.location || ev.organization || 'Online'
-          },
-          "description": ev.description || '',
-          "organizer": {
-            "@type": "Organization",
-            "name": ev.organization || ''
-          },
-          "url": ev.registerLink || window.location.href
-        }));
-        const ld = document.createElement('script');
-        ld.type = 'application/ld+json';
-        ld.text = JSON.stringify(graph);
-        document.head.appendChild(ld);
-      }
+        if (b.startTime) {
+          const [hb, mb] = b.startTime.split(':').map(Number);
+          db.setHours(hb, mb, 0, 0);
+        } else {
+          db.setHours(0, 0, 0, 0);
+        }
 
-      // init
-      document.addEventListener('DOMContentLoaded', () => {
-        initControls();
-        loadEvents();
+        // 🔁 SPECIAL CASE: PAST EVENTS → DESCENDING
+        if (sa.status === 'PAST' && sb.status === 'PAST') {
+          return db - da; // newest past first
+        }
+
+        // ✅ All other statuses → ASCENDING
+        return da - db;
       });
 
-      // expose render (for debug)
-      window._renderEvents = () => renderEvents(allEvents);
-    })();
+
+
+
+    // Empty state
+    if (filtered.length === 0) {
+      container.innerHTML =
+        '<div class="col-span-3 text-center py-12"><div class="text-gray-400 text-6xl mb-4">📅</div><h3 class="text-xl font-bold mb-2">No matching events</h3><p class="text-gray-600">Try changing filters or clearing the search field.</p></div>';
+      return;
+    }
+
+    // Render cards
+    container.innerHTML = filtered
+      .map((ev) => {
+        const statusInfo = calculateEventStatus(ev);
+        const key = makeEventKey(ev);
+        const isHighlighted = nearestUpcomingKey && key === nearestUpcomingKey;
+
+        const shortDesc =
+          ev.description && ev.description.length > 220
+            ? ev.description.slice(0, 220) + '…'
+            : ev.description || '';
+
+        const tagsHtml = (ev.tags || [])
+          .map((t) => `<span class="event-tag">${t}</span>`)
+          .join(' ');
+
+        // Register button logic
+        const rawRegLink =
+          typeof ev.registerLink === 'string' ? ev.registerLink.trim() : '';
+        const hasRegLink = rawRegLink.length > 0;
+
+        const deadlineStr = ev.registrationDeadline || ev.registrationEnd || ev.regDeadline || '';
+        let canRegister = false;
+
+        if (hasRegLink && statusInfo.status !== 'PAST') {
+          if (deadlineStr) {
+            const deadlineDate = new Date(deadlineStr);
+            if (!isNaN(deadlineDate)) {
+              canRegister = deadlineDate >= new Date();
+            } else {
+              canRegister = true;
+            }
+          } else {
+            canRegister = true;
+          }
+        }
+
+        // Escape for inline JS
+        const safeTitle = (ev.title || '').replace(/'/g, "\\'");
+        const safeDesc = (ev.description || '').replace(/'/g, "\\'");
+        const safeLoc = (ev.location || '').replace(/'/g, "\\'");
+        const safeImage = (ev.image || '').replace(/'/g, "\\'");
+        const typeLabel = esc((ev.type || 'Event').replace(/-/g, ' '));
+
+        // Poster link
+        const hasPoster = !!ev.image;
+        const posterLinkHtml = hasPoster
+          ? `<div class="event-card__poster mb-3">
+               <button type="button" class="event-card__poster-link"
+                 onclick="openPosterModal('${safeTitle}', '${safeImage}', '${ev.id || ''}')">
+                 <span class="event-card__poster-icon" aria-hidden="true">🖼</span>
+                 <span>View event poster</span>
+               </button>
+             </div>`
+          : '';
+
+        // Action buttons
+        let actionButtonsHtml = '';
+
+        if (statusInfo.status !== 'PAST') {
+          if (canRegister) {
+            actionButtonsHtml += `<a class="btn-primary text-sm px-4 py-2" href="${rawRegLink}" target="_blank" rel="noopener">Register Now</a>`;
+          } else if (hasRegLink) {
+            actionButtonsHtml += `<span class="btn-secondary text-sm px-4 py-2 opacity-60 cursor-not-allowed">Registration closed</span>`;
+          }
+
+          actionButtonsHtml += `<button class="btn-secondary text-sm px-4 py-2" 
+            onclick="addToGoogleCalendar('${safeTitle}','${ev._iso || ev.date || ''}','${safeLoc}','${safeDesc}',${
+            ev.dateApprox ? 'true' : 'false'
+          },'${ev.startTime || ''}','${ev.endTime || ''}')">Add to Google Calendar</button>`;
+        } else {
+          actionButtonsHtml = `<span class="btn-secondary text-sm px-4 py-2 opacity-50 cursor-not-allowed">Event Completed</span>`;
+        }
+
+        // Time display (only for TODAY, STARTING_SOON, ONGOING)
+        let timeDisplay = '';
+        if (statusInfo.showTime && ev.startTime) {
+          timeDisplay = `<div class="event-time">${formatTime12Hour(ev.startTime)}</div>`;
+        }
+
+        // Countdown display
+        let countdownDisplay = '';
+        if (statusInfo.countdown) {
+          countdownDisplay = `<div class="event-countdown">${statusInfo.countdown}</div>`;
+        }
+
+        return `
+          <article class="card card--event ${isHighlighted ? 'card--event--upcoming' : ''}">
+            <div class="p-5">
+              <div class="flex justify-between items-start mb-3">
+                <div class="flex items-center gap-2 flex-wrap">
+                  <span class="inline-block px-3 py-1 rounded-full text-sm font-semibold ${statusInfo.statusClass}">
+                    ${statusInfo.statusLabel}
+                  </span>
+                  <span class="card__badge">${typeLabel}</span>
+                </div>
+                <time class="text-sm text-gray-500" datetime="${ev._iso || ''}">
+                  ${formatDateFriendly(ev._iso || ev.date)}
+                </time>
+              </div>
+
+              ${isHighlighted ? '<div class="flex flex-col items-end gap-1 mb-2"><span class="event-badge-next" aria-label="Nearest upcoming event">Next event</span></div>' : ''}
+
+              ${timeDisplay}
+              ${countdownDisplay}
+
+              <h3 class="text-xl font-bold mb-2">${ev.title}</h3>
+              <p class="text-gray-600 mb-3">${shortDesc}</p>
+
+              <div class="flex items-center text-gray-500 mb-4">
+                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 21h18M3 10h18M5 6h14M7 2h10M4 14h16M6 18h12"></path>
+                </svg>
+                <span class="text-sm">${ev.organization || 'Organized by host institution'}</span>
+              </div>
+
+              <div class="flex items-center text-gray-500 mb-4">
+                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                </svg>
+                <span class="text-sm">${ev.location || 'Online'}</span>
+              </div>
+
+              <div class="flex gap-2 flex-wrap mb-3">${tagsHtml}</div>
+              ${posterLinkHtml}
+              <div class="flex flex-wrap gap-2">${actionButtonsHtml}</div>
+            </div>
+          </article>
+        `;
+      })
+      .join('');
+  }
+
+  // ========== CONTROLS ==========
+
+  function initControls() {
+    // Filter buttons
+    document.querySelectorAll('.filter-btn').forEach((btn) => {
+      btn.addEventListener('click', (e) => {
+        document.querySelectorAll('.filter-btn').forEach((b) => b.setAttribute('aria-pressed', 'false'));
+        btn.setAttribute('aria-pressed', 'true');
+        activeFilter = btn.getAttribute('data-filter') || 'all';
+        renderEvents(allEvents);
+      });
+    });
+
+    // Search input
+    if (searchInput) {
+      searchInput.addEventListener('input', () => renderEvents(allEvents));
+    }
+  }
+
+  // ========== GOOGLE CALENDAR ==========
+
+  function openCalendarUrl(url) {
+    const win = window.open(url, '_blank', 'noopener');
+    if (!win) {
+      window.location.href = url;
+    }
+  }
+
+  window.addToGoogleCalendar = function (
+    title,
+    dateISO,
+    location,
+    description,
+    dateApprox,
+    startTime,
+    endTime
+  ) {
+    const text = encodeURIComponent(title || '');
+    const loc = encodeURIComponent(location || '');
+    const details = encodeURIComponent(description || '');
+
+    const cleanDate = (dateISO || '').split('T')[0];
+    let baseDate = cleanDate ? new Date(cleanDate) : new Date();
+    if (isNaN(baseDate)) baseDate = new Date();
+
+    // All-day event helper
+    function buildAllDayUrl(d) {
+      const startStr = d.toISOString().split('T')[0].replace(/-/g, '');
+      const end = new Date(d.getTime());
+      end.setDate(end.getDate() + 1);
+      const endStr = end.toISOString().split('T')[0].replace(/-/g, '');
+      return `https://www.google.com/calendar/render?action=TEMPLATE&text=${text}&dates=${startStr}/${endStr}&location=${loc}&details=${details}`;
+    }
+
+    // If approximate or no time, use all-day
+    if (dateApprox || !startTime) {
+      openCalendarUrl(buildAllDayUrl(baseDate));
+      return;
+    }
+
+    // Build timed event
+    const [startHours, startMinutes] = startTime.split(':').map(Number);
+    const startLocal = new Date(cleanDate);
+    startLocal.setHours(startHours, startMinutes, 0, 0);
+
+    let endLocal;
+    if (endTime) {
+      const [endHours, endMinutes] = endTime.split(':').map(Number);
+      endLocal = new Date(cleanDate);
+      endLocal.setHours(endHours, endMinutes, 0, 0);
+    } else {
+      endLocal = new Date(startLocal.getTime() + 2 * 60 * 60 * 1000);
+    }
+
+    function toGCal(dt) {
+      return dt.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
+    }
+
+    const startStr = toGCal(startLocal);
+    const endStr = toGCal(endLocal);
+    const url = `https://www.google.com/calendar/render?action=TEMPLATE&text=${text}&dates=${startStr}/${endStr}&location=${loc}&details=${details}`;
+    openCalendarUrl(url);
+  };
+
+  // ========== POSTER MODAL ==========
+
+  window.openPosterModal = function (title, imageUrl, eventId) {
+    if (!imageUrl) return;
+
+    const modal = document.getElementById('posterModal');
+    if (!modal) {
+      window.open(imageUrl, '_blank', 'noopener');
+      trackPosterClick(eventId, title, imageUrl);
+      return;
+    }
+
+    const img = modal.querySelector('.poster-modal__img');
+    const caption = modal.querySelector('.poster-modal__caption');
+
+    img.src = imageUrl;
+    img.alt = title + ' – event poster';
+    caption.textContent = title;
+
+    modal.classList.add('poster-modal--open');
+    modal.setAttribute('aria-hidden', 'false');
+
+    trackPosterClick(eventId, title, imageUrl);
+  };
+
+  window.closePosterModal = function () {
+    const modal = document.getElementById('posterModal');
+    if (!modal) return;
+    const img = modal.querySelector('.poster-modal__img');
+    img.src = '';
+    modal.classList.remove('poster-modal--open');
+    modal.setAttribute('aria-hidden', 'true');
+  };
+
+  window.trackPosterClick = function (eventId, title, imageUrl) {
+    console.log('Poster click', { eventId, title, imageUrl });
+
+    if (typeof gtag === 'function') {
+      gtag('event', 'poster_click', {
+        event_category: 'engagement',
+        event_label: title,
+        event_id: eventId || null,
+        poster_url: imageUrl,
+      });
+    }
+
+    if (window.dataLayer && Array.isArray(window.dataLayer)) {
+      window.dataLayer.push({
+        event: 'poster_click',
+        event_id: eventId || null,
+        event_title: title,
+        poster_url: imageUrl,
+      });
+    }
+  };
+
+  // Close modal on ESC
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') {
+      window.closePosterModal();
+    }
+  });
+
+  // ========== JSON-LD INJECTION ==========
+
+  function injectJSONLD() {
+    const upcoming = allEvents
+      .filter((e) => {
+        const statusInfo = calculateEventStatus(e);
+        return statusInfo.status !== 'PAST';
+      })
+      .slice(0, 20);
+
+    if (upcoming.length === 0) return;
+
+    const graph = upcoming.map((ev) => ({
+      '@context': 'https://schema.org',
+      '@type': 'Event',
+      name: ev.title,
+      startDate: ev._iso || ev.date,
+      location: {
+        '@type': 'Place',
+        name: ev.location || ev.organization || 'Online',
+      },
+      description: ev.description || '',
+      organizer: {
+        '@type': 'Organization',
+        name: ev.organization || '',
+      },
+      url: ev.registerLink || window.location.href,
+    }));
+
+    const ld = document.createElement('script');
+    ld.type = 'application/ld+json';
+    ld.text = JSON.stringify(graph);
+    document.head.appendChild(ld);
+  }
+
+  // ========== INITIALIZATION ==========
+
+  document.addEventListener('DOMContentLoaded', () => {
+    initControls();
+    loadEvents();
+  });
+
+  // Expose render for debugging
+  window._renderEvents = () => renderEvents(allEvents);
+
+  // Clean up on page unload
+  window.addEventListener('beforeunload', () => {
+    if (refreshTimer) {
+      clearInterval(refreshTimer);
+    }
+  });
+})();
     </script>
+
 
     <!-- Keep your core theme + mobile nav JS -->
     <script src="./js/ui.js"></script>
