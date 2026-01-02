@@ -289,6 +289,73 @@
     "travel stories"
   ],
   "keywords": "Nissabdhyayude Kaavalkkaran book event, Journeys of Jo, Malayalam travelogue, Rijo John Sankarathil, Aswatha Kurup, Grassroots Mathrubhumi"
+},
+{
+  "id": 21,
+  "title": "Leadership Camp 2026",
+  "date": "2026-01-02",
+  "startTime": "10:30",
+  "endTime": "11:30",
+  "dateApprox": false,
+  "type": "training",
+  "organization": "Akhila Kerala Balajanasakhyam, Thumpamon Union",
+  "location": "YMCA Camp Center, Thumpamon",
+  "description": "Two-day Leadership Camp focusing on visionary, Gandhian and inspirational leadership. Sessions include Visionary Leadership by Rijo John Sankarathil (Asst. Prof., Catholicate College), Gandhian Ideology in the 21st Century by Dr. Leju P Thomas, and inspirational talks by Biju Abraham and Preeth Chandhanapally.",
+  "registerLink": "",
+  "image": "./assets/events/leadership-camp-2026.jpg",
+  "tags": [
+    "leadership camp",
+    "youth leadership",
+    "training programme",
+    "gandhian ideology",
+    "visionary leadership"
+  ],
+  "keywords": "Leadership Camp 2026, YMCA Thumpamon, youth leadership training, Gandhian ideology, visionary leadership"
+},
+{
+  "id": 22,
+  "title": "Punaloor Convention 2026 – Public Meeting & Youth Gathering",
+  "date": "2026-01-03",
+  "startTime": "10:30",
+   "endTime": "11:30",
+  "dateApprox": false,
+  "type": "training",
+  "organization": "Malankara Orthodox Syrian Sabha, Kottayam–Punalur Diocese",
+  "location": "Gregorian Aramana Premises, Punaloor",
+  "description": "Public spiritual and cultural gathering as part of the Punaloor Convention 2026, featuring keynote address by Rijo John Sankarathil along with prayers, discussions and community interaction.",
+  "registerLink": "",
+  "tags": [
+    "public meeting",
+    "Youth Gathering",
+    "religious convention",
+    "community event",
+    "Punaloor"
+  ],
+  "keywords": "Punaloor Convention 2026, Malankara Orthodox Sabha, public meeting Kerala, spiritual convention"
+},
+{
+  "id": 23,
+  "title": "Book Discussion: Nissabdhyayude Kaavalkkaran",
+  "date": "2026-01-04",
+  "startTime": "15:00",
+  "endTime": "17:00",
+  "dateApprox": false,
+  "type": "book-event",
+  "organization": "Granthapura Library",
+  "location": "Granthapura Library, Kochi",
+  "description": "Author interaction and book discussion on the Malayalam travelogue 'Nissabdhyayude Kaavalkkaran' by Rijo John Sankarathil. The session includes reading, discussion and interaction with readers at Granthapura Library, Kochi.",
+  "registerLink": "",
+  "image": "./assets/events/nissabdhyayude-kaavalkkaran-granthapura.webp",
+  "tags": [
+    "book discussion",
+    "Malayalam travelogue",
+    "author interaction",
+    "literary event",
+    "travel writing"
+  ],
+  "keywords": "Nissabdhyayude Kaavalkkaran, Granthapura Kochi, Malayalam travelogue book discussion, author interaction"
 }
+
+
 
 ]
