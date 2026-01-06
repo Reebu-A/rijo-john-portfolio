@@ -98,10 +98,11 @@ body {
   margin: 0 auto;
   padding: 0 1.25rem;
 }
-
-.site-main {
-  padding-top: var(--header-height);
+.site-main > .hero {
+  padding-top: 1.5rem;
+  
 }
+
 /* Ensure the first page-intro section sits flush under the header
    (similar treatment as index hero) */
 .site-main > .section--page-intro:first-of-type {
@@ -376,9 +377,7 @@ body {
 ---------------------------------------------------------- */
 
 
-.site-main > .hero:first-child {
-  margin-top: calc(-1 * var(--header-height));
-}
+
 
 .hero {
   position: relative;
@@ -388,51 +387,9 @@ body {
   padding: 2.3rem 0 3rem;
 }
 
-/* Background image + overlay */
-.hero__media {
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
-  border-radius: 0 0 2.5rem 2.5rem;
-}
 
-@media (max-width: 992px) {
-  .hero__bg {
-    background-image: url('./assets/img/hero_1600x900.jpg');
-  }
-}
 
-@media (max-width: 600px) {
-  .hero__bg {
-    background-image: url('./assets/img/hero_1080x608.jpg');
-  }
-}
 
-.hero__bg {
-  position: absolute;
-  inset: 0;
-  background-size: cover;
-  background-position: center;
-  transform: scale(1.04);
-  /* slightly stronger image for better visibility */
-  filter: saturate(1.15) contrast(1.08) brightness(1.02);
-}
-
-/* Overlay: made a bit more transparent so the background is visible,
-   but still dark enough to keep text readable. */
-.hero__overlay {
-  position: absolute;
-  inset: 0;
-  background-image:
-    radial-gradient(circle at top left, rgba(56, 189, 248, 0.45), transparent 55%),
-    radial-gradient(circle at center, rgba(15, 23, 42, 0.86), rgba(15, 23, 42, 0.92));
-}
-
-[data-theme="dark"] .hero__overlay {
-  background-image:
-    radial-gradient(circle at top left, rgba(56, 189, 248, 0.38), transparent 55%),
-    radial-gradient(circle at center, #020617f0, #000000);
-}
 
 /* Main inner layout: left text + right card */
 .hero__inner {
@@ -452,46 +409,262 @@ body {
   padding-bottom: 1.4rem;
 }
 
-.hero__eyebrow {
+
+
+/* ----------------------------------------------------------
+   HERO – Editorial, Image-first, Mobile-first
+---------------------------------------------------------- */
+
+.hero--editorial {
+  padding: 3rem 0 3.5rem;
+  background: var(--color-bg);
+}
+
+/* Layout */
+.hero__layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2.2rem;
+}
+
+/* IMAGE */
+.hero__image-wrap {
+  width: 100%;
+  max-width: 420px;
+  margin-inline: auto;
+  position: relative;
+  transition: transform 240ms ease, box-shadow 240ms ease;
+  margin-bottom: 0rem;
+}
+
+.hero__image {
+  width: 100%;
+  height: auto;
+  border-radius: 2rem;
+  object-fit: cover;
+  box-shadow: var(--shadow-card);
+  border: 1px solid var(--color-border-subtle);
+   opacity: 0;
+  transform: scale(0.98);
+  animation: hero-image-in 520ms ease-out forwards;
+}
+
+/* Hover interaction (desktop only) */
+@media (hover: hover) {
+  .hero__image:hover {
+    box-shadow: 0 24px 60px rgba(15, 23, 42, 0.18);
+  }
+  .hero__image-wrap:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 28px 60px rgba(15, 23, 42, 0.18);
+  }
+}
+
+/* Entrance animation */
+@keyframes hero-image-in {
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* ----------------------------------------------------------
+   Reduced motion safety
+---------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  .hero__image {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+  .hero__image-wrap {
+    transition: none;
+  }
+}
+
+/* Subtle label overlay (uses existing content only) */
+.hero__image-label {
+  display: inline-block;
+  margin: 0 auto 0.75rem;
+
+  font-size: 0.7rem;
+  letter-spacing: 0.20em;
+             
   text-transform: uppercase;
-  letter-spacing: 0.24em;
-  font-size: 0.78rem;
-  color: rgba(148, 163, 184, 0.95);
-  margin: 0 0 0.9rem;
+
+  padding: 0.35rem 0.75rem;
+  border-radius: var(--radius-pill);
+
+  background: var(--color-surface);
+  color: var(--color-text-soft);
+
+  border: 1px solid var(--color-border-subtle);
+  box-shadow: var(--shadow-soft);
+
+  /* Animation */
+  opacity: 0;
+  transform: translateY(6px);
+  
+  animation: hero-label-reveal 520ms ease-out 120ms forwards,
+              hero-label-tighten 420ms ease-out 320ms forwards;
+}
+
+
+@keyframes hero-label-tighten {
+  to {
+    letter-spacing: 0.16em;
+  }
+}
+
+@keyframes hero-label-reveal {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+@media (prefers-reduced-motion: reduce) {
+  .hero__image-label {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}
+
+
+.hero__image-wrap {
+  text-align: center;
+}
+
+/* Dark mode auto-adapts via variables */
+[data-theme="dark"] .hero__image-label {
+  background: var(--color-surface-soft);
+}
+
+/* CONTENT */
+.hero__content {
+  text-align: center;
+  
+}
+
+.hero__eyebrow {
+  font-size: 0.75rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-text-soft);
+  margin-bottom: 0.6rem;
 }
 
 .hero__title {
   font-family: var(--font-display);
-  font-weight: 800;
-  font-size: clamp(3rem, 5vw, 3.8rem);
-  letter-spacing: 0.03em;
-  margin: 0 0 0.7rem;
+  font-size: clamp(2.4rem, 7vw, 3.2rem);
+  margin: 0 0 0.6rem;
+  color: var(--color-text);
+}
+
+.hero__title span:first-child {
+  /* subtle enhancement for first name */
+  font-family: var(--font-display);
+  background: linear-gradient(120deg, #0ea5e9, #2563eb, #f97316);
+  background-size: 180% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: brand-gradient 3s ease-in-out infinite alternate;
+}
+
+/* Dark mode refinement */
+[data-theme="dark"] .hero__title span:first-child {
+  
+  font-family: var(--font-display);
+ /* background: linear-gradient(120deg, #3a455f, #687180, #bec8d5); */
+  background: linear-gradient(120deg, #1e40af, #4a8cf7, #7cb6fc);
+  background-size: 180% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: brand-gradient 3s ease-in-out infinite alternate;
 }
 
 .hero__title span {
-  background: linear-gradient(120deg, #38bdf8, #0ea5e9, #22c55e, #f97316);
+  background: linear-gradient(
+    120deg,
+    var(--color-primary),
+    var(--color-accent)
+  );
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
 }
 
 .hero__lead {
-  margin: 0 0 1.5rem;
+  max-width: 52ch;
+  margin: 0.6rem auto 1.5rem;
   font-size: 0.98rem;
   line-height: 1.7;
-  color: rgba(226, 232, 240, 0.9);
+  color: var(--color-text-soft);
 }
+
+/* TAGS */
+.hero__tags {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-bottom: 1.6rem;
+}
+
+/* CTA */
+.hero__cta-row {
+  display: flex;
+  gap: 0.8rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+
+
+/* ----------------------------------------------------------
+   Desktop Enhancement
+---------------------------------------------------------- */
+
+@media (min-width: 900px) {
+  .hero__layout {
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+    align-items: center;
+    gap: 4rem;
+  }
+
+  .hero__image-wrap {
+    order: 2;
+    max-width: 460px;
+  }
+
+  .hero__content {
+    order: 1;
+    text-align: left;
+  }
+
+  .hero__lead {
+    margin-left: 0;
+  }
+
+  .hero__tags,
+  .hero__cta-row {
+    justify-content: flex-start;
+  }
+}
+
+
+
+
 
 /* ----------------------------------------------------------
    Role pills (badges) – updated to glassy, pill-shaped style
 ---------------------------------------------------------- */
 
-.hero__tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.55rem;
-  margin-bottom: 1.55rem;
-}
+
 
 /* base hero pill */
 .pill--hero {
@@ -524,7 +697,7 @@ body {
   background: linear-gradient(
     135deg,
     rgba(30, 64, 175, 0.95),
-    rgba(250, 204, 21, 0.95)
+    rgba(227, 191, 50, 0.95)
   );
   color: #fefce8;
   box-shadow: 0 18px 45px rgba(30, 64, 175, 0.95);
@@ -539,16 +712,78 @@ body {
   outline: none;
 }
 
+/* ==========================================================
+   Hero pills — LIGHT THEME refinement
+========================================================== */
+
+[data-theme="light"] .pill--hero {
+  background: linear-gradient(
+    135deg,
+    rgba(15, 23, 42, 0.06),
+    rgba(15, 23, 42, 0.03)
+  );
+
+  color: #0f172a;
+
+  border: 1px solid rgba(15, 23, 42, 0.18);
+
+  box-shadow:
+    0 6px 16px rgba(15, 23, 42, 0.08);
+}
+
+/* Hover in light theme (very subtle) */
+[data-theme="light"] .hero__tags .pill--hero:hover,
+[data-theme="light"] .hero__tags .pill--hero:focus-visible {
+  background: linear-gradient(
+    135deg,
+    rgba(15, 23, 42, 0.10),
+    rgba(15, 23, 42, 0.06)
+  );
+
+  box-shadow:
+    0 10px 24px rgba(15, 23, 42, 0.12);
+
+  transform: translateY(-1px);
+}
+[data-theme="light"] .pill--hero-highlight {
+  background: linear-gradient(
+    135deg,
+    rgba(205, 168, 57, 0.872),
+    rgba(205, 147, 23, 0.884)
+  );
+
+  color: #1f2937;
+
+  box-shadow:
+    0 14px 36px rgba(202, 138, 4, 0.35);
+}
+/* ==========================================================
+   Hero highlight pill — LIGHT THEME hover
+========================================================== */
+
+[data-theme="light"] .hero__tags .pill--hero-highlight:hover,
+[data-theme="light"] .hero__tags .pill--hero-highlight:focus-visible {
+  background: linear-gradient(
+    135deg,
+    rgba(202, 138, 4, 1),
+    rgba(234, 179, 8, 1)
+  );
+
+  color: #111827;
+
+  box-shadow:
+    0 18px 42px rgba(202, 138, 4, 0.45);
+
+  border-color: rgba(202, 138, 4, 0.9);
+
+  transform: translateY(-1px);
+}
+
+
 /* ----------------------------------------------------------
    CTAs
 ---------------------------------------------------------- */
 
-.hero__cta-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.9rem;
-  margin-bottom: 1.65rem;
-}
 
 /* Secondary button (dark pill) */
 /* ----------------------------------------------------------
@@ -556,115 +791,156 @@ body {
    Target: <a class="btn hero__btn-secondary">Watch Vlogs</a>
 ---------------------------------------------------------- */
 
+
 .hero__btn-secondary {
+  /* layout */
   position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   padding: 0.7rem 1.7rem;
   border-radius: var(--radius-pill);
-  border: none;                      /* border comes from ::before */
-  background: rgba(15, 23, 42, 0.7); /* dark glass interior */
-  color: #e5e7eb;
+  text-decoration: none;
+  cursor: pointer;
+  isolation: isolate;
+  overflow: hidden;
+  border: none;
+
+  /* typography */
   font-size: 0.9rem;
   font-weight: 600;
   letter-spacing: 0.04em;
   text-transform: uppercase;
-  text-decoration: none;
-  overflow: hidden;
-  cursor: pointer;
-  isolation: isolate;                /* keeps pseudo-elements inside */
-  box-shadow: 0 12px 32px rgba(15, 23, 42, 0.8);
+
+  /* THEME VARIABLES (default = light) */
+  --btn-bg: rgba(56, 189, 248, 0.22);   /* soft blue glass */
+  --btn-bg-hover: rgba(56, 189, 248, 0.35);
+  --btn-text: #0f172a;
+  --btn-shadow:
+    0 12px 28px rgba(37, 99, 235, 0.28),
+    0 6px 16px rgba(56, 189, 248, 0.18);
+
+  background: var(--btn-bg);
+  color: var(--btn-text);
+  box-shadow: var(--btn-shadow);
+
   transition:
     transform 0.22s ease,
     box-shadow 0.22s ease,
     background 0.22s ease;
-  /* subtle breathing pulse */
- /* animation: hero-secondary-pulse 3s ease-out infinite; */
-  animation: hero-secondary-pulse 1.6s ease-out forwards;
+
+  /* entrance pulse (runs once) */
+  animation: hero-secondary-pulse 1.4s ease-out forwards;
 }
 
-/* Gradient outline using a masked pseudo-element */
+/* ----------------------------------------------------------
+   Gradient outline
+---------------------------------------------------------- */
 .hero__btn-secondary::before {
   content: "";
   position: absolute;
   inset: 0;
   border-radius: inherit;
-  padding: 1.6px; /* outline thickness */
+  padding: 1.6px;
+
   background: linear-gradient(
     135deg,
     #38bdf8,
     #2563eb,
     #7c3aed
   );
-  /* mask to keep only the border visible */
+
   -webkit-mask:
     linear-gradient(#000 0 0) content-box,
     linear-gradient(#000 0 0);
   -webkit-mask-composite: xor;
           mask-composite: exclude;
-  opacity: 0.95;
+
   pointer-events: none;
+  opacity: 0.95;
 }
 
-/* Glossy shine + ripple sweep on hover via ::after */
+/* ----------------------------------------------------------
+   Shine sweep
+---------------------------------------------------------- */
 .hero__btn-secondary::after {
   content: "";
   position: absolute;
-  inset: -40%; /* a bit bigger so sweep covers edges */
+  inset: -40%;
   border-radius: inherit;
+
   background: linear-gradient(
     120deg,
     rgba(255, 255, 255, 0.22),
-    rgba(255, 255, 255, 0.0) 40%,
+    rgba(255, 255, 255, 0) 40%,
     rgba(255, 255, 255, 0.18)
   );
+
   opacity: 0;
   transform: translateX(-130%) skewX(-20deg);
   pointer-events: none;
   mix-blend-mode: screen;
 }
 
-/* Hover / focus: lift + stronger glow, shine animation */
-.hero__btn-secondary:hover,
-.hero__btn-secondary:focus-visible {
-  transform: translateY(-2px);
-  background: rgba(15, 23, 42, 0.95);
-  box-shadow:
-    0 18px 45px rgba(37, 99, 235, 0.55),
-    0 10px 30px rgba(124, 58, 237, 0.45);
-  outline: none;
+/* ----------------------------------------------------------
+   Hover / Focus (desktop only)
+---------------------------------------------------------- */
+@media (hover: hover) {
+  .hero__btn-secondary:hover,
+  .hero__btn-secondary:focus-visible {
+    transform: translateY(-2px);
+    background: var(--btn-bg-hover);
+    box-shadow:
+      0 18px 45px rgba(37, 99, 235, 0.4),
+      0 10px 30px rgba(124, 58, 237, 0.3);
+    outline: none;
+  }
+
+  .hero__btn-secondary:hover::after,
+  .hero__btn-secondary:focus-visible::after {
+    animation: hero-btn-shine 0.9s ease-out;
+  }
 }
 
-.hero__btn-secondary:hover::after,
-.hero__btn-secondary:focus-visible::after {
-  animation: hero-btn-shine 0.9s ease-out;
-}
-
-/* Dark mode tweak (slightly brighter interior glow) */
+/* ----------------------------------------------------------
+   DARK THEME OVERRIDES
+---------------------------------------------------------- */
 [data-theme="dark"] .hero__btn-secondary {
-  background: rgba(15, 23, 42, 0.85);
-  box-shadow:
+  --btn-bg: rgba(15, 23, 42, 0.85);
+  --btn-bg-hover: rgba(15, 23, 42, 0.95);
+  --btn-text: #e5e7eb;
+  --btn-shadow:
     0 16px 40px rgba(15, 23, 42, 0.95),
     0 8px 24px rgba(15, 23, 42, 0.9);
 }
 
-/* Pulse animation: gentle attention, not annoying */
-@keyframes hero-secondary-pulse {
-  0%,
-  70%,
-  100% {
-    box-shadow:
-      0 12px 32px rgba(15, 23, 42, 0.8);
-  }
-  40% {
-    box-shadow:
-      0 20px 50px rgba(37, 99, 235, 0.55),
-      0 10px 28px rgba(124, 58, 237, 0.45);
+/* ----------------------------------------------------------
+   Reduced motion safety
+---------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  .hero__btn-secondary {
+    animation: none;
   }
 }
 
-/* Shine / ripple sweep animation */
+/* ----------------------------------------------------------
+   Animations
+---------------------------------------------------------- */
+
+@keyframes hero-secondary-pulse {
+  0% {
+    box-shadow: 0 0 0 rgba(37, 99, 235, 0);
+  }
+  40% {
+    box-shadow:
+      0 20px 50px rgba(37, 99, 235, 0.45),
+      0 10px 28px rgba(124, 58, 237, 0.35);
+  }
+  100% {
+    box-shadow: var(--btn-shadow);
+  }
+}
+
 @keyframes hero-btn-shine {
   0% {
     opacity: 0;
@@ -713,328 +989,6 @@ body {
   font-weight: 600;
   color: #f9fafb;
 }
-
-/* ----------------------------------------------------------
-   RIGHT SIDE: Glass portrait card – refined
----------------------------------------------------------- */
-
-.hero__right {
-  display: flex;
-  align-items: stretch; /* keep same height as text column */
-  align-self: flex-start !important;
-}
-
-.hero-card {
-  width: 100%;
-  border-radius: 2rem;
-  padding:  1.4rem 1.6rem;
-  border: 1px solid rgba(148, 163, 184, 0.4);
-  background: radial-gradient(circle at top left, rgba(56, 189, 248, 0.25), rgba(15, 23, 42, 0.98));
-  box-shadow: 0 30px 90px rgba(15, 23, 42, 0.95);
-  backdrop-filter: blur(26px);
-  color: #e5e7eb;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  /* ensure card feels taller, closer to hero text column */
-  min-height: auto;
-  height: auto !important;
-}
-
-/* Portrait: larger size for more impact */
-.hero-card__media {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 1.5rem;
-  position: relative;
-}
-
-.hero-card__img {
-  width: 160px;
-  height: 160px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 4px solid rgba(248, 250, 252, 0.95);
-  box-shadow: 
-    0 20px 50px rgba(15, 23, 42, 0.9),
-    0 0 0 8px rgba(56, 189, 248, 0.15);
-  position: relative;
-  z-index: 1;
-}
-
-/* Decorative ring behind portrait */
-.hero-card__media::before {
-  content: "";
-  position: absolute;
-  width: 180px;
-  height: 180px;
-  border-radius: 50%;
-  border: 2px solid rgba(56, 189, 248, 0.3);
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  animation: pulse-ring 3s ease-in-out infinite;
-}
-
-@keyframes pulse-ring {
-  0%, 100% {
-    transform: translate(-50%, -50%) scale(1);
-    opacity: 0.5;
-  }
-  50% {
-    transform: translate(-50%, -50%) scale(1.05);
-    opacity: 0.8;
-  }
-}
-
-/* Text */
-.hero-card__body {
-  display: flex;
-  flex-direction: column;
-  gap: 0.6rem;
-}
-
-.hero-card__name {
-  margin: 0;
-  font-size: 0.95rem;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: #f9fafb;
-  margin-bottom: 0.35rem
-}
-
-.hero-card__roles {
-  margin: 0;
-  font-size: 0.86rem;
-  color: rgba(209, 213, 219, 0.92);
-  
-}
-
-/* Guinness badge – cleaner blue, no “downward flowing” glow */
-.hero-card__badge {
-  margin-top: 0.4rem;
-  margin-bottom: 0.3rem;
-  display: flex;
-  align-items: flex-start;
-  gap: 0.5rem;
-  padding: 0.55rem 0.75rem;
-  border-radius: 999px;
-  background: linear-gradient(135deg, #2563eb, #1d4ed8);
-  color: #eff6ff;
-  font-size: 0.82rem;
-  /* much softer, contained shadow */
-  box-shadow: 0 8px 22px rgba(37, 99, 235, 0.8);
-}
-
-.hero-card__badge-icon {
-  font-size: 1rem;
-  flex-shrink: 0;
-}
-
-.hero-card__badge-text {
-  line-height: 1.4;
-}
-
-/* Quote */
-.hero-card__quote {
-  position: relative;
-  margin: 0.35rem 0 0.7rem;
-  margin-bottom: 0.1rem;
-  padding-left: 1.3rem;
-  border-left: 1px solid rgba(148, 163, 184, 0.75);
-  font-size: 0.9rem;
-  color: rgba(226, 232, 240, 0.96);
-}
-
-.hero-card__quote-mark {
-  position: absolute;
-  left: -0.6rem;
-  top: -0.4rem;
-  font-size: 1.6rem;
-  color: rgba(148, 163, 184, 0.6);
-}
-
-/* Links */
-.hero-card__links {
-  display: inline-flex;
-  
-  gap: 0.4rem;
-  margin-top: 0.1rem;
-}
-
-.hero-card__link-text {
-  white-space: nowrap;          /* keep on one line when width allows */
-  font-size: 0.62rem;
-}
-
-/* On narrow layouts (tablet / mobile), allow wrapping again if needed */
-@media (max-width: 900px) {
-  .hero-card__link-text {
-    white-space: normal;
-  }
-}
-
-.hero-card__meta {
-  margin-top: 0.2rem;
-  margin-bottom: 0.4rem !important;
-  padding: 1rem 1.2rem;
-  border-radius: 1.5rem;
-  background: var(--surface-soft, rgba(15, 23, 42, 0.6));
-  backdrop-filter: blur(14px);
-}
-
-.hero-card__meta-title {
-  font-size: 0.75rem;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  opacity: 0.85;
-  margin-bottom: 0.55rem;
-}
-
-.hero-card__meta-list {
-  list-style: none;
-  margin: 0 0 0.65rem;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 0.3rem;
-  font-size: 0.8rem;
-}
-
-.hero-card__meta-item {
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
-  opacity: 0.9;
-}
-
-.hero-card__meta-dot {
-  width: 0.35rem;
-  height: 0.35rem;
-  border-radius: 999px;
-  background: linear-gradient(
-    135deg,
-    var(--accent-blue, #38bdf8),
-    var(--accent-purple, #a855f7)
-  );
-  flex-shrink: 0;
-}
-
-/* Stylish inline CTA for Academic Profile link */
-.hero-card__meta-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.15rem;
-  font-size: 0.82rem;
-  font-weight: 500;
-  padding: 0.35rem 0.55rem;
-  color: #7dd3fc; /* brighter sky-blue */
-  border-radius: 0.6rem;
-  text-decoration: none;
-  background: rgba(56, 189, 248, 0.08); /* subtle blue tint */
-  backdrop-filter: blur(6px);
-  transition: all 0.25s ease;
-   border: 1px solid rgba(56, 189, 248, 0.3);
-}
-
-/* Hover animation */
-.hero-card__meta-link:hover {
-  color: #ffffff;
-  background: linear-gradient(135deg, #38bdf8, #818cf8);
-  box-shadow: 0 0 12px rgba(56, 189, 248, 0.4);
-  transform: translateY(-1px);
-}
-
-/* Dark mode tweak if needed */
-[data-theme="dark"] .hero-card__meta-link {
-  color: #93c5fd; /* light blue */
-  background: rgba(148, 163, 184, 0.08);
-}
-
-
-
-/* On smaller heights, allow the card to breathe */
-@media (min-height: 700px) {
-  .hero-card {
-    padding-bottom: 1.4rem;
-  }
-}
-/* ----------------------------------------------------------
-   Hero Card Links (YouTube & Instagram) – Gradient Outline
----------------------------------------------------------- */
-.hero-card__link {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.45rem;
-
-  padding: 0.85rem 1.4rem;
-  border-radius: var(--radius-pill);
-
-  text-decoration: none;
-  font-size: 0.82rem;
-  font-weight: 600;
-  color: #e5e7eb;
-
-  background: rgba(15, 23, 42, 0.6);
-  overflow: hidden;
-  isolation: isolate;
-
-  transition: transform 0.25s ease, background 0.25s ease;
-}
-
-/* Gradient border outline using same mask trick */
-.hero-card__link::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  padding: 1.5px;
-
-  background: linear-gradient(
-    135deg,
-    #38bdf8,
-    #2563eb,
-    #7c3aed
-  );
-
-  -webkit-mask:
-    linear-gradient(#000 0 0) content-box,
-    linear-gradient(#000 0 0);
-  -webkit-mask-composite: xor;
-          mask-composite: exclude;
-
-  pointer-events: none;
-  opacity: 0.9;
-}
-
-/* Shine sweep */
-.hero-card__link::after {
-  content: "";
-  position: absolute;
-  inset: -40%;
-  border-radius: inherit;
-  background: linear-gradient(
-    120deg,
-    rgba(255, 255, 255, 0.2),
-    rgba(255, 255, 255, 0.0) 40%,
-    rgba(255, 255, 255, 0.18)
-  );
-  transform: translateX(-120%) skewX(-20deg);
-  opacity: 0;
-  pointer-events: none;
-  mix-blend-mode: screen;
-}
-
-.hero-card__link:hover {
-  transform: translateY(-2px);
-  background: rgba(15, 23, 42, 0.8);
-}
-
-.hero-card__link:hover::after {
-  animation: hero-btn-shine 0.9s ease-out;
-}
-
 
 /* ----------------------------------------------------------
    Responsive hero tweaks
@@ -1351,6 +1305,41 @@ body {
   padding: 0.55rem 1.1rem;
   font-size: 0.82rem;
 }
+
+/* ==========================================================
+   Ghost Button — LIGHT THEME REFINEMENT
+========================================================== */
+
+[data-theme="light"] .btn--ghost {
+  background: linear-gradient(
+    135deg,
+    rgba(65, 184, 235, 0.295),   /* soft sky blue */
+    rgba(55, 109, 227, 0.295),   /* soft royal blue */
+    rgba(130, 75, 225, 0.272)    /* soft purple */
+  );
+
+  color: #0f172a;
+
+  box-shadow:
+    0 10px 26px rgba(55, 109, 227, 0.22),
+    0 6px 16px rgba(130, 75, 225, 0.18);
+}
+
+/* Hover / focus — light theme */
+[data-theme="light"] .btn--ghost:hover,
+[data-theme="light"] .btn--ghost:focus-visible {
+  background: linear-gradient(
+    135deg,
+    rgba(65, 184, 235, 0.332),
+    rgba(55, 109, 227, 0.332),
+    rgba(130, 75, 225, 0.332)
+  );
+
+  box-shadow:
+    0 18px 45px rgba(55, 109, 227, 0.35),
+    0 10px 30px rgba(130, 75, 225, 0.28);
+}
+
 
 /* ----------------------------------------------------------
    Role cards (Educator / Vlogger / Author / Quiz)
@@ -1978,14 +1967,229 @@ body {
 
 .section--page-intro.section--about-intro {
   padding-top: 5rem;
+  
 }
 
 .page-title {
   font-family: var(--font-display);
   font-size: clamp(2.4rem, 3vw + 1rem, 3.1rem);
   line-height: 1.1;
+  
   margin-bottom: 1.25rem;
 }
+
+/* ----------------------------------------------------------
+   RIGHT SIDE: Glass portrait card – refined
+---------------------------------------------------------- */
+
+.hero__right {
+  display: flex;
+  align-items: stretch; /* keep same height as text column */
+  align-self: flex-start !important;
+  margin-top: 0.7rem;
+}
+
+.hero-card {
+  width: 100%;
+  border-radius: 2rem;
+  padding:  1.4rem 1.6rem;
+  border: 1px solid rgba(148, 163, 184, 0.4);
+  background: radial-gradient(circle at top left, rgba(56, 189, 248, 0.25), rgba(15, 23, 42, 0.98));
+  box-shadow: 0 30px 90px rgba(15, 23, 42, 0.95);
+  backdrop-filter: blur(26px);
+  color: #e5e7eb;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  /* ensure card feels taller, closer to hero text column */
+  min-height: auto;
+  
+ 
+}
+
+/* Portrait: larger size for more impact */
+.hero-card__media {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+  position: relative;
+}
+
+.hero-card__img {
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid rgba(248, 250, 252, 0.95);
+  box-shadow: 
+    0 20px 50px rgba(15, 23, 42, 0.9),
+    0 0 0 8px rgba(56, 189, 248, 0.15);
+  position: relative;
+  z-index: 1;
+}
+
+/* Decorative ring behind portrait */
+.hero-card__media::before {
+  content: "";
+  position: absolute;
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  border: 2px solid rgba(56, 189, 248, 0.3);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation: pulse-ring 3s ease-in-out infinite;
+}
+
+@keyframes pulse-ring {
+  0%, 100% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.5;
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.05);
+    opacity: 0.8;
+  }
+}
+
+/* Text */
+.hero-card__body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.hero-card__name {
+  margin: 0;
+  
+  font-size: 0.95rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #f9fafb;
+  margin-bottom: 0.35rem;
+  text-align: center;
+ 
+}
+
+.hero-card__roles {
+  margin: 0;
+  font-size: 0.86rem;
+  color: rgba(209, 213, 219, 0.92);
+  
+}
+/* Quote */
+.hero-card__quote {
+  position: relative;
+  margin: 0.35rem 0 0.7rem;
+  margin-bottom: 0.1rem;
+  padding-left: 1.3rem;
+  border-left: 1px solid rgba(148, 163, 184, 0.75);
+  font-size: 0.9rem;
+  color: rgba(226, 232, 240, 0.96);
+}
+
+.hero-card__quote-mark {
+  position: absolute;
+  left: -0.6rem;
+  top: -0.4rem;
+  font-size: 1.6rem;
+  color: rgba(148, 163, 184, 0.6);
+}
+
+
+
+
+.hero-card__meta {
+  margin-top: 0.1rem;
+  margin-bottom: 0.4rem !important;
+  padding: 1rem 1.2rem;
+  border-radius: 1.5rem;
+  background: var(--surface-soft, rgba(15, 23, 42, 0.6));
+  backdrop-filter: blur(14px);
+}
+
+.hero-card__meta-title {
+  font-size: 0.75rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  opacity: 0.85;
+  margin-bottom: 0.55rem;
+}
+
+.hero-card__meta-list {
+  list-style: none;
+  margin: 0 0 0.65rem;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  font-size: 0.8rem;
+}
+
+.hero-card__meta-item {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  opacity: 0.9;
+}
+
+.hero-card__meta-dot {
+  width: 0.35rem;
+  height: 0.35rem;
+  border-radius: 999px;
+  background: linear-gradient(
+    135deg,
+    var(--accent-blue, #38bdf8),
+    var(--accent-purple, #a855f7)
+  );
+  flex-shrink: 0;
+}
+
+/* Stylish inline CTA for Academic Profile link */
+.hero-card__meta-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.15rem;
+  font-size: 0.82rem;
+  font-weight: 500;
+  padding: 0.35rem 0.55rem;
+  color: #7dd3fc; /* brighter sky-blue */
+  border-radius: 0.6rem;
+  text-decoration: none;
+  background: rgba(56, 189, 248, 0.08); /* subtle blue tint */
+  backdrop-filter: blur(6px);
+  transition: all 0.25s ease;
+   border: 1px solid rgba(56, 189, 248, 0.3);
+}
+
+/* Hover animation */
+.hero-card__meta-link:hover {
+  color: #ffffff;
+  background: linear-gradient(135deg, #38bdf8, #818cf8);
+  box-shadow: 0 0 12px rgba(56, 189, 248, 0.4);
+  transform: translateY(-1px);
+}
+
+/* Dark mode tweak if needed */
+[data-theme="dark"] .hero-card__meta-link {
+  color: #93c5fd; /* light blue */
+  background: rgba(148, 163, 184, 0.08);
+}
+
+
+
+/* On smaller heights, allow the card to breathe */
+@media (min-height: 700px) {
+  .hero-card {
+    padding-bottom: 1.4rem;
+  }
+}
+
+
+
+
+
 
 .about-summary {
   display: flex;
@@ -2054,7 +2258,7 @@ body {
   font-size: 0.95rem;
   line-height: 1.7;
   color: rgba(226, 232, 240, 0.88);
-  margin-bottom: 1.35rem;
+  margin-bottom: 0.1rem;
 }
 
 /* Stats inside card */
@@ -2449,6 +2653,7 @@ body {
 
 .section--books-intro {
   position: relative;
+   padding-top: 7.2rem;
 }
 
 .section--books-intro .section__col:first-child {
@@ -2962,6 +3167,7 @@ body {
 .section--youtube-intro {
   position: relative;
   overflow: hidden;
+   padding-top: 7.2rem;
 }
 
 .section--youtube-intro::before {
@@ -3285,11 +3491,6 @@ body {
   width: 100%;
 }
 
-/* Utility: hide element until JS shows it */
-.hidden {
-  display: none !important;
-}
-
 /* On small screens, stack search under text */
 @media (max-width: 768px) {
   .youtube-search-shell {
@@ -3358,238 +3559,6 @@ body {
   background: var(--surface-elevated-soft);
   border: 1px solid var(--border-subtle);
 }
-
-/* Responsive grid for YouTube cards */
-.section--youtube-videos #videosContainer {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 1.4rem;
-}
-
-/* Video card base */
-.video-card {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-
-  border-radius: 1.25rem;
-  background: var(--color-surface);
-  border: 1px solid var(--color-border-subtle);
-  box-shadow: var(--shadow-card);
-
-  overflow: hidden;
-  transform: translateY(0);
-  transition:
-    transform var(--transition-med),
-    box-shadow var(--transition-med),
-    border-color var(--transition-med),
-    background var(--transition-med);
-}
-
-.video-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 26px 60px rgba(15, 23, 42, 0.25);
-  border-color: rgba(56, 189, 248, 0.45);
-}
-
-/* Dark mode card */
-[data-theme="dark"] .video-card {
-  background: rgba(15, 23, 42, 0.98);
-  border-color: rgba(148, 163, 184, 0.45);
-  box-shadow: 0 24px 60px rgba(15, 23, 42, 0.95);
-}
-
-.video-card__media {
-  position: relative;
-  overflow: hidden;
-  border-radius: 1.2rem 1.2rem 0.9rem 0.9rem;
-}
-
-/* keep all thumbnails consistent */
-.video-card__media::before {
-  content: "";
-  display: block;
-  padding-top: 56.25%; /* 16:9 ratio */
-}
-
-.video-card__thumb {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  display: block;
-  transform: scale(1.02);
-  transition: transform 0.35s ease;
-}
-
-.video-card:hover .video-card__thumb {
-  transform: scale(1.07);
-}
-
-/* dark overlay with play button on hover */
-.video-card__overlay {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: radial-gradient(
-    circle at center,
-    rgba(0, 0, 0, 0.0),
-    rgba(0, 0, 0, 0.55)
-  );
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  pointer-events: none;
-}
-
-.video-card:hover .video-card__overlay {
-  opacity: 1;
-}
-
-.video-card__play {
-  width: 3.1rem;
-  height: 3.1rem;
-  border-radius: 999px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  background: #ef4444;
-  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.65);
-
-  transform: translateY(8px) scale(0.9);
-  transition: transform 0.28s ease, box-shadow 0.28s ease;
-}
-
-.video-card:hover .video-card__play {
-  transform: translateY(0) scale(1);
-}
-
-.video-card__play svg {
-  width: 1.2rem;
-  height: 1.2rem;
-  color: #fefefe;
-  margin-left: 1px; /* optical centering of triangle */
-}
-
-.video-card__body {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  padding: 1rem 1.1rem 1rem;
-  gap: 0.55rem;
-}
-
-.video-card__title {
-  margin: 0;
-  font-size: 0.98rem;
-  font-weight: 600;
-  color: var(--color-text);
-  line-height: 1.4;
-
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-.video-card__desc {
-  margin: 0;
-  font-size: 0.88rem;
-  color: var(--color-text-soft);
-  line-height: 1.6;
-
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-.video-card__footer {
-  margin-top: 0.7rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.75rem;
-}
-
-.video-card__meta {
-  font-size: 0.78rem;
-  text-transform: uppercase;
-  letter-spacing: 0.16em;
-  color: var(--color-text-soft);
-  white-space: nowrap;
-}
-
-.video-card__watch {
-  flex-shrink: 0;
-}
-
-.video-card__watch svg {
-  width: 0.95rem;
-  height: 0.95rem;
-}
-/* Make YouTube "Watch" + Retry buttons pop */
-.youtube-videos-shell .btn-primary {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.35rem;
-
-  padding: 0.48rem 1.2rem;
-  border-radius: 999px;
-  font-size: 0.82rem;
-  font-weight: 600;
-  letter-spacing: 0.10em;
-  text-transform: uppercase;
-
-  background: linear-gradient(135deg, #0ea5e9, #2563eb);
-  color: #f9fafb;
-  border: none;
-
-  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.35);
-  text-decoration: none;
-
-  transition:
-    transform 0.2s ease,
-    box-shadow 0.2s ease,
-    filter 0.2s ease,
-    opacity 0.2s ease;
-}
-
-.youtube-videos-shell .btn-primary:hover,
-.youtube-videos-shell .btn-primary:focus-visible {
-  transform: translateY(-1px);
-  filter: brightness(1.05);
-  box-shadow: 0 16px 38px rgba(15, 23, 42, 0.5);
-  outline: none;
-}
-
-[data-theme="dark"] .youtube-videos-shell .btn-primary {
-  background: linear-gradient(135deg, #38bdf8, #6366f1);
-  color: #e5e7eb;
-  box-shadow: 0 18px 42px rgba(15, 23, 42, 0.9);
-}
-
-/* remove underline in all states */
-.youtube-videos-shell .btn-primary,
-.youtube-videos-shell .btn-primary:visited,
-.youtube-videos-shell .btn-primary:hover,
-.youtube-videos-shell .btn-primary:focus {
-  text-decoration: none;
-}
-
-@media (max-width: 640px) {
-  .video-card__footer {
-    align-items: flex-start;
-  }
-
-  .video-card__meta {
-    font-size: 0.76rem;
-  }
-}
-
 
 /* Re-skin old utility classes used by JS placeholders */
 
@@ -3709,7 +3678,7 @@ body {
 
 /* Intro section tweaks */
 .section--events-intro {
-  padding-top: 3.2rem;
+  padding-top: 7.2rem;
 }
 
 .events-intro-card {
@@ -3948,10 +3917,11 @@ body {
   margin-top: 2.1rem;
 }
 
+/* ============================================================================
+   ENHANCED EVENTS SYSTEM - CSS ADDITIONS v2.0
+   Add these styles to your existing CSS file
+   ============================================================================ */
 
-/* ----------------------------------------------------------
-   Highlight: Nearest upcoming event card
----------------------------------------------------------- */
 /* ========== STATUS BADGES (TODAY, STARTING SOON, ONGOING) ========== */
 
 .bg-amber-100 {
@@ -4108,6 +4078,9 @@ body {
 
 @media (max-width: 640px) {
   /* Reduce card padding */
+  .section--events-intro {
+  padding-top: 7.2rem;
+}
   .card--event .p-5 {
     padding: 1rem !important;
   }
@@ -4230,7 +4203,7 @@ body {
   position: absolute;
   inset: 0;
   background: rgba(15, 23, 42, 0.7);
-   backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
 }
 
 .poster-modal__dialog {
@@ -4252,7 +4225,6 @@ body {
   background: rgba(15, 23, 42, 0.98);
   border: 1px solid rgba(148, 163, 184, 0.4);
 }
-
 .poster-modal__img {
   max-width: 100%;
   max-height: 70vh;
@@ -4332,9 +4304,7 @@ body {
   border-width: 0;
 }
 
-/* =================================================
-   Site Toast Notification (Theme-corrected)
-================================================= */
+
 .site-toast {
   position: fixed;
   bottom: 1.25rem;
@@ -4593,8 +4563,9 @@ body {
 /* Responsive tweaks */
 @media (max-width: 768px) {
   .section--events-intro {
-    padding-top: 2.4rem;
+    padding-top: 6.4rem;
   }
+ 
 
   .events-intro-card__inner {
     margin-top: 1.2rem;
@@ -4650,7 +4621,7 @@ body {
    ========================================================== */
 
 .section--map-intro {
-  padding-top: 3rem;
+  padding-top: 7rem;
 }
 
 .map-summary__card {
@@ -4669,7 +4640,7 @@ body {
 }
 
 .map-summary__icon-circle {
-  width: 2.4rem;
+  width: 2.8rem;
   height: 2.4rem;
   border-radius: 999px;
   background: var(--color-primary-soft);
@@ -4683,7 +4654,7 @@ body {
 }
 
 .map-summary__title {
-  margin: 0 0 0.2rem;
+  margin: 0.2rem 0 0.2rem;
   font-size: 0.98rem;
   font-weight: 600;
 }
@@ -5075,6 +5046,10 @@ body {
 /* ========== Academic profile – card spacing fix ========== */
 
 /* Make sure academic sections have enough vertical spacing */
+.section--academic-intro {
+  position: relative;
+   padding-top: 7.2rem;
+}
 .section--academic .grid--split {
   align-items: flex-start;
   row-gap: var(--space-6, 2rem);
@@ -5088,3 +5063,59 @@ body {
   height: auto;
 }
 
+.section--contact-intro {
+  position: relative;
+   padding-top: 7.2rem;
+}
+/* ==========================================================
+   Contact Page — Identity Card
+========================================================== */
+
+.contact-card__identity {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+
+  gap: 0.45rem;
+  padding: 0.6rem 0.4rem;
+}
+.contact-card__name {
+  margin: 0;
+
+  font-family: var(--font-display);
+  font-size: clamp(1.05rem, 2.4vw, 1.2rem);
+  font-weight: 700;
+
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+
+  color: var(--color-text);
+}
+.contact-card__roles {
+  margin: 0;
+
+  font-size: 0.85rem;
+  font-weight: 500;
+
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+
+  color: var(--color-text-soft);
+}
+.contact-card__identity::after {
+  content: "";
+  margin-top: 0.5rem;
+
+  width: 2.2rem;
+  height: 2px;
+  border-radius: 999px;
+
+  background: linear-gradient(
+    90deg,
+    var(--color-primary),
+    var(--color-accent)
+  );
+
+  opacity: 0.65;
+}
