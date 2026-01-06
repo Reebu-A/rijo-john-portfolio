@@ -3490,7 +3490,10 @@ body {
   position: relative;
   width: 100%;
 }
-
+/* Utility: hide element until JS shows it */
+.hidden {
+  display: none !important;
+}
 /* On small screens, stack search under text */
 @media (max-width: 768px) {
   .youtube-search-shell {
