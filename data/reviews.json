@@ -8,8 +8,8 @@
     "postUrl": "https://www.instagram.com/p/POST_ID_1"
   },
   {
-    "name": "Rahul Dev",
-    "location": "Trivandrum",
+    "name": "Tijo John",
+    "location": "Pathanamthitta",
     "platform": "Facebook",
     "quote": "Not just a travelogue — it’s a journey inward. Simple but powerful writing. Every place described felt real and meaningful.",
     "profileImage": "./assets/img/reviews/man-3.webp",
@@ -32,7 +32,7 @@
     "postUrl": "https://www.facebook.com/permalink.php?story_fbid=REV2_VIVEK"
   },
   {
-    "name": "Arjun S",
+    "name": "Jithin John",
     "location": "Thrissur",
     "platform": "Facebook",
     "quote": "No over-dramatic descriptions, just simple narration that slowly pulls you into each country. Good pick if you like reflective travel writing in Malayalam.",

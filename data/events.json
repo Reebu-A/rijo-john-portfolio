@@ -354,7 +354,29 @@
     "travel writing"
   ],
   "keywords": "Nissabdhyayude Kaavalkkaran, Granthapura Kochi, Malayalam travelogue book discussion, author interaction"
+},
+{
+  "id": 24,
+  "title": "Rhapsodia Literaria 7.0 – Rapide Litteratura",
+  "date": "2026-01-07",
+  "startTime": "10:00",
+  "dateApprox": false,
+  "type": "quiz-competition",
+  "organization": "Department of English, St. Aloysius College, Edathua",
+  "location": "St. Aloysius College, Edathua, Kerala",
+  "description": "Prof. P. V. Joseph Memorial Intercollegiate English Literary Quiz Competition conducted as part of Rhapsodia Literaria 7.0, an All Kerala Literary Fest for Colleges and Schools.",
+  "registerLink": "https://example.com/register-rhapsodia-literaria-7",
+  "registrationDeadline": "2026-01-04",
+  "image": "./assets/events/rhapsodia-literaria-7.webp",
+  "tags": [
+    "literary quiz",
+    "intercollegiate competition",
+    "English literature",
+    "quiz competition"
+  ],
+  "keywords": "Rhapsodia Literaria 7.0, Rapide Litteratura quiz, intercollegiate English literary quiz, St Aloysius College Edathua, literary fest Kerala"
 }
+
 
 
 
