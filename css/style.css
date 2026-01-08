@@ -487,16 +487,18 @@ body {
   display: inline-block;
   margin: 0 auto 0.75rem;
 
-  font-size: 0.7rem;
-  letter-spacing: 0.20em;
-             
+  font-family: var(--font-display); /* Playfair Display */
+  font-size: 0.72rem;
+  font-weight: 600;
+
+  letter-spacing: 0.22em;
   text-transform: uppercase;
 
-  padding: 0.35rem 0.75rem;
+  padding: 0.4rem 0.9rem;
   border-radius: var(--radius-pill);
 
   background: var(--color-surface);
-  color: var(--color-text-soft);
+  color: var(--color-text);
 
   border: 1px solid var(--color-border-subtle);
   box-shadow: var(--shadow-soft);
@@ -504,10 +506,13 @@ body {
   /* Animation */
   opacity: 0;
   transform: translateY(6px);
-  
-  animation: hero-label-reveal 520ms ease-out 120ms forwards,
-              hero-label-tighten 420ms ease-out 320ms forwards;
+
+  animation:
+    hero-label-reveal 520ms ease-out 120ms forwards,
+    hero-label-tighten 420ms ease-out 320ms forwards;
 }
+
+
 
 
 @keyframes hero-label-tighten {
