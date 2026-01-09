@@ -1,42 +1,50 @@
 [
   {
+    "name": "Vishnu",
+    "location": "Pathanamthitta",
+    "platform": "Instagram",
+    "quote": "പ്രിയപ്പെട്ട റിജോ നന്ദി. യാത്രകൾ ഇഷ്ടപ്പെടുന്ന എന്നെ പോലുള്ളവർക്ക് ഒരു പ്രചോദനമാകുന്നതിന്, ഹൃദൃമായ വായനാനുഭവം നൽകിയതിന്. എഴുത്തുകൾ തുടരട്ടെ. അടുത്ത പുസ്തകത്തിനായി കാത്തിരിക്കുന്നു. ",
+    "profileImage": "./assets/img/reviews/vishnu.jpg",
+    "postUrl": "https://www.instagram.com/p/DMAMj-lvZtT/?igsh=MWl2b29hOHJmOXhkbA%3D%3D"
+  },
+  {
+    "name": "Smitha Chenthamarakshan",
+    "location": "Palghat, Kerala",
+    "platform": "Facebook",
+    "quote": " യാത്ര അപരിചിതരുമായുള്ള ആശയവിനിമയമാണ്, ഒരു ഋഷി തുല്യമായ മനസും എന്തും സ്വീകരിക്കാനുള്ള മനസ്സുമാണ് യാത്രികനാവാൻ വേണ്ടത്. കാണുന്നതെന്തും സുന്ദരമെന്നും നന്മയെന്നും തിരിച്ചറിയുന്ന ഇടത്ത് ഒരു യാത്രികന്റെ ജീവിതം സാർത്ഥകമാകുന്നു. അങ്ങനെയുള്ള നിശബ്ദ സഞ്ചാരങ്ങളെ കുറിച്ചാണ് ഈ പുസ്തകം.",
+    "profileImage": "./assets/img/reviews/smitha.jpg",
+    "postUrl": "https://www.facebook.com/story.php?story_fbid=4220717388187703&id=100007484504131"
+  },
+  {
+    "name": "PC Krishna",
+    "location": "Trivandrum",
+    "platform": "Instagram",
+    "quote": "മെന്റലിസ്റ്റും മാജീഷ്യനുമായ പി.സി. കൃഷ്ണ (pc_krishna) ഈ പുസ്തകത്തെക്കുറിച്ചുള്ള തന്റെ വായനാനുഭവം വീഡിയോയായി പങ്കുവയ്ക്കുന്നു.",
+    "profileImage": "./assets/img/reviews/pckrishna.jpg",
+    "postUrl": "https://www.instagram.com/reel/DQ6o6jmj4Mq/?igsh=MW9xcWRvZ2hoaHFuNA%3D%3D"
+  },
+  {
+    "name": "Shaji Madathilethu",
+    "location": "Pathanamthitta",
+    "platform": "Instagram",
+    "quote": "ഈ യാത്ര വിവരണങ്ങളിൽ  വായനക്കാർക്കും ഒരു യാത്ര ചെയ്യ്താൽ ലഭിക്കുന്ന അനുഭവങ്ങളെ രുചിച്ച് അറിയുവാൻ വഴി ഒരുക്കിയുള്ള റിജോയുടെ രചന പുതിയ പ്രതിക്ഷകളുടെ യാത്ര തുടക്കമാണ്",
+    "profileImage": "./assets/img/reviews/shaji.jpg",
+    "postUrl": "https://www.instagram.com/p/DM0c_isuM-K/?img_index=3&igsh=MWRnb3k2bWxrMjlidg%3D%3D"
+  },
+  {
+    "name": "bibliomania_tvm",
+    "location": "Trivandrum",
+    "platform": "Instagram",
+    "quote": "ഇതൊരു യാത്രാവിവരണത്തിലുപരി ആ യാത്രയിൽ എഴുത്തുകാരൻ പരിചയപ്പെട്ട ആളുകളും അവരുമായുണ്ടായ അനുഭവങ്ങളുമാണ് ഈ പുസ്തകത്തിലൂടെ പങ്കുവയ്ക്കുന്നത്.",
+    "profileImage": "./assets/img/reviews/biblio.webp",
+    "postUrl": "https://www.instagram.com/p/DScrTZqEnHQ/?igsh=MXhlNmlobGt1MDZzdg%3D%3D"
+  },
+  {
     "name": "Nithya Bestin",
     "location": "Kochi, Kerala",
     "platform": "Instagram",
     "quote": "Completed the book.. Felt what you said in one chapter.. Everything is Beautiful",
     "profileImage": "./assets/img/reviews/reviewL.webp",
     "postUrl": "https://www.instagram.com/p/POST_ID_1"
-  },
-  {
-    "name": "Tijo John",
-    "location": "Pathanamthitta",
-    "platform": "Facebook",
-    "quote": "Not just a travelogue — it’s a journey inward. Simple but powerful writing. Every place described felt real and meaningful.",
-    "profileImage": "./assets/img/reviews/man-3.webp",
-    "postUrl": "https://www.facebook.com/permalink.php?story_fbid=POST_ID_2"
-  },
-  {
-    "name": "Sruthi A. Nair",
-    "location": "Kochi, Kerala",
-    "platform": "Instagram",
-    "quote": "Finished this in two sittings. The way he connects border crossings, strangers and silence felt very personal. It reads like a quiet conversation during a long bus journey.",
-    "profileImage": "./assets/img/reviews/girl-2.png",
-    "postUrl": "https://www.instagram.com/p/REV1_SRUTHI"
-  },
-  {
-    "name": "Vivek Menon",
-    "location": "Trivandrum",
-    "platform": "Facebook",
-    "quote": "A different kind of travelogue – very honest and grounded. You can almost feel the backpack, cheap hostels and long walks through unknown streets.",
-    "profileImage": "./assets/img/reviews/man-4.webp",
-    "postUrl": "https://www.facebook.com/permalink.php?story_fbid=REV2_VIVEK"
-  },
-  {
-    "name": "Jithin John",
-    "location": "Thrissur",
-    "platform": "Facebook",
-    "quote": "ഈ പുസ്തകം വായിക്കുമ്പോൾ ഒരു യാത്രക്കാരന്റെ കൂടെ വഴികളിലൂടെ നടക്കുന്നതുപോലെ തോന്നി. വലിയ വാക്കുകളില്ലാതെ, നേരിട്ട് അനുഭവങ്ങൾ പറയുന്ന ശൈലി ഏറെ ഇഷ്ടപ്പെട്ടു.",
-    "profileImage": "./assets/img/reviews/man-1.png",
-    "postUrl": "https://www.facebook.com/permalink.php?story_fbid=REV6_ARJUN"
   }
 ]
