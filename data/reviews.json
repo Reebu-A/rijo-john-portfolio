@@ -1,5 +1,12 @@
 [
   {
+    "name": "Babu Abraham",
+    "location": "Paris, France",
+    "platform": "Facebook",
+    "quote": " ഇന്ന് വെളുപ്പിന് വായിക്കാനെടുത്ത യാത്രാ വിവരണമാണ് റിജോ ജോൺ ശങ്കരത്തിലിന്റെ നിശബ്ദതയുടെ കാവൽക്കാർ. 15 യാത്രാവിവരണക്കുറിപ്പുകൾ. വിവിധ രാജ്യങ്ങളിലൂടെയുള്ള ഒരു യുവാവിന്റെ യാത്രയിൽ അയാൾ കണ്ടുമുട്ടുന്ന മനുഷ്യരെക്കുറിച്ചും സംസ്കാരങ്ങളെക്കുറിച്ചുമാണ് റിജോ  പറയുന്നത്.",
+    "profileImage": "./assets/img/reviews/BabuAbraham.webp",
+    "postUrl": "https://www.facebook.com/reel/25862656710018383"
+  },{
     "name": "Vishnu",
     "location": "Pathanamthitta",
     "platform": "Instagram",
