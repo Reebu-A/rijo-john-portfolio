@@ -270,14 +270,14 @@
   },
   {
   "id": 20,
-  "title": "Book event: Nissabdhyayude Kaavalkkaran – Journeys of Jo",
+  "title": "Book event: Nishabdhathayude Kavalkkar – Journeys of Jo",
   "date": "2025-12-14",
   "dateApprox": false,
   "status": "upcoming",
   "type": "book-event",
   "organization": "Grassroots (an imprint of Mathrubhumi Books)",
   "location": "Bookmark Café, Thiruvananthapuram",
-  "description": "Malayalam book event for the travelogue ‘Nishabdhathayude Kavalkkkar’, with author Rijo John sharing stories from 20-country travels in conversation with teacher, Creative book editor and scriptwriter Agatha Kurian.",
+  "description": "Malayalam book event for the travelogue ‘Nishabdhathayude Kavalkkar’, with author Rijo John sharing stories from 20-country travels in conversation with teacher, Creative book editor and scriptwriter Agatha Kurian.",
   "registerLink": "",
   "registrationDeadline": "2025-12-13",
   "image": "./assets/events/nissabdhyayude-kaavalkkaran-event.webp",
@@ -288,7 +288,7 @@
     "author talk",
     "travel stories"
   ],
-  "keywords": "Nissabdhyayude Kaavalkkaran book event, Journeys of Jo, Malayalam travelogue, Rijo John Sankarathil, Aswatha Kurup, Grassroots Mathrubhumi"
+  "keywords": "Nishabdhathayude Kavalkkar book event, Journeys of Jo, Malayalam travelogue, Rijo John Sankarathil, Aswatha Kurup, Grassroots Mathrubhumi"
 },
 {
   "id": 21,
@@ -335,7 +335,7 @@
 },
 {
   "id": 23,
-  "title": "Book Discussion: Nissabdhyayude Kaavalkkaran",
+  "title": "Book Discussion: Nishabdhathayude Kavalkkar",
   "date": "2026-01-04",
   "startTime": "15:00",
   "endTime": "17:00",
@@ -343,7 +343,7 @@
   "type": "book-event",
   "organization": "Granthapura Library",
   "location": "Granthapura Library, Kochi",
-  "description": "Author interaction and book discussion on the Malayalam travelogue 'Nissabdhyayude Kaavalkkaran' by Rijo John Sankarathil. The session includes reading, discussion and interaction with readers at Granthapura Library, Kochi.",
+  "description": "Author interaction and book discussion on the Malayalam travelogue 'Nishabdhathayude Kavalkkar' by Rijo John Sankarathil. The session includes reading, discussion and interaction with readers at Granthapura Library, Kochi.",
   "registerLink": "",
   "image": "./assets/events/nissabdhyayude-kaavalkkaran-granthapura.webp",
   "tags": [
@@ -353,7 +353,7 @@
     "literary event",
     "travel writing"
   ],
-  "keywords": "Nissabdhyayude Kaavalkkaran, Granthapura Kochi, Malayalam travelogue book discussion, author interaction"
+  "keywords": "Nishabdhathayude Kavalkkar, Granthapura Kochi, Malayalam travelogue book discussion, author interaction"
 },
 {
   "id": 24,
@@ -365,7 +365,7 @@
   "organization": "Department of English, St. Aloysius College, Edathua",
   "location": "St. Aloysius College, Edathua, Kerala",
   "description": "Prof. P. V. Joseph Memorial Intercollegiate English Literary Quiz Competition conducted as part of Rhapsodia Literaria 7.0, an All Kerala Literary Fest for Colleges and Schools.",
-  "registerLink": "https://example.com/register-rhapsodia-literaria-7",
+  "registerLink": "",
   "registrationDeadline": "2026-01-04",
   "image": "./assets/events/rhapsodia-literaria-7.webp",
   "tags": [
@@ -375,7 +375,29 @@
     "quiz competition"
   ],
   "keywords": "Rhapsodia Literaria 7.0, Rapide Litteratura quiz, intercollegiate English literary quiz, St Aloysius College Edathua, literary fest Kerala"
+},
+{
+  "id": 25,
+  "title": "Book Review Forum Meeting",
+  "date": "2026-02-02",
+  "startTime": "17:30",
+  "dateApprox": false,
+  "type": "book-review",
+  "organization": "Darsana Cultural Centre in association with Dream Setters Events & Trainings",
+  "location": "Darsana Cultural Centre",
+  "description": "Book Review Forum Meeting featuring author interaction and discussion on the Malayalam travelogue 'Nishabdhathayude Kavalkkar'. Guest speaker: Mr. Rijo John Sankarathil, author of the book. Organised by Darsana Cultural Centre in collaboration with Dream Setters Events & Trainings.",
+  "registerLink": "",
+  "image": "./assets/events/book-review-forum-darsana-2026.jpg",
+  "tags": [
+    "book review",
+    "author interaction",
+    "literary discussion",
+    "Malayalam travelogue",
+    "cultural forum"
+  ],
+  "keywords": "Book Review Forum Meeting, Darsana Cultural Centre, Dream Setters Events, Nishabdhathayude Kavalkkar discussion, author interaction Kerala"
 }
+
 
 
 
