@@ -1,5 +1,6 @@
 [
   {
+    "bookId": "book1",
     "name": "Babu Abraham",
     "location": "Paris, France",
     "platform": "Facebook",
@@ -7,6 +8,7 @@
     "profileImage": "./assets/img/reviews/BabuAbraham.webp",
     "postUrl": "https://www.facebook.com/reel/25862656710018383"
   },{
+    "bookId": "book1",
     "name": "Vishnu",
     "location": "Pathanamthitta",
     "platform": "Instagram",
@@ -15,6 +17,7 @@
     "postUrl": "https://www.instagram.com/p/DMAMj-lvZtT/?igsh=MWl2b29hOHJmOXhkbA%3D%3D"
   },
   {
+    "bookId": "book1",
     "name": "Smitha Chenthamarakshan",
     "location": "Palghat, Kerala",
     "platform": "Facebook",
@@ -23,6 +26,7 @@
     "postUrl": "https://www.facebook.com/story.php?story_fbid=4220717388187703&id=100007484504131"
   },
   {
+    "bookId": "book1",
     "name": "PC Krishna",
     "location": "Trivandrum",
     "platform": "Instagram",
@@ -31,6 +35,7 @@
     "postUrl": "https://www.instagram.com/reel/DQ6o6jmj4Mq/?igsh=MW9xcWRvZ2hoaHFuNA%3D%3D"
   },
   {
+    "bookId": "book1",
     "name": "Shaji Madathilethu",
     "location": "Pathanamthitta",
     "platform": "Instagram",
@@ -39,6 +44,7 @@
     "postUrl": "https://www.instagram.com/p/DM0c_isuM-K/?img_index=3&igsh=MWRnb3k2bWxrMjlidg%3D%3D"
   },
   {
+    "bookId": "book1",
     "name": "bibliomania_tvm",
     "location": "Trivandrum",
     "platform": "Instagram",
@@ -47,11 +53,30 @@
     "postUrl": "https://www.instagram.com/p/DScrTZqEnHQ/?igsh=MXhlNmlobGt1MDZzdg%3D%3D"
   },
   {
+    "bookId": "book1",
     "name": "Nithya Bestin",
     "location": "Kochi, Kerala",
     "platform": "Instagram",
     "quote": "Completed the book.. Felt what you said in one chapter.. Everything is Beautiful",
     "profileImage": "./assets/img/reviews/reviewL.webp",
     "postUrl": "https://www.instagram.com/p/POST_ID_1"
-  }
+  },
+  {
+  "bookId": "book2",
+  "name": "ലാൽ ജോസ്",
+  "location": "Kerala, India",
+  "platform": "Instagram",
+  "quote": "സഞ്ചാരസാഹിത്യ മേഖലയിൽ യുവ സാഹിത്യകാരന്മാർ കുറഞ്ഞുവരുന്ന ഈ കാലത്ത്, യൗവനത്തിൽത്തന്നെ എഴുത്തിന്റെ വഴിയിലേക്ക് കടന്നുവന്ന റിജോയുടെ എഴുത്ത് പ്രതീക്ഷകൾ നൽകുന്നതാണ്. ഇതിലെ ഓരോ യാത്രയും സംസ്കാരത്തെ അടുത്തറിയുന്നതും, ഹൃദയത്തെ തൊടുന്നതും, നന്മകൾ തിരിച്ചറിയാൻ പ്രാപ്തവുമാണ്.",
+  "profileImage": "./assets/img/reviews/lal-jose.webp",
+  "postUrl": "https://www.instagram.com/p/POST_ID_LALJOSE"
+},
+{
+  "bookId": "book2",
+  "name": "ബാബു അബ്രഹാം",
+  "location": "Kerala, India",
+  "platform": "Instagram",
+  "quote": "ഒരു യുവാവിന്റെ യാത്രയിൽ അയാൾ കണ്ടുമുട്ടുന്ന മനുഷ്യരേക്കുറിച്ചും സംസ്കാരങ്ങളേക്കുറിച്ചുമാണ് റിജോ പറയുന്നത്. ഈ താളുകളിൽ അയാളുടെ നേർഅനുഭവങ്ങളാണ്.",
+  "profileImage": "./assets/img/reviews/BabuAbraham.webp",
+  "postUrl": "https://www.facebook.com/p/POST_ID_1"
+}
 ]
