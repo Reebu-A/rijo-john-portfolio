@@ -419,6 +419,49 @@
     "Kakkanad"
   ],
   "keywords": "Mukhāmukham Mathrubhumi Books Kakkanad, Nissabdhyayude Kaavalkkaran author interaction, Rijo John Sankarathil, Malayalam literary event"
+},
+{
+  "id": 27,
+  "title": "OCYM 92nd Global Conference 2026 – Youth Session",
+  "date": "2026-05-16",
+  "startTime": "15:45",
+  "dateApprox": false,
+  "type": "youth-conference",
+  "organization": "Orthodox Christian Youth Movement (OCYM)",
+  "location": "Catholicate College, Pathanamthitta",
+  "description": "Youth interaction session at the 92nd Global Conference of OCYM featuring discussions on changing youth perspectives and contemporary cultural challenges. Moderated by Rijo John Sankarathil with invited panel speakers.",
+  "registerLink": "",
+  "image": "./assets/events/ocym-global-conference-2026.webp",
+  "tags": [
+    "OCYM",
+    "youth conference",
+    "panel discussion",
+    "Christian youth",
+    "global conference",
+    "cultural discussion"
+  ],
+  "keywords": "OCYM Global Conference 2026, Orthodox Christian Youth Movement, youth session Pathanamthitta, Christian youth conference Kerala"
+},
+{
+  "id": 28,
+  "title": "Annual Conference & Teachers’ Seminar 2026",
+  "date": "2026-05-17",
+  "startTime": "13:00",
+  "dateApprox": false,
+  "type": "teachers-seminar",
+  "organization": "Orthodox Syrian Sunday School Association",
+  "location": "St. Thomas Orthodox Cathedral, Kadammanitta",
+  "description": "Annual conference and teachers’ seminar organised by the Orthodox Syrian Sunday School Association featuring discussions, community sessions and keynote address by Rijo John Sankarathil.",
+  "registerLink": "",
+  "image": "./assets/events/orthodox-sunday-school-kadammanitta-2026.webp",
+  "tags": [
+    "teachers seminar",
+    "annual conference",
+    "Sunday school",
+    "Christian education",
+    "Orthodox church"
+  ],
+  "keywords": "Orthodox Syrian Sunday School Association annual conference, teachers seminar Kadammanitta, Sunday school educators gathering Kerala"
 }
 
 
