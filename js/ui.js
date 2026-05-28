@@ -338,6 +338,177 @@ function initAcademicSubnav() {
 }
 
 
+function generateEventSchema(events = []) {
+  if (!Array.isArray(events) || !events.length) return;
+
+  // Remove existing schema
+  const oldSchema = document.getElementById("events-schema");
+  if (oldSchema) {
+    oldSchema.remove();
+  }
+
+  const siteUrl = "https://rijojohn.netlify.app";
+
+  const schemaData = events.map((ev) => {
+    // ------------------------------------------
+    // Build ISO Start Date
+    // ------------------------------------------
+
+    let startDate = ev.date || "";
+
+    if (ev.startTime) {
+      startDate += `T${ev.startTime}:00`;
+    }
+
+    // ------------------------------------------
+    // Event status
+    // ------------------------------------------
+
+    const isUpcoming =
+      ev.date && new Date(ev.date) >= new Date();
+
+    // ------------------------------------------
+    // Absolute image URL
+    // ------------------------------------------
+
+    let imageUrl = "";
+
+    if (ev.image) {
+      imageUrl =
+        siteUrl + "/" + ev.image.replace(/^\.?\//, "");
+    }
+
+    // ------------------------------------------
+    // Generate event page URL
+    // (future-ready)
+    // ------------------------------------------
+
+    const eventSlug =
+      ev.slug ||
+      (ev.title || "event")
+        .toLowerCase()
+        .replace(/[^\w\s-]/g, "")
+        .replace(/\s+/g, "-");
+
+    const eventUrl = `${siteUrl}/events/${eventSlug}`;
+
+    // ------------------------------------------
+    // Main schema object
+    // ------------------------------------------
+
+    const schemaObj = {
+      "@context": "https://schema.org",
+      "@type": "Event",
+
+      name: ev.title || "",
+
+      description: ev.description || "",
+
+      startDate: startDate,
+
+      eventAttendanceMode:
+        "https://schema.org/OfflineEventAttendanceMode",
+
+      eventStatus: isUpcoming
+        ? "https://schema.org/EventScheduled"
+        : "https://schema.org/EventCompleted",
+
+      location: {
+        "@type": "Place",
+        name: ev.location || "Kerala, India"
+      },
+
+      organizer: {
+        "@type": "Organization",
+        name: ev.organization || "Event Organizer"
+      },
+
+      performer: {
+        "@type": "Person",
+        name: "Rijo John Sankarathil"
+      },
+
+      keywords: ev.keywords || "",
+
+      url: eventUrl
+    };
+
+    // ------------------------------------------
+    // Add image only if available
+    // ------------------------------------------
+
+    if (imageUrl) {
+      schemaObj.image = [imageUrl];
+    }
+
+    // ------------------------------------------
+    // Add optional fields if available
+    // ------------------------------------------
+
+    if (ev.tags && ev.tags.length) {
+      schemaObj.about = ev.tags.map((tag) => ({
+        "@type": "Thing",
+        name: tag
+      }));
+    }
+
+    // Optional speaker
+    if (ev.speaker) {
+      schemaObj.performer = {
+        "@type": "Person",
+        name: ev.speaker
+      };
+    }
+
+    // Optional MLA / inaugurator / moderator
+    if (ev.inauguratedBy) {
+      schemaObj.contributor = {
+        "@type": "Person",
+        name: ev.inauguratedBy
+      };
+    }
+
+    // Optional register URL
+    if (
+      ev.registerLink &&
+      typeof ev.registerLink === "string" &&
+      ev.registerLink.trim() !== ""
+    ) {
+      schemaObj.offers = {
+        "@type": "Offer",
+        url: ev.registerLink,
+        availability:
+          "https://schema.org/InStock"
+      };
+    }
+
+    return schemaObj;
+  });
+
+  // ======================================================
+  // Create JSON-LD script
+  // ======================================================
+
+  const script = document.createElement("script");
+
+  script.type = "application/ld+json";
+  script.id = "events-schema";
+
+  script.textContent = JSON.stringify(
+    schemaData,
+    null,
+    2
+  );
+
+  document.head.appendChild(script);
+
+  console.log(
+    `✅ Event schema generated for ${schemaData.length} events`
+  );
+}
+
+
+
 
    document.addEventListener("DOMContentLoaded", () => {
   initTheme();
@@ -360,5 +531,3 @@ window.scheduleLocalReminder = scheduleLocalReminder;
 
 
 })();
-
-

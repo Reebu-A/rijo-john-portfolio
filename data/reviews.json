@@ -44,6 +44,15 @@
     "postUrl": "https://www.instagram.com/p/DM0c_isuM-K/?img_index=3&igsh=MWRnb3k2bWxrMjlidg%3D%3D"
   },
   {
+  "bookId": "book1",
+  "name": "Abel Mathews Alex",
+  "location": "Kerala, India",
+  "platform": "WordPress",
+  "quote": "‘നിശ്ശബ്ദതയുടെ കാവൽക്കാർ’ യാത്രകളെ മാത്രം പറയുന്നില്ല, മനുഷ്യരെയും അവരുടെ നിശ്ശബ്ദമായ ജീവിതങ്ങളെയും സ്പർശിക്കുന്ന ഒരു അനുഭവമായി മാറുന്നു.",
+  "profileImage": "./assets/img/reviews/man-3.webp",
+  "postUrl": "https://illia2000.wordpress.com/2025/10/31/%e0%b4%af%e0%b4%be%e0%b4%a4%e0%b5%8d%e0%b4%b0%e0%b4%95%e0%b4%be%e0%b4%b0%e0%b5%86-%e0%b4%87%e0%b4%a4%e0%b4%bf%e0%b4%b2%e0%b5%87-%e0%b4%a8%e0%b4%bf%e0%b4%b6%e0%b5%8d%e0%b4%b6%e0%b4%ac%e0%b5%8d/"
+},
+  {
     "bookId": "book1",
     "name": "bibliomania_tvm",
     "location": "Trivandrum",

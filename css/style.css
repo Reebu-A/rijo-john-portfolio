@@ -1071,7 +1071,7 @@ body {
 ---------------------------------------------------------- */
 
 .section {
-  padding: 3.5rem 0;
+  padding: 2.5rem 0;
 }
 
 .section--highlights {
@@ -2754,6 +2754,128 @@ body {
   flex-wrap: wrap;
   gap: 0.6rem;
 }
+.section--books-hero {
+  padding-bottom: 1.5rem;
+}
+
+.section--latest-release {
+  padding-top: 1rem;
+}
+
+/* =========================================================
+   BOOK PRESS FEATURE
+========================================================= */
+
+.book-press-feature {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  gap: 1rem;
+
+  margin-top: 0.21rem;
+
+  padding: 0.95rem 1rem;
+
+  border-radius: 1rem;
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255,255,255,0.68),
+      rgba(255,255,255,0.48)
+    );
+
+  border:
+    1px solid var(--color-border-subtle);
+
+  backdrop-filter: blur(12px);
+
+  box-shadow:
+    0 10px 24px rgba(15,23,42,0.04);
+}
+
+[data-theme="dark"]
+.book-press-feature {
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(15,23,42,0.82),
+      rgba(15,23,42,0.72)
+    );
+}
+
+.book-press-feature__label {
+  display: inline-flex;
+
+  margin-bottom: 0.45rem;
+
+  font-size: 0.72rem;
+
+  font-weight: 700;
+
+  letter-spacing: 0.14em;
+
+  text-transform: uppercase;
+
+  color: var(--color-primary);
+}
+
+.book-press-feature__text {
+  margin: 0;
+
+  line-height: 1.65;
+
+  color: var(--color-text-soft);
+
+  max-width: 52ch;
+
+  font-size: 0.88rem;
+}
+
+.book-press-feature__link {
+  flex-shrink: 0;
+
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  text-decoration: none;
+
+  padding:
+    0.75rem 1rem;
+
+  border-radius: 999px;
+
+  background:
+    rgba(37,99,235,0.08);
+
+  color: var(--color-primary);
+
+  font-size: 0.84rem;
+
+  font-weight: 600;
+
+  transition: 220ms ease;
+}
+
+.book-press-feature__link:hover {
+  transform: translateY(-2px);
+
+  background:
+    rgba(37,99,235,0.14);
+}
+
+[data-theme="dark"]
+.book-press-feature__link {
+
+  background:
+    rgba(255,255,255,0.06);
+}
 
 /* ----------------------------------------------------------
    Featured book layout
@@ -3130,6 +3252,10 @@ body {
   margin-top: 1.4rem;
   font-size: 0.88rem;
   color: var(--color-text-soft);
+}
+.section--toc {
+  padding-top: 1rem;
+  padding-bottom: 1.2rem;
 }
 
 /* =========================================================
@@ -3513,8 +3639,21 @@ body {
 
 .library-book-card__media img {
   width: 100%;
-  aspect-ratio: 0.8 / 1;
-  object-fit: cover;
+  height: 100%;
+
+  object-fit: contain;
+
+  display: block;
+}
+.library-book-card__media img {
+  transition:
+    transform 260ms ease;
+}
+
+.library-book-card:hover
+.library-book-card__media img {
+
+  transform: scale(1.03);
 }
 
 .library-book-card__media .book-badge {
