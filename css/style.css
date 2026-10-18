@@ -1660,6 +1660,127 @@ body {
   background: rgba(15, 23, 42, 0.15);
 }
 
+/* Manorama News — homepage press feature */
+.media-press-card {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1rem;
+  padding: 1.15rem 1.2rem;
+  border: 1px solid rgba(0, 168, 107, 0.28);
+  border-left: 4px solid #00a86b;
+  border-radius: 14px;
+  background: linear-gradient(
+    120deg,
+    rgba(0, 168, 107, 0.10),
+    rgba(52, 152, 219, 0.06)
+  );
+  color: inherit;
+  text-decoration: none;
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.media-press-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(0, 168, 107, 0.55);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.07);
+}
+
+.media-press-card__icon {
+  display: grid;
+  place-items: center;
+  flex: 0 0 44px;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: rgba(0, 168, 107, 0.13);
+  font-size: 1.35rem;
+}
+
+.media-press-card__content {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.25rem;
+  min-width: 0;
+}
+
+.media-press-card__eyebrow {
+  color: #00a86b;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+}
+
+.media-press-card__title {
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.media-press-card__description {
+  font-size: 0.84rem;
+  line-height: 1.55;
+  opacity: 0.78;
+}
+
+.media-press-card__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin-top: 0.35rem;
+  color: var(--accent-color, #00a86b);
+  font-size: 0.84rem;
+  font-weight: 700;
+}
+
+.media-press-card__arrow {
+  flex: 0 0 auto;
+  color: var(--accent-color, #00a86b);
+  font-size: 1.25rem;
+  transition: transform 0.2s ease;
+}
+
+.media-press-card:hover .media-press-card__arrow {
+  transform: translateX(3px);
+}
+
+.media-press-card:focus-visible {
+  outline: 2px solid var(--accent-color, #00a86b);
+  outline-offset: 4px;
+}
+
+@media (max-width: 480px) {
+  .media-press-card {
+    gap: 0.75rem;
+    padding: 1rem;
+  }
+
+  .media-press-card__icon {
+    flex-basis: 38px;
+    width: 38px;
+    height: 38px;
+    font-size: 1.15rem;
+  }
+
+  .media-press-card__title {
+    font-size: 0.94rem;
+  }
+
+  .media-press-card__description {
+    font-size: 0.8rem;
+  }
+
+  .media-press-card__arrow {
+    display: none;
+  }
+}
+
 /* ----------------------------------------------------------
    Footer
 ---------------------------------------------------------- */
@@ -3918,6 +4039,138 @@ body {
   line-height: 1.7;
 
   color: var(--color-text-soft);
+}
+/* =========================================================
+   BOOK PRESS FEATURE
+========================================================= */
+
+.book-press-feature {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  gap: 1.5rem;
+
+  margin-top: 2rem;
+
+  padding: 1.2rem 1.3rem;
+
+  border-radius: 1.4rem;
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255,255,255,0.72),
+      rgba(255,255,255,0.52)
+    );
+
+  border:
+    1px solid var(--color-border-subtle);
+
+  backdrop-filter: blur(14px);
+
+  box-shadow:
+    0 12px 32px rgba(15,23,42,0.05);
+}
+
+[data-theme="dark"]
+.book-press-feature {
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(15,23,42,0.82),
+      rgba(15,23,42,0.72)
+    );
+}
+
+.book-press-feature__label {
+  display: inline-flex;
+
+  margin-bottom: 0.45rem;
+
+  font-size: 0.72rem;
+
+  font-weight: 700;
+
+  letter-spacing: 0.14em;
+
+  text-transform: uppercase;
+
+  color: var(--color-primary);
+}
+
+.book-press-feature__text {
+  margin: 0;
+
+  line-height: 1.75;
+
+  color: var(--color-text-soft);
+
+  max-width: 58ch;
+
+  font-size: 0.94rem;
+}
+
+.book-press-feature__link {
+  flex-shrink: 0;
+
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  text-decoration: none;
+
+  padding:
+    0.75rem 1rem;
+
+  border-radius: 999px;
+
+  background:
+    rgba(37,99,235,0.08);
+
+  color: var(--color-primary);
+
+  font-size: 0.84rem;
+
+  font-weight: 600;
+
+  transition: 220ms ease;
+}
+
+.book-press-feature__link:hover {
+  transform: translateY(-2px);
+
+  background:
+    rgba(37,99,235,0.14);
+}
+
+[data-theme="dark"]
+.book-press-feature__link {
+
+  background:
+    rgba(255,255,255,0.06);
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 768px) {
+
+  .book-press-feature {
+    flex-direction: column;
+
+    align-items: flex-start;
+  }
+
+  .book-press-feature__link {
+    width: 100%;
+  }
+
 }
 
 /* =========================================================
@@ -6280,4 +6533,14 @@ body {
   );
 
   opacity: 0.65;
+}
+/* Homepage: prevent excess vertical space on large screens */
+.hero.hero--editorial {
+  min-height: auto;
+  padding-bottom: 2rem;
+}
+
+/* Bring "Who is Rijo John?" closer to the hero */
+.section--intro {
+  padding-top: 1.5rem;
 }
